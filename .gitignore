@@ -1,0 +1,12 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Herramientas de desarrollo
+.agent/
+.gemini/
+*.log
+
+# Node.js (no aplica a este proyecto estático)
+node_modules/
+dist/

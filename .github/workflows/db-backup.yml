@@ -1,0 +1,39 @@
+name: "Daily Database Backup"
+
+on:
+  schedule:
+    # Se ejecuta todos los días a la 01:00 AM hora de Argentina (04:00 AM UTC)
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+    # Permite ejecutar manualmente desde la pestaña Actions
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Crear Backup mediante API REST Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: node backup_tablas.js
+          
+      - name: Commit y Push del Backup al Repositorio
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add backups/*.json backup_tablas.js
+          git commit -m "Auto-backup: Respaldo de tablas descargado desde API REST [skip ci]" || echo "No hay cambios para commitear"
+          git push || echo "No hay cambios para pushear"

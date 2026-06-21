@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegLAC Admin - Panel de Control</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Scrollbar fino y elegante */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Estilo para truncar texto largo en la tabla pero mostrarlo completo al pasar el mouse */
+        .cell-content {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 h-screen flex overflow-hidden">
+
+    <!-- BARRA LATERAL -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col z-20 shadow-sm flex-shrink-0">
+        <div class="h-16 flex items-center px-6 border-b border-slate-200 bg-slate-50">
+            <div class="flex items-center gap-2">
+                <div class="bg-blue-600 p-1.5 rounded-md"><i data-lucide="settings-2" class="w-4 h-4 text-white"></i></div>
+                <span class="text-lg font-extrabold text-slate-800">RegLAC <span class="text-slate-400 font-normal">Admin</span></span>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
+            
+            <!-- INICIO -->
+            <div>
+                <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Panel</p>
+                <div class="space-y-1">
+                    <button onclick="admin.showWelcomeDashboard()" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-blue-700 bg-blue-50 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4 text-blue-600"></i>
+                        Inicio / Resumen
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN GENERAL -->
+            <div>
+                <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">General</p>
+                <div class="space-y-1">
+                    <button onclick="admin.loadTable('faq_rows_corregido', 'pais')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-blue-50 hover:text-blue-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="database" class="w-4 h-4 text-slate-400 group-hover:text-blue-600"></i>
+                        Matriz General (FAQ)
+                    </button>
+                    <button onclick="admin.loadTable('resumen_ejecutivo', 'pais')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-blue-50 hover:text-blue-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="building" class="w-4 h-4 text-slate-400 group-hover:text-blue-600"></i>
+                        Información General
+                    </button>
+                    <button onclick="admin.loadTable('enlaces', 'id')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-blue-50 hover:text-blue-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="link" class="w-4 h-4 text-slate-400 group-hover:text-blue-600"></i>
+                        Enlaces Generales
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN VULNERABLES -->
+            <div>
+                <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Poblaciones Vulnerables</p>
+                <div class="space-y-1">
+                    <button onclick="admin.loadTable('faq_pv_rows', 'pais')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-teal-50 hover:text-teal-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="users" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+                        Matriz Vulnerables
+                    </button>
+                    <button onclick="admin.loadTable('enlaces_pv', 'id')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-teal-50 hover:text-teal-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="link-2" class="w-4 h-4 text-slate-400 group-hover:text-teal-600"></i>
+                        Enlaces Vulnerables
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SISTEMA -->
+            <div>
+                <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Sistema</p>
+                <div class="space-y-1">
+                    <button onclick="admin.loadTable('reportes_usuarios', 'id')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg text-slate-600 hover:bg-rose-50 hover:text-rose-700 font-medium flex items-center gap-3 transition-all group">
+                        <i data-lucide="alert-circle" class="w-4 h-4 text-slate-400 group-hover:text-rose-600"></i>
+                        Reportes de Usuarios
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="p-4 border-t border-slate-200 bg-slate-50">
+            <button onclick="admin.logout()" class="w-full px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 text-sm font-bold flex items-center justify-center gap-2 transition-colors shadow-sm">
+                <i data-lucide="log-out" class="w-4 h-4"></i> Cerrar Sesión
+            </button>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-1 flex flex-col overflow-hidden relative min-w-0">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm z-10 flex-shrink-0">
+            <div>
+                <h2 id="table-title" class="text-xl font-bold text-slate-800">Panel de Administración</h2>
+                <p class="text-xs text-slate-500" id="table-subtitle">Bienvenido al sistema</p>
+            </div>
+            <div id="action-buttons" class="hidden animate-in fade-in">
+                 <button onclick="admin.createNewRow()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 flex items-center gap-2 shadow-sm shadow-blue-200 transition-all hover:translate-y-[-1px]">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Nuevo Registro
+                </button>
+            </div>
+        </header>
+
+        <!-- Área de Tabla -->
+        <div id="content-area" class="flex-1 overflow-auto p-8 custom-scrollbar bg-slate-50">
+            <div class="flex flex-col items-center justify-center h-full text-slate-300">
+                <i data-lucide="layout-dashboard" class="w-20 h-20 mb-6 opacity-20 text-slate-400"></i>
+                <p class="text-lg font-medium text-slate-400">Seleccione una tabla en el menú lateral</p>
+            </div>
+        </div>
+    </main>
+
+   <!-- MODAL DE EDICIÓN (Lado derecho) -->
+    <div id="edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-50 hidden flex items-center justify-center transition-opacity p-4 sm:p-6">
+        <!-- Nota: Aumentamos max-w a 6xl y agregamos altura fija para scroll interno -->
+        <div class="bg-white w-full max-w-6xl h-[90vh] shadow-2xl rounded-2xl flex flex-col animate-in zoom-in-95 duration-200 overflow-hidden">
+            
+            <!-- Header Modal -->
+            <div class="h-16 border-b border-slate-200 flex items-center justify-between px-6 bg-slate-50 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600"><i data-lucide="edit-3" class="w-5 h-5"></i></div>
+                    <div>
+                        <h3 class="font-bold text-lg text-slate-800">Editor de Registro</h3>
+                        <p class="text-xs text-slate-500">Gestione la información por secciones</p>
+                    </div>
+                </div>
+                <button onclick="admin.closeModal()" class="p-2 rounded-full hover:bg-slate-200 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            
+            <!-- Layout de 2 Columnas: Sidebar Tabs + Contenido -->
+            <div class="flex flex-1 overflow-hidden">
+                <!-- Columna Izquierda: Pestañas -->
+                <div id="modal-tabs-sidebar" class="w-64 bg-slate-50 border-r border-slate-200 overflow-y-auto custom-scrollbar p-4 space-y-2 flex-shrink-0 hidden md:block">
+                    <!-- Los botones de pestañas se inyectan aquí -->
+                </div>
+
+                <!-- Columna Derecha: Formularios -->
+                <div id="modal-form-container" class="flex-1 overflow-y-auto p-8 custom-scrollbar bg-white relative">
+                    <!-- Los inputs se inyectan aquí -->
+                </div>
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="h-20 border-t border-slate-200 bg-white flex items-center justify-between px-8 flex-shrink-0 z-10">
+                <span class="text-xs text-slate-400 italic flex items-center gap-1">
+                    <i data-lucide="info" class="w-3 h-3"></i> Los cambios no se aplican hasta guardar.
+                </span>
+                <div class="flex gap-3">
+                    <button onclick="admin.closeModal()" class="px-5 py-2.5 rounded-xl text-slate-600 font-bold hover:bg-slate-100 border border-transparent transition-all">Cancelar</button>
+                    <button onclick="admin.saveChanges()" id="save-btn" class="px-8 py-2.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                        <i data-lucide="save" class="w-4 h-4"></i> Guardar Todo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- NOTIFICACIÓN TOAST -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-800 text-white px-6 py-4 rounded-xl shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 z-[60]">
+        <div class="bg-emerald-500 rounded-full p-1"><i data-lucide="check" class="w-3 h-3 text-white"></i></div>
+        <span id="toast-msg" class="font-medium">Operación exitosa</span>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

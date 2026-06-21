@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportar Información - InfoRegLAC</title>
+
+    <!-- 1. Estilos: Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. Fuente: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- 3. Iconos: Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- 4. Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
+
+    <div class="w-full max-w-3xl space-y-8 animate-in fade-in">
+
+        <!-- Header / Back Link -->
+        <div class="flex items-center justify-between">
+            <a href="index.html"
+                class="group flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
+                <div
+                    class="p-1 rounded-full bg-white border border-slate-200 group-hover:border-blue-200 transition-colors">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </div>
+                Volver al inicio
+            </a>
+            <div class="flex items-center gap-2 opacity-50">
+                <i data-lucide="globe-2" class="w-4 h-4"></i>
+                <span class="font-bold text-sm">InfoRegLAC</span>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <!-- Card Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-teal-500 p-8 text-white text-center">
+                <h1 class="text-3xl font-extrabold tracking-tight mb-2">Reportar Información</h1>
+                <p class="text-blue-100 max-w-lg mx-auto text-sm">
+                    Ayúdenos a mejorar la calidad de los datos. Si tiene
+                    una sugerencia, por favor complete este formulario.
+                </p>
+            </div>
+
+            <!-- Alert Box -->
+            <div id="alert-container" class="px-8 pt-8 hidden">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- Form -->
+            <form id="report-form" class="p-8 space-y-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="full-name" class="text-sm font-bold text-slate-700">Nombre y Apellido <span
+                                class="text-slate-400 font-normal">(Opcional)</span></label>
+                        <input type="text" id="full-name" name="full-name"
+                            class="block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
+                            placeholder="Su nombre">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="email" class="text-sm font-bold text-slate-700">Correo Electrónico <span
+                                class="text-slate-400 font-normal">(Opcional)</span></label>
+                        <input type="email" id="email" name="email"
+                            class="block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
+                            placeholder="correo@ejemplo.com">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="country-select" class="text-sm font-bold text-slate-700">País relacionado <span
+                            class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <select id="country-select" name="country" required
+                            class="block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer">
+                            <option value="">-- Seleccione un país --</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Brasil">Brasil</option>
+                            <option value="Chile">Chile</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Haití">Haití</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="México">México</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Panamá">Panamá</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Perú">Perú</option>
+                            <option value="República Dominicana">República Dominicana</option>
+                            <option value="Trinidad y Tobago">Trinidad y Tobago</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Venezuela">Venezuela</option>
+                        </select>
+                        <div class="absolute right-4 top-3.5 pointer-events-none text-slate-400">
+                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="comments" class="text-sm font-bold text-slate-700">Comentarios o Corrección <span
+                            class="text-red-500">*</span></label>
+                    <textarea id="comments" name="comments" required
+                        class="block w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none h-32 resize-y"
+                        placeholder="Describa la actualización o sugerencia detallada..."></textarea>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="block text-sm font-bold text-slate-700 mb-1">Adjuntar Documento <span
+                            class="text-slate-400 font-normal">(PDF, Opcional)</span></span>
+                    <label for="file-upload"
+                        class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-blue-50 hover:border-blue-300 transition-all group relative">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i data-lucide="cloud-upload"
+                                class="w-8 h-8 mb-3 text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                            <p class="text-sm text-slate-500 group-hover:text-blue-600"><span class="font-semibold">Haga
+                                    clic para subir</span> o arrastre y suelte</p>
+                            <p class="text-xs text-slate-400 mt-1" id="file-name-display">PDF (Máx. 5MB)</p>
+                        </div>
+                        <input id="file-upload" type="file" class="hidden" accept=".pdf" />
+                    </label>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" id="submit-btn"
+                        class="w-full bg-gradient-to-r from-blue-600 to-teal-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 hover:shadow-xl hover:translate-y-[-2px] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                        <span>Enviar Reporte</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <p class="text-center text-xs text-slate-400">
+            &copy; 2025 InfoRegLAC. Sus datos serán tratados confidencialmente.
+        </p>
+
+    </div>
+
+    <script>
+        // Inicializar Iconos
+        lucide.createIcons();
+
+        // Configuración Supabase
+        const SUPABASE_URL = 'https://mugtfugfabhrqcomynrs.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Elementos DOM
+        const form = document.getElementById('report-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const alertContainer = document.getElementById('alert-container');
+        const fileInput = document.getElementById('file-upload');
+        const fileNameDisplay = document.getElementById('file-name-display');
+
+        // Manejo de archivo seleccionado
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileNameDisplay.innerHTML = `<span class="text-blue-600 font-bold">${file.name}</span>`;
+                // Simple validación de tamaño (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('El archivo es demasiado grande. Máximo 5MB.');
+                    fileInput.value = '';
+                    fileNameDisplay.innerText = 'PDF (Máx. 5MB)';
+                }
+            } else {
+                fileNameDisplay.innerText = 'PDF (Máx. 5MB)';
+            }
+        });
+
+        // Envío del formulario
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            setLoading(true);
+            let fileUrl = null;
+
+            try {
+                // 1. Subir archivo si existe
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+
+                    const { data: uploadData, error: uploadError } = await supabaseClient
+                        .storage
+                        .from('reportes')
+                        .upload(fileName, file);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data: urlData } = supabaseClient
+                        .storage
+                        .from('reportes')
+                        .getPublicUrl(fileName);
+
+                    fileUrl = urlData.publicUrl;
+                }
+
+                // 2. Insertar datos
+                const formData = {
+                    nombre_apellido: form['full-name'].value || null,
+                    correo: form.email.value || null,
+                    pais: form.country.value,
+                    comentarios: form.comments.value || null,
+                    documento_adjunto_url: fileUrl
+                };
+
+                const { error: insertError } = await supabaseClient
+                    .from('reportes_usuarios')
+                    .insert([formData]);
+
+                if (insertError) throw insertError;
+
+                showAlert('success', '¡Gracias! Su reporte ha sido enviado exitosamente.');
+                form.reset();
+                fileNameDisplay.innerText = 'PDF (Máx. 5MB)';
+
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('error', 'Ocurrió un error al enviar el reporte. Por favor intente nuevamente.');
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(isLoading) {
+            submitBtn.disabled = isLoading;
+            if (isLoading) {
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Enviando...
+                `;
+            } else {
+                submitBtn.innerHTML = `
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>Enviar Reporte</span>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function showAlert(type, message) {
+            alertContainer.classList.remove('hidden');
+            if (type === 'success') {
+                alertContainer.innerHTML = `
+                    <div class="bg-emerald-50 text-emerald-800 p-4 rounded-xl border border-emerald-200 flex items-center gap-3 animate-in slide-in-from-top-2">
+                        <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-600"></i>
+                        <p class="font-medium">${message}</p>
+                    </div>
+                `;
+            } else {
+                alertContainer.innerHTML = `
+                    <div class="bg-rose-50 text-rose-800 p-4 rounded-xl border border-rose-200 flex items-center gap-3 animate-in slide-in-from-top-2">
+                        <i data-lucide="alert-circle" class="w-6 h-6 text-rose-600"></i>
+                        <p class="font-medium">${message}</p>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+            // Scroll al mensaje
+            alertContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+
+</html>
