@@ -700,26 +700,30 @@ const app = {
                             <h3 class="font-bold text-slate-800 px-4 py-3 text-sm border-b border-slate-50 mb-2">Navegación</h3>
                             ${CATEGORIES.map(cat => {
                 let catQuestions = (cat.id === 7) ? Object.entries(RESOURCE_SUBTITLES).map(([k, v]) => [k, v.title]) : Object.entries(QUESTIONS).filter(([k]) => k.startsWith(`${cat.id}.`));
+                const navId = `nav-cat-${cat.id}`;
                 return `
-                                <details class="group bg-white rounded-lg border border-slate-100 overflow-hidden mb-2 transition-all open:ring-1 open:ring-blue-100 open:shadow-sm">
-                                    <summary class="flex justify-between items-center px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors list-none text-sm font-bold text-slate-700 select-none">
+                                <div class="nav-section bg-white rounded-lg border border-slate-100 overflow-hidden mb-2" id="${navId}-wrapper">
+                                    <button
+                                        onclick="app.toggleNavSection('${navId}', ${cat.id})"
+                                        class="w-full flex justify-between items-center px-4 py-3 hover:bg-slate-50 transition-colors text-sm font-bold text-slate-700 select-none"
+                                        aria-expanded="false"
+                                        id="${navId}-btn"
+                                    >
                                         <span class="flex items-center gap-2">
                                             <i data-lucide="${cat.id === 7 ? 'link' : (cat.icon || 'file-check')}" class="w-4 h-4 text-blue-500"></i>
                                             ${cat.name}
                                         </span>
-                                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-200 group-open:rotate-180"></i>
-                                    </summary>
-                                    <div class="bg-slate-50 border-t border-slate-100">
+                                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform duration-200" id="${navId}-chevron"></i>
+                                    </button>
+                                    <div class="bg-slate-50 border-t border-slate-100 hidden" id="${navId}-panel">
                                         <button onclick="app.scrollToSection(${cat.id})" class="w-full text-left px-4 py-2 text-xs font-bold text-blue-600 hover:bg-blue-50 hover:underline border-b border-slate-100">Ir al inicio de sección</button>
-                                        
-                                        <!-- LISTA DE PREGUNTAS (MOSTRANDO TEXTO COMPLETO) -->
                                         ${catQuestions.map(([qId, qText]) => `
                                             <button onclick="app.handleQuestionClick('${countryName}', '${qId}', this)" class="w-full text-left px-6 py-3 text-xs text-slate-600 hover:text-blue-700 hover:bg-blue-50/50 transition-colors border-b border-slate-100 last:border-0 leading-normal pl-8">
                                                 <span class="font-bold mr-1 text-blue-500">${qId}</span> ${qText}
                                             </button>
                                         `).join('')}
                                     </div>
-                                </details>`;
+                                </div>`;
             }).join('')}
                         </div>
                     </div>
@@ -733,6 +737,7 @@ const app = {
                         <path d="M12 19V5"/><path d="M5 12l7-7 7 7"/>
                     </svg>
                 </button>
+                <style>#scroll-top-btn{touch-action:manipulation;}</style>
             </div>`;
 
             const input = document.getElementById('detail-search-input');
@@ -1176,16 +1181,42 @@ const app = {
 
     setupGlobalEvents: function () {
         // Eventos que no dependan del renderizado inicial
+        let scrollTopVisible = false;
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('scroll-top-btn');
-            if (btn) {
-                if (window.scrollY > 500) {
-                    btn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-                } else {
-                    btn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-                }
+            if (!btn) return;
+            const shouldShow = window.scrollY > 500;
+            if (shouldShow && !scrollTopVisible) {
+                scrollTopVisible = true;
+                btn.classList.remove('opacity-0', 'translate-y-10');
+                // Separar pointer-events del fade para que el primer tap siempre funcione
+                setTimeout(() => btn.classList.remove('pointer-events-none'), 350);
+            } else if (!shouldShow && scrollTopVisible) {
+                scrollTopVisible = false;
+                btn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
             }
         });
+    },
+
+    toggleNavSection: function (navId, catId) {
+        const panel  = document.getElementById(`${navId}-panel`);
+        const btn    = document.getElementById(`${navId}-btn`);
+        const chevron = document.getElementById(`${navId}-chevron`);
+        if (!panel) return;
+        const isOpen = !panel.classList.contains('hidden');
+        if (isOpen) {
+            panel.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            chevron.style.transform = '';
+        } else {
+            panel.classList.remove('hidden');
+            btn.setAttribute('aria-expanded', 'true');
+            chevron.style.transform = 'rotate(180deg)';
+            // Scroll a la sección automáticamente al abrir (en mobile)
+            if (window.innerWidth < 1024) {
+                setTimeout(() => this.scrollToSection(catId), 50);
+            }
+        }
     }
 };
 
