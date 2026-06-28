@@ -1237,11 +1237,11 @@ const app = {
         } catch (e) {
             console.error("Failed to check iframe status:", e);
         }
-
         if (isEmbed) {
             try {
-                // Abrir en una pestaña nueva para imprimir debido a restricciones de sandbox en el iframe
-                const printUrl = `index.html?country=${encodeURIComponent(countryName)}&print=true`;
+                // Abrir en una pestaña nueva para imprimir con URL absoluta dinámica
+                const baseUrl = window.location.origin + window.location.pathname;
+                const printUrl = `${baseUrl}?country=${encodeURIComponent(countryName)}&print=true`;
                 console.log("Opening new tab for printing:", printUrl);
                 const newWindow = window.open(printUrl, '_blank');
                 if (!newWindow) {
