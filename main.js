@@ -783,15 +783,30 @@ const app = {
             }
 
             // Trigger auto-print si el parámetro está presente
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('print') === 'true') {
-                window.history.replaceState({}, document.title, window.location.pathname);
-                setTimeout(() => {
-                    const originalTitle = document.title;
-                    document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
-                    window.print();
-                    document.title = originalTitle;
-                }, 1000);
+            try {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('print') === 'true') {
+                    console.log("Auto-print detected. Scheduling window.print()...");
+                    try {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    } catch (he) {
+                        console.error("Failed to replaceState:", he);
+                    }
+                    setTimeout(() => {
+                        try {
+                            const originalTitle = document.title;
+                            document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+                            console.log("Triggering auto-print window.print()...");
+                            window.print();
+                            document.title = originalTitle;
+                        } catch (pe) {
+                            console.error("Failed to print automatically:", pe);
+                            window.print();
+                        }
+                    }, 1200);
+                }
+            } catch (pErr) {
+                console.error("Failed to parse print params:", pErr);
             }
         } catch (error) {
             console.error(error);
@@ -1214,22 +1229,62 @@ const app = {
     },
 
     printReport: function (countryName) {
-        const isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        console.log("printReport called for country:", countryName);
+        let isEmbed = false;
+        try {
+            isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+            console.log("Is embed mode active?", isEmbed);
+        } catch (e) {
+            console.error("Failed to check iframe status:", e);
+        }
+
         if (isEmbed) {
-            // Abrir en una pestaña nueva para imprimir debido a restricciones de sandbox en el iframe
-            const printUrl = `index.html?country=${encodeURIComponent(countryName)}&print=true`;
-            window.open(printUrl, '_blank');
+            try {
+                // Abrir en una pestaña nueva para imprimir debido a restricciones de sandbox en el iframe
+                const printUrl = `index.html?country=${encodeURIComponent(countryName)}&print=true`;
+                console.log("Opening new tab for printing:", printUrl);
+                const newWindow = window.open(printUrl, '_blank');
+                if (!newWindow) {
+                    console.error("Popup blocked! Directing to print directly as fallback.");
+                    window.print();
+                }
+            } catch (err) {
+                console.error("Error executing window.open:", err);
+                window.print();
+            }
             return;
         }
 
+        // Caso normal (fuera del iframe)
         const originalTitle = document.title;
-        if (countryName) {
-            document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
-            analytics.pdfGenerated(countryName);
+        try {
+            if (countryName) {
+                document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+                console.log("Temporarily changed document title to:", document.title);
+                try {
+                    analytics.pdfGenerated(countryName);
+                } catch (ae) {
+                    console.error("Analytics tracking failed:", ae);
+                }
+            }
+        } catch (titleError) {
+            console.error("Failed to set title:", titleError);
         }
-        window.print();
+
+        try {
+            console.log("Invoking window.print()...");
+            window.print();
+        } catch (printError) {
+            console.error("Failed to invoke window.print():", printError);
+        }
+
         setTimeout(() => {
-            document.title = originalTitle;
+            try {
+                document.title = originalTitle;
+                console.log("Restored document title to:", originalTitle);
+            } catch (restoreError) {
+                console.error("Failed to restore title:", restoreError);
+            }
         }, 1000);
     },
 
