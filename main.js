@@ -212,6 +212,20 @@ const app = {
 
     init: function () {
         window.app = this; // Asegurar referencia global inmediata
+        
+        // Detectar si está embebido en un iframe
+        const isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        if (isEmbed) {
+            document.body.classList.add('is-embedded');
+            const style = document.createElement('style');
+            style.textContent = `
+                header, footer { display: none !important; }
+                body { background-color: transparent !important; }
+                main { padding-top: 1rem !important; padding-bottom: 1rem !important; max-width: 100% !important; }
+            `;
+            document.head.appendChild(style);
+        }
+
         try {
             this.render();
             this.setupGlobalEvents();
@@ -326,6 +340,18 @@ const app = {
         }
 
         lucide.createIcons();
+
+        // Si está embebido, notificar la altura al sitio padre para permitir auto-resizing opcional
+        if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
+            setTimeout(() => {
+                const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+                window.parent.postMessage({
+                    sentinel: 'ops-platform',
+                    type: 'resize',
+                    height: height
+                }, '*');
+            }, 150); // Delay para asegurar renderizado de imágenes y DOM
+        }
     },
 
     // VISTA: HOME
