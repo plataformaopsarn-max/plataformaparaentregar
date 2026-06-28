@@ -781,33 +781,6 @@ const app = {
                     this.updateSearchResults();
                 });
             }
-
-            // Trigger auto-print si el parámetro está presente
-            try {
-                const params = new URLSearchParams(window.location.search);
-                if (params.get('print') === 'true') {
-                    console.log("Auto-print detected. Scheduling window.print()...");
-                    try {
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    } catch (he) {
-                        console.error("Failed to replaceState:", he);
-                    }
-                    setTimeout(() => {
-                        try {
-                            const originalTitle = document.title;
-                            document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
-                            console.log("Triggering auto-print window.print()...");
-                            window.print();
-                            document.title = originalTitle;
-                        } catch (pe) {
-                            console.error("Failed to print automatically:", pe);
-                            window.print();
-                        }
-                    }, 1200);
-                }
-            } catch (pErr) {
-                console.error("Failed to parse print params:", pErr);
-            }
         } catch (error) {
             console.error(error);
             container.innerHTML = `<div class="text-red-500 text-center">Error cargando datos: ${error.message}</div>`;
@@ -1230,32 +1203,6 @@ const app = {
 
     printReport: function (countryName) {
         console.log("printReport called for country:", countryName);
-        let isEmbed = false;
-        try {
-            isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-            console.log("Is embed mode active?", isEmbed);
-        } catch (e) {
-            console.error("Failed to check iframe status:", e);
-        }
-        if (isEmbed) {
-            try {
-                // Abrir en una pestaña nueva para imprimir con URL absoluta dinámica
-                const baseUrl = window.location.origin + window.location.pathname;
-                const printUrl = `${baseUrl}?country=${encodeURIComponent(countryName)}&print=true`;
-                console.log("Opening new tab for printing:", printUrl);
-                const newWindow = window.open(printUrl, '_blank');
-                if (!newWindow) {
-                    console.error("Popup blocked! Directing to print directly as fallback.");
-                    window.print();
-                }
-            } catch (err) {
-                console.error("Error executing window.open:", err);
-                window.print();
-            }
-            return;
-        }
-
-        // Caso normal (fuera del iframe)
         const originalTitle = document.title;
         try {
             if (countryName) {
