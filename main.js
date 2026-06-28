@@ -226,6 +226,14 @@ const app = {
             document.head.appendChild(style);
         }
 
+        // Cargar país y auto-imprimir si viene por parámetros de URL (workaround para sandbox)
+        const params = new URLSearchParams(window.location.search);
+        const countryParam = params.get('country');
+        if (countryParam) {
+            this.state.selectedCountry = countryParam;
+            this.state.view = 'country';
+        }
+
         try {
             this.render();
             this.setupGlobalEvents();
@@ -773,6 +781,18 @@ const app = {
                     this.updateSearchResults();
                 });
             }
+
+            // Trigger auto-print si el parámetro está presente
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('print') === 'true') {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                setTimeout(() => {
+                    const originalTitle = document.title;
+                    document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+                    window.print();
+                    document.title = originalTitle;
+                }, 1000);
+            }
         } catch (error) {
             console.error(error);
             container.innerHTML = `<div class="text-red-500 text-center">Error cargando datos: ${error.message}</div>`;
@@ -1194,6 +1214,14 @@ const app = {
     },
 
     printReport: function (countryName) {
+        const isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        if (isEmbed) {
+            // Abrir en una pestaña nueva para imprimir debido a restricciones de sandbox en el iframe
+            const printUrl = `index.html?country=${encodeURIComponent(countryName)}&print=true`;
+            window.open(printUrl, '_blank');
+            return;
+        }
+
         const originalTitle = document.title;
         if (countryName) {
             document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
