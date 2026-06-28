@@ -196,6 +196,8 @@ const analytics = {
     }
 };
 
+window.analytics = analytics;
+
 // --- APLICACIÓN PRINCIPAL (OBJETO GLOBAL) ---
 
 const app = {
