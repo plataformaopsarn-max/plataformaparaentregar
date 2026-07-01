@@ -336,6 +336,9 @@ const app = {
             case 'home':
                 this.renderHome(container);
                 break;
+            case 'search':
+                this.renderSearch(container);
+                break;
             case 'country':
                 this.renderCountryDetail(container);
                 break;
@@ -365,7 +368,50 @@ const app = {
     },
 
     // VISTA: HOME
+    // VISTA: HOME
     renderHome: function (container) {
+        // Limpiar sección de impacto si existía
+        const impactContainer = document.getElementById('impact-section');
+        if (impactContainer) {
+            impactContainer.innerHTML = '';
+        }
+
+        container.innerHTML = `
+        <div class="max-w-5xl mx-auto py-12 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card: Búsqueda por País -->
+                <button onclick="app.setView('search')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
+                        <i data-lucide="map" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Búsqueda por País</h3>
+                </button>
+                <!-- Card: Comparar -->
+                <button onclick="app.setView('compare')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-teal-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-6 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
+                        <i data-lucide="scale" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Comparador</h3>
+                </button>
+                <!-- Card: Filtrar -->
+                <button onclick="app.setView('filter')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-violet-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
+                        <i data-lucide="filter" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Filtro Avanzado</h3>
+                </button>
+            </div>
+        </div>`;
+    },
+
+    // VISTA: BÚSQUEDA POR PAÍS (MAPA + BUSCADOR)
+    renderSearch: function (container) {
+        // Limpiar sección de impacto
+        const impactContainer = document.getElementById('impact-section');
+        if (impactContainer) {
+            impactContainer.innerHTML = '';
+        }
+
         let mapPathsHtml = '';
         for (const [id, pathData] of Object.entries(MAP_PATHS)) {
             const country = COUNTRIES_LIST.find(c => c.id === id);
@@ -382,105 +428,52 @@ const app = {
             }
         }
 
-        const inputExists = document.getElementById('home-search-input');
-
-        if (!inputExists) {
-            // Inyectar sección de impacto y bienvenida si estamos en home
-            const impactContainer = document.getElementById('impact-section');
-            if (impactContainer) {
-                impactContainer.innerHTML = `
-                <div class="mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
-                    <div class="text-center max-w-4xl mx-auto mb-10">
-                        <h1 class="text-4xl sm:text-5xl font-black text-slate-900 mb-6 leading-tight tracking-tight uppercase">
-                            Información Regulatoria de <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-teal-500">América Latina y el Caribe</span>
-                        </h1>
-                        <p class="text-lg text-slate-600 leading-relaxed font-medium">
-                            Esta plataforma es una recopilación y sistematización de la normativa vigente de 22 países de la región para facilitar la planificación y ejecución de ensayos clínicos.
-                        </p>
+        container.innerHTML = `
+        <div class="animate-in fade-in duration-500">
+            <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1">
+                <span>&larr;</span> Volver al inicio
+            </button>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center">Búsqueda por País</h2>
+            <p class="text-slate-500 mb-8 text-center text-sm">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
+            
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <div class="max-w-md mx-auto relative group z-20">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
                     </div>
-
-                    <!-- GUÍA DE USO -->
-                    <div class="max-w-5xl mx-auto mb-6">
-                        <h2 class="text-xl font-bold text-slate-800 text-center mb-2">¿Cómo utilizar esta plataforma?</h2>
-                        <p class="text-sm text-slate-500 text-center mb-8">Seleccione una de las siguientes herramientas para acceder a la información regulatoria de la región.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            <!-- Card: Mapa -->
-                            <button onclick="app.focusSearch()" class="group text-left bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg hover:border-blue-300 transition-all duration-300 cursor-pointer">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-4 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="map" class="w-6 h-6 text-white"></i>
-                                </div>
-                                <h3 class="font-bold text-slate-800 text-lg mb-2">Búsqueda por País</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed mb-3">Consulte el perfil regulatorio completo de cada país. Seleccione un país en el mapa o use el buscador para acceder a toda su normativa de ensayos clínicos.</p>
-                                <span class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                                    <i data-lucide="layout-grid" class="w-3 h-3"></i> Vista activa
-                                </span>
-                            </button>
-                            <!-- Card: Comparar -->
-                            <button onclick="app.setView('compare')" class="group text-left bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg hover:border-teal-300 transition-all duration-300 cursor-pointer">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-4 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="scale" class="w-6 h-6 text-white"></i>
-                                </div>
-                                <h3 class="font-bold text-slate-800 text-lg mb-2">Comparador</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed mb-3">Compare la normativa por requisito en los 22 países, o seleccione 2 a 3 países y vea todos sus requisitos lado a lado.</p>
-                                <span class="inline-flex items-center gap-1 text-xs font-bold text-teal-600 bg-teal-50 px-3 py-1 rounded-full">
-                                    <i data-lucide="arrow-right" class="w-3 h-3"></i> Ir al Comparador
-                                </span>
-                            </button>
-                            <!-- Card: Filtrar -->
-                            <button onclick="app.setView('filter')" class="group text-left bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg hover:border-violet-300 transition-all duration-300 cursor-pointer">
-                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-4 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
-                                    <i data-lucide="filter" class="w-6 h-6 text-white"></i>
-                                </div>
-                                <h3 class="font-bold text-slate-800 text-lg mb-2">Filtro Avanzado</h3>
-                                <p class="text-sm text-slate-500 leading-relaxed mb-3">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
-                                <span class="inline-flex items-center gap-1 text-xs font-bold text-violet-600 bg-violet-50 px-3 py-1 rounded-full">
-                                    <i data-lucide="arrow-right" class="w-3 h-3"></i> Ir a Filtrar
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>`;
-            }
-
-            container.innerHTML = `
-            <div class="animate-in fade-in duration-500">
-                <div class="text-center mb-10 max-w-3xl mx-auto">
-                    <div class="max-w-md mx-auto relative group z-20">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="home-search-input"
-                            class="block w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
-                            placeholder="Buscar país (ej. Argentina, México)..."
-                            value="${this.state.searchTerm}"
-                            autocomplete="off"
-                        >
-                        <div id="search-results-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-30 hidden">
-                        </div>
+                    <input 
+                        type="text" 
+                        id="home-search-input"
+                        class="block w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
+                        placeholder="Buscar país (ej. Argentina, México)..."
+                        value="${this.state.searchTerm}"
+                        autocomplete="off"
+                    >
+                    <div id="search-results-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-30 hidden">
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-12">
-                    <div class="relative w-full max-w-2xl mx-auto h-[500px] md:h-[600px] bg-blue-50/50 rounded-3xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-4">
-                        <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-xl">
-                            ${mapPathsHtml}
-                        </svg>
-                    </div>
-                    <p class="text-[10px] text-slate-400 text-center mt-3 max-w-lg mx-auto leading-tight italic">
-                        * El mapa tiene fines únicamente ilustrativos y no representa una escala geográfica exacta de los países y territorios.
-                    </p>
+            <div class="mb-12">
+                <div class="relative w-full max-w-2xl mx-auto h-[500px] md:h-[600px] bg-blue-50/50 rounded-3xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-4">
+                    <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-xl">
+                        ${mapPathsHtml}
+                    </svg>
                 </div>
-            </div>`;
+                <p class="text-[10px] text-slate-400 text-center mt-3 max-w-lg mx-auto leading-tight italic">
+                    * El mapa tiene fines únicamente ilustrativos y no representa una escala geográfica exacta de los países y territorios.
+                </p>
+            </div>
+        </div>`;
 
-            const input = document.getElementById('home-search-input');
+        const input = document.getElementById('home-search-input');
+        if (input) {
             input.addEventListener('input', (e) => {
                 this.state.searchTerm = e.target.value;
                 this.updateSearchResults();
             });
         }
-
+        
         this.updateSearchResults();
     },
 
