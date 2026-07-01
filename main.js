@@ -320,17 +320,7 @@ const app = {
 
     render: function () {
         const container = document.getElementById('app-container');
-        const navButtons = document.querySelectorAll('nav button');
 
-        navButtons.forEach(btn => {
-            btn.classList.remove('bg-blue-50', 'text-blue-700', 'ring-1', 'ring-blue-200');
-            btn.classList.add('text-slate-500');
-        });
-        const activeBtn = document.getElementById(`nav-${this.state.view}`);
-        if (activeBtn) {
-            activeBtn.classList.remove('text-slate-500');
-            activeBtn.classList.add('bg-blue-50', 'text-blue-700', 'ring-1', 'ring-blue-200');
-        }
 
         switch (this.state.view) {
             case 'home':

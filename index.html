@@ -156,34 +156,27 @@
         </div>
     </header>
 
-    <nav class="hidden">
+    <nav class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 no-print shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-14 sm:h-16">
+                <!-- Izquierda: Logo y Título -->
                 <div class="flex items-center gap-3 cursor-pointer group" onclick="app.goHome()">
-                    <div
-                        class="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-700 to-teal-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-200 transition-transform group-hover:scale-105">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-700 to-teal-500 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-200 transition-transform group-hover:scale-105">
                         <i data-lucide="globe-2" class="w-5 h-5"></i>
                     </div>
                     <div class="flex flex-col justify-center">
-                        <span
-                            class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-teal-600 tracking-tight leading-none">Marco General</span>
+                        <span class="text-lg sm:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-teal-600 tracking-tight leading-none">Marco General</span>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <div class="h-6 w-px bg-slate-200 mx-1 hidden sm:block"></div>
-                    <button onclick="app.setView('home')" id="nav-home"
-                        class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2"
-                        title="Mapa"><i data-lucide="layout-grid" class="w-4 h-4"></i> <span
-                            class="hidden sm:inline">Mapa</span></button>
-                    <button onclick="app.setView('compare')" id="nav-compare"
-                        class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2"
-                        title="Comparar"><i data-lucide="scale" class="w-4 h-4"></i> <span
-                            class="hidden sm:inline">Comparar</span></button>
-                    <button onclick="app.setView('filter')" id="nav-filter"
-                        class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2"
-                        title="Filtrar"><i data-lucide="filter" class="w-4 h-4"></i> <span
-                            class="hidden sm:inline">Filtrar</span></button>
+                <!-- Derecha: Botón Volver al Menú Principal -->
+                <div class="flex items-center">
+                    <button onclick="app.setView('home')" 
+                            class="p-2 sm:px-4 sm:py-2 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-slate-50 transition-all text-sm font-bold flex items-center gap-2 border border-slate-200/60 shadow-sm"
+                            title="Volver al Menú Principal">
+                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Menú Principal</span>
+                    </button>
                 </div>
             </div>
         </div>
