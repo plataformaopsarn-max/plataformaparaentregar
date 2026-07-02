@@ -370,25 +370,43 @@ const app = {
         <div class="max-w-5xl mx-auto py-12 animate-in fade-in duration-500">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card: Búsqueda por País -->
-                <button onclick="app.setView('search')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="map" class="w-10 h-10 text-white"></i>
+                <button onclick="app.setView('search')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-blue-350 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
+                            <i data-lucide="map" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Búsqueda por País</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">Consulte el perfil regulatorio completo de cada país. Seleccione un país en el mapa o use el buscador para acceder a toda su normativa de ensayos clínicos.</p>
                     </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Búsqueda por País</h3>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3.5 py-1.5 rounded-full w-fit group-hover:bg-blue-100 transition-colors">
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i> Ir a Búsqueda
+                    </span>
                 </button>
                 <!-- Card: Comparar -->
-                <button onclick="app.setView('compare')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-teal-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-6 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="scale" class="w-10 h-10 text-white"></i>
+                <button onclick="app.setView('compare')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-teal-350 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-6 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
+                            <i data-lucide="scale" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Comparador</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">Compare la normativa por requisito en los 22 países, o seleccione 2 a 3 países y vea todos sus requisitos lado a lado.</p>
                     </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Comparador</h3>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 bg-teal-50 px-3.5 py-1.5 rounded-full w-fit group-hover:bg-teal-100 transition-colors">
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i> Ir al Comparador
+                    </span>
                 </button>
                 <!-- Card: Filtrar -->
-                <button onclick="app.setView('filter')" class="group text-center bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl hover:border-violet-400 transition-all duration-300 cursor-pointer flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="filter" class="w-10 h-10 text-white"></i>
+                <button onclick="app.setView('filter')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-violet-350 transition-all duration-300 cursor-pointer flex flex-col justify-between h-full">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
+                            <i data-lucide="filter" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Filtro Avanzado</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
                     </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight">Filtro Avanzado</h3>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-violet-600 bg-violet-50 px-3.5 py-1.5 rounded-full w-fit group-hover:bg-violet-100 transition-colors">
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i> Ir a Filtrar
+                    </span>
                 </button>
             </div>
         </div>`;
