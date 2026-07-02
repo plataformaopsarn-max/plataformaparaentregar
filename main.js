@@ -427,7 +427,7 @@ const app = {
                 <span>&larr;</span> Volver al inicio
             </button>
             <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center">Búsqueda por País</h2>
-            <p class="text-slate-500 mb-8 text-center text-sm">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
+            <p class="text-slate-700 mb-8 text-center text-base font-semibold max-w-2xl mx-auto leading-relaxed">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
             
             <div class="text-center mb-10 max-w-3xl mx-auto">
                 <div class="max-w-md mx-auto relative group z-20">
