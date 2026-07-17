@@ -1199,28 +1199,6 @@ const app = {
 
     printReport: function (countryName) {
         console.log("printReport called for country:", countryName);
-        
-        // Determinar si estamos dentro de un iframe (o forzados por el parámetro embed)
-        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-        
-        if (isEmbedded) {
-            // Si estamos embebidos, no podemos llamar a window.print() debido a restricciones del sandbox del iframe (allow-modals no seteado en OPS).
-            // Solución: Redirigir el sitio padre (window.top) a la versión standalone en modo impresión.
-            console.log("Embedded print: redirecting parent window...");
-            const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
-            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
-            
-            try {
-                // Redirigir la ventana padre completa
-                window.top.location.href = redirectUrl;
-            } catch (err) {
-                console.error("Failed to redirect window.top:", err);
-                // Si la redirección falla (por ejemplo por políticas de seguridad estrictas), intentamos abrir en pestaña nueva
-                window.open(redirectUrl, '_blank');
-            }
-            return;
-        }
-
         const originalTitle = document.title;
         try {
             if (countryName) {
@@ -1236,11 +1214,37 @@ const app = {
             console.error("Failed to set title:", titleError);
         }
 
+        // Medir el tiempo de ejecución de window.print()
+        // Si el sandbox bloquea la impresión por falta de 'allow-modals',
+        // la llamada retorna de inmediato (generalmente < 10ms).
+        // Si funciona, bloquea la ejecución hasta que se cierre el diálogo (normalmente > 100ms).
+        const start = Date.now();
         try {
             console.log("Invoking window.print()...");
             window.print();
         } catch (printError) {
             console.error("Failed to invoke window.print():", printError);
+        }
+        const delta = Date.now() - start;
+        console.log(`window.print() execution took ${delta}ms`);
+
+        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        
+        // Si se ejecutó en menos de 50ms y estamos embebidos, probablemente el sandbox lo bloqueó.
+        // Aplicamos el fallback de redirección.
+        if (delta < 50 && isEmbedded) {
+            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
+            const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
+            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
+            
+            try {
+                // Redirigir la ventana padre completa
+                window.top.location.href = redirectUrl;
+            } catch (err) {
+                console.error("Failed to redirect window.top:", err);
+                // Si la redirección falla (por ejemplo por políticas de seguridad estrictas), intentamos abrir en pestaña nueva
+                window.open(redirectUrl, '_blank');
+            }
         }
 
         setTimeout(() => {
