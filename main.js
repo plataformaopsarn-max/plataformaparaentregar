@@ -231,6 +231,9 @@ const app = {
         // Cargar país y auto-imprimir si viene por parámetros de URL (workaround para sandbox)
         const params = new URLSearchParams(window.location.search);
         const countryParam = params.get('country');
+        const isPrintMode = params.get('print') === 'true';
+        const referrerParam = params.get('referrer') || 'https://www.paho.org/es/regecam';
+
         if (countryParam) {
             this.state.selectedCountry = countryParam;
             this.state.view = 'country';
@@ -239,6 +242,11 @@ const app = {
         try {
             this.render();
             this.setupGlobalEvents();
+
+            // Si viene en modo impresión, inyectar el banner y disparar la impresión
+            if (isPrintMode && countryParam) {
+                this.handleAutoPrint(countryParam, referrerParam);
+            }
         } catch (error) {
             console.error("Critical Init Error:", error);
             const container = document.getElementById('app-container');
@@ -1191,6 +1199,29 @@ const app = {
 
     printReport: function (countryName) {
         console.log("printReport called for country:", countryName);
+        
+        // Determinar si estamos dentro de un iframe (o forzados por el parámetro embed)
+        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        
+        if (isEmbedded) {
+            // Si estamos embebidos, no podemos llamar a window.print() debido a restricciones del sandbox del iframe (allow-modals no seteado en OPS).
+            // Solución: Redirigir el sitio padre (window.top) a la versión standalone en modo impresión.
+            console.log("Embedded print: redirecting parent window...");
+            const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
+            const targetReferrer = document.referrer || 'https://www.paho.org/es/regecam';
+            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true&referrer=${encodeURIComponent(targetReferrer)}`;
+            
+            try {
+                // Redirigir la ventana padre completa
+                window.top.location.href = redirectUrl;
+            } catch (err) {
+                console.error("Failed to redirect window.top:", err);
+                // Si la redirección falla (por ejemplo por políticas de seguridad estrictas), intentamos abrir en pestaña nueva
+                window.open(redirectUrl, '_blank');
+            }
+            return;
+        }
+
         const originalTitle = document.title;
         try {
             if (countryName) {
@@ -1220,6 +1251,66 @@ const app = {
             } catch (restoreError) {
                 console.error("Failed to restore title:", restoreError);
             }
+        }, 1000);
+    },
+
+    // Manejador del modo auto-impresión (workaround para sandbox)
+    handleAutoPrint: function (countryName, referrerUrl) {
+        console.log("Auto-print mode triggered for:", countryName);
+        
+        // 1. Ocultar el header, nav y footer propios de la plataforma en pantalla para dejar la vista limpia
+        const style = document.createElement('style');
+        style.id = 'print-mode-styles';
+        style.textContent = `
+            header, footer, nav { display: none !important; }
+            main { padding-top: 2rem !important; }
+        `;
+        document.head.appendChild(style);
+        
+        // 2. Inyectar banner de retorno al tope del body (oculto al imprimir)
+        if (!document.getElementById('print-mode-banner')) {
+            const banner = document.createElement('div');
+            banner.id = 'print-mode-banner';
+            banner.className = 'no-print bg-slate-900 text-white px-4 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md';
+            banner.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                    </span>
+                    <span class="text-sm font-semibold">Modo de Impresión: Generando PDF para ${countryName}...</span>
+                </div>
+                <button onclick="window.location.href='${decodeURIComponent(referrerUrl)}'" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
+                        style="cursor: pointer;">
+                    &larr; Volver al Portal de la OPS
+                </button>
+            `;
+            document.body.insertBefore(banner, document.body.firstChild);
+        }
+
+        // 3. Cambiar temporalmente el título del documento para el nombre del PDF
+        const originalTitle = document.title;
+        try {
+            document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+        } catch (e) {
+            console.error("Failed to set print title:", e);
+        }
+
+        // 4. Disparar impresión nativa después de que se cargue el DOM y Lucide icons
+        setTimeout(() => {
+            try {
+                window.print();
+            } catch (err) {
+                console.error("Auto print failed:", err);
+            }
+            
+            // Restaurar título del documento después de abrir el diálogo
+            setTimeout(() => {
+                try {
+                    document.title = originalTitle;
+                } catch (e) {}
+            }, 1000);
         }, 1000);
     },
 
