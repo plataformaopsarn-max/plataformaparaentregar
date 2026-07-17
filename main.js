@@ -1208,8 +1208,7 @@ const app = {
             // Solución: Redirigir el sitio padre (window.top) a la versión standalone en modo impresión.
             console.log("Embedded print: redirecting parent window...");
             const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
-            const targetReferrer = document.referrer || 'https://www.paho.org/es/regecam';
-            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true&referrer=${encodeURIComponent(targetReferrer)}`;
+            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
             
             try {
                 // Redirigir la ventana padre completa
@@ -1280,10 +1279,10 @@ const app = {
                     </span>
                     <span class="text-sm font-semibold">Modo de Impresión: Generando PDF para ${countryName}...</span>
                 </div>
-                <button onclick="window.location.href='${decodeURIComponent(referrerUrl)}'" 
+                <button onclick="window.location.href='https://www.paho.org/es/regecam'" 
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
                         style="cursor: pointer;">
-                    &larr; Volver al Portal de la OPS
+                    &larr; volver a Regecam
                 </button>
             `;
             document.body.insertBefore(banner, document.body.firstChild);
