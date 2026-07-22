@@ -843,7 +843,7 @@ const app = {
             <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1 no-print">
                 <span>&larr;</span> Volver al inicio
             </button>
-            <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center no-print">Comparador Normativo</h2>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center no-print">Comparador</h2>
             <p class="text-slate-500 mb-6 text-center text-sm no-print">Dos modos de comparación para analizar la normativa de la región.</p>
 
             <!-- TABS -->
