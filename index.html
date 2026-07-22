@@ -118,8 +118,13 @@
                 print-color-adjust: exact !important;
             }
 
-            .page-break {
-                page-break-inside: avoid;
+            .page-break, .break-inside-avoid {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .overflow-x-auto {
+                overflow: visible !important;
             }
 
             .max-h-\[80vh\] {

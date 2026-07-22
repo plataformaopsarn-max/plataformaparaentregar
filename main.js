@@ -230,13 +230,27 @@ const app = {
 
         // Cargar país y auto-imprimir si viene por parámetros de URL (workaround para sandbox)
         const params = new URLSearchParams(window.location.search);
+        const viewParam = params.get('view');
         const countryParam = params.get('country');
+        const compareModeParam = params.get('compareMode');
+        const qParam = params.get('q');
+        const cParam = params.get('c');
         const isPrintMode = params.get('print') === 'true';
         const referrerParam = params.get('referrer') || 'https://www.paho.org/es/regecam';
 
-        if (countryParam) {
+        if (viewParam) {
+            this.state.view = viewParam;
+        } else if (countryParam) {
             this.state.selectedCountry = countryParam;
             this.state.view = 'country';
+        }
+
+        if (compareModeParam) {
+            this.state.compareMode = compareModeParam;
+        }
+
+        if (cParam && compareModeParam === 'countries') {
+            this.state.selectedCountriesForCompare = cParam.split(',');
         }
 
         try {
@@ -244,8 +258,26 @@ const app = {
             this.setupGlobalEvents();
 
             // Si viene en modo impresión, inyectar el banner y disparar la impresión
-            if (isPrintMode && countryParam) {
-                this.handleAutoPrint(countryParam, referrerParam);
+            if (isPrintMode) {
+                if (this.state.view === 'country' && countryParam) {
+                    this.handleAutoPrint(countryParam, referrerParam);
+                } else if (this.state.view === 'compare') {
+                    if (compareModeParam === 'requirement' && qParam) {
+                        const select = document.getElementById('compare-select');
+                        if (select) {
+                            select.value = qParam;
+                            this.executeCompare().then(() => {
+                                lucide.createIcons();
+                                this.handleAutoPrint(`Comparativa por Requisito (${qParam})`, referrerParam);
+                            });
+                        }
+                    } else if (compareModeParam === 'countries' && cParam) {
+                        this.executeCompareByCountries().then(() => {
+                            lucide.createIcons();
+                            this.handleAutoPrint(`Comparativa de Países (${cParam.replace(/,/g, ', ')})`, referrerParam);
+                        });
+                    }
+                }
             }
         } catch (error) {
             console.error("Critical Init Error:", error);
@@ -803,14 +835,14 @@ const app = {
 
         container.innerHTML = `
         <div class="animate-in fade-in pb-20">
-            <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1">
+            <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1 no-print">
                 <span>&larr;</span> Volver al inicio
             </button>
-            <h2 class="text-3xl font-bold text-slate-800 mb-2">Comparador Normativo</h2>
-            <p class="text-slate-500 mb-6">Dos modos de comparación para analizar la normativa de la región.</p>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2 no-print">Comparador Normativo</h2>
+            <p class="text-slate-500 mb-6 no-print">Dos modos de comparación para analizar la normativa de la región.</p>
 
             <!-- TABS -->
-            <div class="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mb-8">
+            <div class="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mb-8 no-print">
                 <button onclick="app.setCompareMode('requirement')" class="px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
                     mode === 'requirement' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                 }">
@@ -825,7 +857,7 @@ const app = {
 
             <!-- PANEL: POR REQUISITO -->
             <div id="panel-requirement" class="${mode === 'requirement' ? '' : 'hidden'}">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 max-w-3xl">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 max-w-3xl no-print">
                     <label class="block text-sm font-bold text-slate-700 mb-2">Requisito a comparar</label>
                     <div class="flex gap-4 flex-col sm:flex-row">
                         <div class="relative flex-1">
@@ -850,16 +882,26 @@ const app = {
                         </button>
                     </div>
                 </div>
-                <div id="compare-selected-question" class="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-2xl hidden animate-in fade-in">
-                    <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Requisito Comparado</span>
-                    <h3 id="compare-question-title" class="text-xl font-bold text-slate-800 mt-1"></h3>
+                <div id="compare-requirement-print-header" class="print-only mb-6 border-b-2 border-slate-900 pb-4 hidden">
+                    <h1 class="text-2xl font-black text-slate-900 uppercase">Informe Comparativo por Requisito</h1>
+                    <p id="compare-requirement-print-title" class="text-base font-bold text-blue-800 mt-1"></p>
+                    <div class="text-xs text-slate-500 mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
+                </div>
+                <div id="compare-selected-question" class="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-2xl hidden animate-in fade-in flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Requisito Comparado</span>
+                        <h3 id="compare-question-title" class="text-xl font-bold text-slate-800 mt-1"></h3>
+                    </div>
+                    <button onclick="app.printComparison('requirement')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 shadow-sm transition-all no-print shrink-0 cursor-pointer">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Generar Informe PDF
+                    </button>
                 </div>
                 <div id="compare-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
             <!-- PANEL: POR PAÍS -->
             <div id="panel-countries" class="${mode === 'countries' ? '' : 'hidden'}">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 no-print">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
@@ -978,21 +1020,40 @@ const app = {
         });
 
         resultsContainer.innerHTML = `
-        <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse text-sm">
-                    <thead>
-                        <tr>
-                            <th class="text-left p-4 bg-slate-50 border-b border-slate-200 sticky left-0 z-10 w-56">
-                                <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Requisito</span>
-                            </th>
-                            ${flagsHeader}
-                        </tr>
-                    </thead>
-                    <tbody>${tableBody}</tbody>
-                </table>
+        <div class="space-y-4">
+            <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm no-print">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base">Comparativa de ${colCount} Países</h3>
+                    <p class="text-xs text-slate-500">${selected.join(' vs ')}</p>
+                </div>
+                <button onclick="app.printComparison('countries')" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-teal-700 shadow-sm transition-all cursor-pointer">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Generar Informe PDF
+                </button>
+            </div>
+
+            <div class="print-only mb-6 border-b-2 border-slate-900 pb-4">
+                <h1 class="text-2xl font-black text-slate-900 uppercase">Informe Comparativo por Países</h1>
+                <p class="text-base font-bold text-teal-800 mt-1">Países comparados: ${selected.join(', ')}</p>
+                <div class="text-xs text-slate-500 mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden bg-white">
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse text-sm">
+                        <thead>
+                            <tr>
+                                <th class="text-left p-4 bg-slate-50 border-b border-slate-200 sticky left-0 z-10 w-56">
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Requisito</span>
+                                </th>
+                                ${flagsHeader}
+                            </tr>
+                        </thead>
+                        <tbody>${tableBody}</tbody>
+                    </table>
+                </div>
             </div>
         </div>`;
+        lucide.createIcons();
     },
 
     executeCompare: async function () {
@@ -1013,6 +1074,13 @@ const app = {
         if (titleContainer && titleElement && questionText) {
             titleElement.textContent = `${questionId} - ${questionText}`;
             titleContainer.classList.remove('hidden');
+
+            const printHeader = document.getElementById('compare-requirement-print-header');
+            const printTitle = document.getElementById('compare-requirement-print-title');
+            if (printHeader && printTitle) {
+                printTitle.textContent = `${questionId} - ${questionText}`;
+                printHeader.classList.remove('hidden');
+            }
         }
 
         analytics.compareExecuted(questionId, questionText || '');
@@ -1038,7 +1106,7 @@ const app = {
                 const flagCode = countryData ? countryData.flagCode : 'xx';
 
                 return `
-                <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col">
+                <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col page-break break-inside-avoid">
                     <div class="flex justify-between items-start mb-4 border-b pb-3">
                         <h3 class="font-bold text-lg text-blue-800 flex items-center gap-2">
                             <span class="fi fi-${flagCode} rounded shadow-sm"></span>
@@ -1061,6 +1129,7 @@ const app = {
                     ` : ''}
                 </div>`;
             }).join('');
+            lucide.createIcons();
         }
     },
 
@@ -1258,6 +1327,58 @@ const app = {
     },
 
     // Manejador del modo auto-impresión (workaround para sandbox)
+    printComparison: function (mode) {
+        console.log("printComparison called for mode:", mode);
+
+        let paramStr = '';
+        if (mode === 'requirement') {
+            const select = document.getElementById('compare-select');
+            const qId = select ? select.value : '';
+            if (!qId) return;
+            paramStr = `compareMode=requirement&q=${encodeURIComponent(qId)}`;
+        } else if (mode === 'countries') {
+            const selected = this.state.selectedCountriesForCompare;
+            if (!selected || selected.length < 2) return;
+            paramStr = `compareMode=countries&c=${encodeURIComponent(selected.join(','))}`;
+        }
+
+        const originalTitle = document.title;
+        try {
+            const modeLabel = mode === 'requirement' ? 'Requisito' : 'Paises';
+            document.title = `Informe_Comparativo_${modeLabel}`;
+        } catch (e) {}
+
+        const start = Date.now();
+        try {
+            console.log("Invoking window.print()...");
+            window.print();
+        } catch (printError) {
+            console.error("Failed to invoke window.print():", printError);
+        }
+        const delta = Date.now() - start;
+
+        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
+        
+        if (delta < 50 && isEmbedded) {
+            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
+            const currentUrl = window.location.href.split('?')[0];
+            const redirectUrl = `${currentUrl}?view=compare&${paramStr}&print=true`;
+            
+            try {
+                window.top.location.href = redirectUrl;
+            } catch (err) {
+                console.error("Failed to redirect window.top:", err);
+                window.open(redirectUrl, '_blank');
+            }
+        }
+
+        setTimeout(() => {
+            try {
+                document.title = originalTitle;
+            } catch (e) {}
+        }, 1000);
+    },
+
     handleAutoPrint: function (countryName, referrerUrl) {
         console.log("Auto-print mode triggered for:", countryName);
         
