@@ -223,8 +223,7 @@ const app = {
             style.textContent = `
                 header, footer { display: none !important; }
                 body { background-color: transparent !important; }
-                main { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; max-width: 100% !important; min-height: calc(100vh - 1rem); display: flex; flex-direction: column; }
-                #app-container { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+                main { padding-top: 1rem !important; padding-bottom: 1rem !important; max-width: 100% !important; }
             `;
             document.head.appendChild(style);
         }
@@ -408,8 +407,8 @@ const app = {
         }
 
         container.innerHTML = `
-        <div class="max-w-5xl mx-auto w-full min-h-[65vh] sm:min-h-[520px] flex flex-col justify-center py-6 animate-in fade-in duration-500 my-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        <div class="max-w-5xl mx-auto py-12 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card: Búsqueda por País -->
                 <button onclick="app.setView('search')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-blue-350 transition-all duration-300 cursor-pointer flex flex-col h-full">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
