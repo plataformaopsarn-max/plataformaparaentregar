@@ -1342,6 +1342,17 @@ const app = {
             paramStr = `compareMode=countries&c=${encodeURIComponent(selected.join(','))}`;
         }
 
+        // Si es comparación por países, forzar orientación horizontal (landscape) para evitar recortes
+        if (mode === 'countries') {
+            let landscapeStyle = document.getElementById('dynamic-print-orientation');
+            if (!landscapeStyle) {
+                landscapeStyle = document.createElement('style');
+                landscapeStyle.id = 'dynamic-print-orientation';
+                landscapeStyle.textContent = `@page { size: landscape; margin: 1cm; }`;
+                document.head.appendChild(landscapeStyle);
+            }
+        }
+
         const originalTitle = document.title;
         try {
             const modeLabel = mode === 'requirement' ? 'Requisito' : 'Paises';
@@ -1375,19 +1386,24 @@ const app = {
         setTimeout(() => {
             try {
                 document.title = originalTitle;
+                const landscapeStyle = document.getElementById('dynamic-print-orientation');
+                if (landscapeStyle) landscapeStyle.remove();
             } catch (e) {}
-        }, 1000);
+        }, 1500);
     },
 
-    handleAutoPrint: function (countryName, referrerUrl) {
+    handleAutoPrint: function (countryName, referrerUrl, isLandscape = false) {
         console.log("Auto-print mode triggered for:", countryName);
         
+        const forceLandscape = isLandscape || (countryName && countryName.includes('Comparativa de Países'));
+
         // 1. Ocultar el header, nav y footer propios de la plataforma en pantalla para dejar la vista limpia
         const style = document.createElement('style');
         style.id = 'print-mode-styles';
         style.textContent = `
             header, footer, nav { display: none !important; }
             main { padding-top: 2rem !important; }
+            ${forceLandscape ? '@page { size: landscape; margin: 1cm; }' : ''}
         `;
         document.head.appendChild(style);
         
