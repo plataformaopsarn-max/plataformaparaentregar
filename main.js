@@ -985,10 +985,10 @@ const app = {
         // Construir tabla
         const flagsHeader = ordered.map(row => {
             const cd = COUNTRIES_LIST.find(c => c.name === row.pais);
-            return `<th class="text-center p-4 bg-slate-50 border-b border-slate-200 min-w-[180px]">
+            return `<th class="text-center p-4 bg-slate-100 border-b border-slate-300 min-w-[180px]">
                 <div class="flex flex-col items-center gap-2">
                     <span class="fi fi-${cd?.flagCode} rounded shadow-sm" style="font-size:1.8em;"></span>
-                    <span class="font-bold text-slate-800 text-sm">${row.pais}</span>
+                    <span class="font-black text-black text-sm">${row.pais}</span>
                 </div>
             </th>`;
         }).join('');
@@ -998,7 +998,7 @@ const app = {
             const questions = Object.entries(QUESTIONS).filter(([k]) => k.startsWith(`${cat.id}.`));
             // Fila de categoría
             tableBody += `<tr>
-                <td colspan="${colCount + 1}" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-sm px-5 py-3">
+                <td colspan="${colCount + 1}" class="bg-slate-200 text-black border-t-2 border-b-2 border-slate-300 font-black text-sm px-5 py-3 uppercase tracking-wide">
                     ${cat.name}
                 </td>
             </tr>`;
@@ -1008,18 +1008,18 @@ const app = {
                 const hasBoolean = !NO_BOOLEAN_QUESTIONS.includes(qId);
 
                 const cells = ordered.map(row => {
-                    const direct = row[`${dbKey}_directa`] || '<span class="text-slate-400 italic">Sin información</span>';
+                    const direct = row[`${dbKey}_directa`] || '<span class="text-slate-500 italic">Sin información</span>';
                     const boolVal = row[`${dbKey}_booleano`];
                     const badge = hasBoolean && boolVal !== null && boolVal !== undefined
-                        ? `<span class="inline-block mb-2 px-2 py-0.5 rounded text-xs font-bold ${boolVal ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">${boolVal ? 'SÍ' : 'NO'}</span>`
+                        ? `<span class="inline-block mb-2 px-2 py-0.5 rounded text-xs font-black ${boolVal ? 'bg-emerald-100 text-black border border-emerald-300' : 'bg-rose-100 text-black border border-rose-300'}">${boolVal ? 'SÍ' : 'NO'}</span>`
                         : '';
-                    return `<td class="p-4 border-b border-slate-100 align-top text-xs text-slate-700 leading-relaxed">${badge}<div>${direct}</div></td>`;
+                    return `<td class="p-4 border-b border-slate-200 align-top text-xs text-black leading-relaxed font-normal">${badge}<div class="text-black">${direct}</div></td>`;
                 }).join('');
 
                 tableBody += `<tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="p-4 border-b border-slate-100 align-top w-56 bg-white sticky left-0 shadow-[1px_0_0_0_#f1f5f9]">
-                        <span class="inline-block font-mono text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded mb-1">${qId}</span>
-                        <p class="text-xs text-slate-600 leading-snug">${qText}</p>
+                    <td class="p-4 border-b border-slate-200 align-top w-56 bg-white sticky left-0 shadow-[1px_0_0_0_#e2e8f0]">
+                        <span class="inline-block font-mono text-[10px] font-black text-black bg-slate-100 px-1.5 py-0.5 rounded mb-1 border border-slate-300">${qId}</span>
+                        <p class="text-xs text-black font-bold leading-snug">${qText}</p>
                     </td>
                     ${cells}
                 </tr>`;
@@ -1038,10 +1038,10 @@ const app = {
                 </button>
             </div>
 
-            <div class="print-only mb-6 border-b-2 border-slate-900 pb-4">
-                <h1 class="text-2xl font-black text-slate-900 uppercase">Informe Comparativo por Países</h1>
-                <p class="text-base font-bold text-teal-800 mt-1">Países comparados: ${selected.join(', ')}</p>
-                <div class="text-xs text-slate-500 mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
+            <div class="print-only mb-6 border-b-2 border-black pb-4">
+                <h1 class="text-2xl font-black text-black uppercase">Informe Comparativo por Países</h1>
+                <p class="text-base font-bold text-black mt-1">Países comparados: ${selected.join(', ')}</p>
+                <div class="text-xs text-black mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
             </div>
 
             <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden bg-white">
@@ -1049,8 +1049,8 @@ const app = {
                     <table class="w-full border-collapse text-sm">
                         <thead>
                             <tr>
-                                <th class="text-left p-4 bg-slate-50 border-b border-slate-200 sticky left-0 z-10 w-56">
-                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Requisito</span>
+                                <th class="text-left p-4 bg-slate-100 border-b border-slate-300 sticky left-0 z-10 w-56">
+                                    <span class="text-xs font-black text-black uppercase tracking-wide">Requisito</span>
                                 </th>
                                 ${flagsHeader}
                             </tr>
