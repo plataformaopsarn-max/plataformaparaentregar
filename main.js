@@ -362,6 +362,16 @@ const app = {
         const container = document.getElementById('app-container');
 
 
+        // Mostrar 'Menú Principal' en la barra superior solo si se está dentro de una sección
+        const navBar = document.getElementById('main-nav-bar');
+        if (navBar) {
+            if (this.state.view === 'home') {
+                navBar.classList.add('hidden');
+            } else {
+                navBar.classList.remove('hidden');
+            }
+        }
+
         switch (this.state.view) {
             case 'home':
                 this.renderHome(container);
@@ -468,9 +478,6 @@ const app = {
 
         container.innerHTML = `
         <div class="animate-in fade-in duration-500">
-            <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1">
-                <span>&larr;</span> Volver al inicio
-            </button>
             <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center">Búsqueda por País</h2>
             <p class="text-slate-700 mb-8 text-center text-base font-semibold max-w-2xl mx-auto leading-relaxed">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
             
@@ -840,9 +847,6 @@ const app = {
 
         container.innerHTML = `
         <div class="animate-in fade-in pb-20">
-            <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1 no-print">
-                <span>&larr;</span> Volver al inicio
-            </button>
             <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center no-print">Comparador</h2>
             <p class="text-slate-500 mb-6 text-center text-sm no-print">Dos modos de comparación para analizar la normativa de la región.</p>
 
@@ -1170,9 +1174,6 @@ const app = {
 
         container.innerHTML = `
         <div class="animate-in fade-in pb-20">
-             <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1">
-                <span>&larr;</span> Volver al inicio
-            </button>
             <h2 class="text-3xl font-bold text-slate-800 mb-2">Filtro Avanzado</h2>
             <p class="text-slate-500 mb-8 text-sm">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente en tiempo real.</p>
             
