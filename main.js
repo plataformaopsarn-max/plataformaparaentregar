@@ -1288,10 +1288,7 @@ const app = {
                     <div onclick="app.selectCountry('${name}', 'filter')" class="group bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-lg cursor-pointer transition-all duration-200 flex items-center justify-between">
                         <div class="flex items-center gap-3.5">
                             <span class="fi fi-${cData?.flagCode || 'xx'} text-3xl rounded shadow-sm"></span>
-                            <div>
-                                <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-base">${name}</h4>
-                                <span class="text-xs text-slate-400">${cData?.region || ''}</span>
-                            </div>
+                            <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-base">${name}</h4>
                         </div>
                         <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
                     </div>`;
@@ -1301,7 +1298,7 @@ const app = {
                 <div class="animate-in fade-in space-y-4">
                     <div class="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-slate-200 shadow-sm">
                         <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                            ${countries.length} país${countries.length > 1 ? 'es' : ''} encontrado${countries.length > 1 ? 's' : ''} (orden alfabético A-Z)
+                            ${countries.length} país${countries.length > 1 ? 'es' : ''} encontrado${countries.length > 1 ? 's' : ''}
                         </span>
                         <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">
                             ${this.state.filterCriteria.length} criterio${this.state.filterCriteria.length > 1 ? 's' : ''} activo${this.state.filterCriteria.length > 1 ? 's' : ''}
