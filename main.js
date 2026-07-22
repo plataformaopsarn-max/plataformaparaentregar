@@ -843,11 +843,11 @@ const app = {
             <button onclick="app.setView('home')" class="mb-6 text-sm text-slate-500 hover:text-blue-600 font-medium flex items-center gap-1 no-print">
                 <span>&larr;</span> Volver al inicio
             </button>
-            <h2 class="text-3xl font-bold text-slate-800 mb-2 no-print">Comparador Normativo</h2>
-            <p class="text-slate-500 mb-6 no-print">Dos modos de comparación para analizar la normativa de la región.</p>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center no-print">Comparador Normativo</h2>
+            <p class="text-slate-500 mb-6 text-center text-sm no-print">Dos modos de comparación para analizar la normativa de la región.</p>
 
             <!-- TABS -->
-            <div class="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mb-8 no-print">
+            <div class="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mx-auto mb-8 no-print">
                 <button onclick="app.setCompareMode('requirement')" class="px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
                     mode === 'requirement' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                 }">
@@ -862,8 +862,8 @@ const app = {
 
             <!-- PANEL: POR REQUISITO -->
             <div id="panel-requirement" class="${mode === 'requirement' ? '' : 'hidden'}">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 max-w-3xl no-print">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Requisito a comparar</label>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 max-w-3xl mx-auto no-print">
+                    <label class="block text-sm font-bold text-slate-700 mb-3 text-center">Requisito a comparar</label>
                     <div class="flex gap-4 flex-col sm:flex-row">
                         <div class="relative flex-1">
                             <select id="compare-select" class="w-full appearance-none bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 pr-8">
@@ -906,7 +906,7 @@ const app = {
 
             <!-- PANEL: POR PAÍS -->
             <div id="panel-countries" class="${mode === 'countries' ? '' : 'hidden'}">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 no-print">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 max-w-4xl mx-auto no-print">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
@@ -914,13 +914,15 @@ const app = {
                         </div>
                         ${selected.length > 0 ? `<span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full">${selected.length} seleccionado${selected.length > 1 ? 's' : ''}</span>` : ''}
                     </div>
-                    <div class="flex flex-wrap gap-2 mb-6">${countryPickerHtml}</div>
-                    <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
-                        class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                        ${selected.length < 2 ? 'disabled' : ''}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                        Comparar países
-                    </button>
+                    <div class="flex flex-wrap gap-2 mb-6 justify-center">${countryPickerHtml}</div>
+                    <div class="flex justify-center">
+                        <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
+                            class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                            ${selected.length < 2 ? 'disabled' : ''}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Comparar países
+                        </button>
+                    </div>
                 </div>
                 <div id="compare-countries-results"></div>
             </div>
