@@ -384,16 +384,21 @@ const app = {
 
         lucide.createIcons();
 
-        // Si está embebido, notificar la altura al sitio padre para permitir auto-resizing opcional
+        // Si está embebido, notificar la altura al sitio padre para permitir auto-resizing dinámico
         if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
-            setTimeout(() => {
-                const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const sendHeight = () => {
+                const appElem = document.getElementById('app-container') || document.body;
+                const height = Math.max(appElem.scrollHeight, appElem.offsetHeight, document.documentElement.scrollHeight);
                 window.parent.postMessage({
                     sentinel: 'ops-platform',
                     type: 'resize',
                     height: height
                 }, '*');
-            }, 150); // Delay para asegurar renderizado de imágenes y DOM
+            };
+            sendHeight();
+            setTimeout(sendHeight, 100);
+            setTimeout(sendHeight, 300);
+            setTimeout(sendHeight, 600);
         }
     },
 
