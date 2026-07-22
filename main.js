@@ -1153,7 +1153,7 @@ const app = {
             const boolQuestions = Object.entries(QUESTIONS).filter(([k]) => k.startsWith(`${cat.id}.`) && !NO_BOOLEAN_QUESTIONS.includes(k));
             if (boolQuestions.length > 0) {
                 filtersHtml += `
-                <details class="group" open>
+                <details class="group">
                     <summary class="list-none flex justify-between items-center font-semibold text-slate-800 cursor-pointer p-2.5 hover:bg-slate-50 rounded-xl transition-colors">
                         <span class="text-sm flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-blue-600"></span>
