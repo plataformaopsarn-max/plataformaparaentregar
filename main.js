@@ -911,25 +911,42 @@ const app = {
 
             <!-- PANEL: POR PAÍS -->
             <div id="panel-countries" class="${mode === 'countries' ? '' : 'hidden'}">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 max-w-4xl mx-auto no-print">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
-                            <p class="text-xs text-slate-400 mt-0.5">Mínimo 2, máximo 3 países</p>
-                        </div>
-                        ${selected.length > 0 ? `<span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full">${selected.length} seleccionado${selected.length > 1 ? 's' : ''}</span>` : ''}
+                <!-- AVISO DE RESTRICCIÓN PARA DISPOSITIVOS MÓVILES (< 768px) -->
+                <div class="block md:hidden bg-blue-50/90 border border-blue-200 rounded-2xl p-6 text-center max-w-md mx-auto my-4 shadow-sm animate-in fade-in no-print">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <i data-lucide="monitor" class="w-6 h-6"></i>
                     </div>
-                    <div class="flex flex-wrap gap-2 mb-6 justify-center">${countryPickerHtml}</div>
-                    <div class="flex justify-center">
-                        <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
-                            class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                            ${selected.length < 2 ? 'disabled' : ''}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                            Comparar países
-                        </button>
+                    <h4 class="font-bold text-slate-800 text-base mb-1.5">Funcionalidad para Tablets y Computadoras (PC)</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                        La comparación en paralelo de varios países requiere mayor ancho de pantalla para visualizar las columnas de forma legible. Esta modalidad está disponible exclusivamente en <strong>Tablets</strong> y <strong>Computadoras de Escritorio</strong>.
+                    </p>
+                    <div class="bg-white p-3 rounded-xl border border-blue-100 text-xs text-blue-800 font-medium flex items-center justify-center gap-2 shadow-xs">
+                        <span>💡 En su celular, le recomendamos utilizar la pestaña <strong>"Por Requisito"</strong>.</span>
                     </div>
                 </div>
-                <div id="compare-countries-results"></div>
+
+                <!-- CONTENIDO DISPONIBLE SOLO EN TABLETS Y DESKTOP (>= 768px) -->
+                <div class="hidden md:block">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 max-w-4xl mx-auto no-print">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
+                                <p class="text-xs text-slate-400 mt-0.5">Mínimo 2, máximo 3 países</p>
+                            </div>
+                            ${selected.length > 0 ? `<span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full">${selected.length} seleccionado${selected.length > 1 ? 's' : ''}</span>` : ''}
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6 justify-center">${countryPickerHtml}</div>
+                        <div class="flex justify-center">
+                            <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
+                                class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                                ${selected.length < 2 ? 'disabled' : ''}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                Comparar países
+                            </button>
+                        </div>
+                    </div>
+                    <div id="compare-countries-results"></div>
+                </div>
             </div>
         </div>`;
     },
