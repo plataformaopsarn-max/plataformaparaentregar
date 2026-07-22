@@ -222,8 +222,8 @@ const app = {
             const style = document.createElement('style');
             style.textContent = `
                 header, footer { display: none !important; }
-                body { background-color: transparent !important; }
-                main { padding-top: 1rem !important; padding-bottom: 1rem !important; max-width: 100% !important; }
+                body { background-color: transparent !important; min-height: 0 !important; height: auto !important; }
+                main { padding-top: 0.5rem !important; padding-bottom: 0 !important; max-width: 100% !important; min-height: 0 !important; }
             `;
             document.head.appendChild(style);
         }
@@ -398,17 +398,18 @@ const app = {
         if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
             const sendHeight = () => {
                 const appElem = document.getElementById('app-container') || document.body;
-                const height = Math.max(appElem.scrollHeight, appElem.offsetHeight, document.documentElement.scrollHeight);
+                const rectHeight = appElem.getBoundingClientRect().height;
+                const height = rectHeight > 50 ? rectHeight : Math.max(appElem.scrollHeight, appElem.offsetHeight);
                 window.parent.postMessage({
                     sentinel: 'ops-platform',
                     type: 'resize',
-                    height: height
+                    height: Math.ceil(height) + 16
                 }, '*');
             };
             sendHeight();
-            setTimeout(sendHeight, 100);
-            setTimeout(sendHeight, 300);
-            setTimeout(sendHeight, 600);
+            setTimeout(sendHeight, 50);
+            setTimeout(sendHeight, 200);
+            setTimeout(sendHeight, 500);
         }
     },
 
@@ -422,7 +423,7 @@ const app = {
         }
 
         container.innerHTML = `
-        <div class="max-w-5xl mx-auto py-12 animate-in fade-in duration-500">
+        <div class="max-w-5xl mx-auto pt-4 pb-2 animate-in fade-in duration-500">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card: Búsqueda por País -->
                 <button onclick="app.setView('search')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-blue-350 transition-all duration-300 cursor-pointer flex flex-col h-full">
