@@ -1141,16 +1141,19 @@ const app = {
             const boolQuestions = Object.entries(QUESTIONS).filter(([k]) => k.startsWith(`${cat.id}.`) && !NO_BOOLEAN_QUESTIONS.includes(k));
             if (boolQuestions.length > 0) {
                 filtersHtml += `
-                <details class="group">
-                    <summary class="list-none flex justify-between items-center font-medium text-slate-700 cursor-pointer p-2 hover:bg-slate-50 rounded">
-                        <span class="text-sm">${cat.name}</span>
+                <details class="group" open>
+                    <summary class="list-none flex justify-between items-center font-semibold text-slate-800 cursor-pointer p-2.5 hover:bg-slate-50 rounded-xl transition-colors">
+                        <span class="text-sm flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                            ${cat.name}
+                        </span>
                         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-open:rotate-90 transition-transform"></i>
                     </summary>
-                    <div class="pl-2 mt-2 space-y-2 border-l-2 ml-2">
+                    <div class="pl-3 mt-1 space-y-1.5 border-l-2 border-blue-100 ml-3">
                         ${boolQuestions.map(([k, v]) => `
-                            <label class="flex items-start gap-3 cursor-pointer p-1 hover:bg-blue-50 rounded">
-                                <input type="checkbox" onchange="app.toggleFilter('${k}')" class="mt-1 rounded border-slate-300 text-blue-600">
-                                <span class="text-xs text-slate-600 leading-tight">${k} - ${v}</span>
+                            <label class="flex items-start gap-2.5 cursor-pointer p-1.5 hover:bg-blue-50/70 rounded-lg transition-colors">
+                                <input type="checkbox" onchange="app.toggleFilter('${k}')" class="mt-0.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                                <span class="text-xs text-slate-600 leading-snug font-medium">${k} - ${v}</span>
                             </label>
                         `).join('')}
                     </div>
@@ -1164,17 +1167,31 @@ const app = {
                 <span>&larr;</span> Volver al inicio
             </button>
             <h2 class="text-3xl font-bold text-slate-800 mb-2">Filtro Avanzado</h2>
-            <p class="text-slate-500 mb-8 text-sm">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
+            <p class="text-slate-500 mb-8 text-sm">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente en tiempo real.</p>
+            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 bg-white rounded-2xl border p-6 h-fit max-h-[80vh] overflow-y-auto">
-                    <div class="flex justify-between items-center mb-4"><h3 class="font-bold">Criterios</h3></div>
+                <!-- PANEL IZQUIERDO: CRITERIOS -->
+                <div class="lg:col-span-1 bg-white rounded-2xl border border-slate-200 p-6 h-fit max-h-[80vh] overflow-y-auto shadow-sm custom-scrollbar">
+                    <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-slate-800 text-base">Criterios</h3>
+                            <span id="filter-count-badge" class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full hidden">0</span>
+                        </div>
+                        <button onclick="app.clearAllFilters()" id="clear-filters-btn" class="text-xs text-slate-400 hover:text-red-600 font-medium transition-colors hidden">
+                            Limpiar todo
+                        </button>
+                    </div>
                     <div class="space-y-4">${filtersHtml}</div>
-                    <button onclick="app.executeFilter()" id="filter-btn" class="w-full mt-6 bg-blue-600 text-white py-3 rounded-xl font-bold disabled:opacity-50" disabled>Buscar Países (0)</button>
                 </div>
-                <div id="filter-results" class="lg:col-span-2">
-                    <div class="h-full flex flex-col items-center justify-center text-center p-12 bg-slate-50 rounded-2xl border-2 border-dashed text-slate-400">
-                        <i data-lucide="filter" class="w-12 h-12 mb-4"></i>
-                        <p>Selecciona criterios a la izquierda.</p>
+
+                <!-- PANEL DERECHO: RESULTADOS -->
+                <div id="filter-results-wrapper" class="lg:col-span-2 space-y-4">
+                    <div id="filter-results">
+                        <div class="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-12 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 text-slate-400">
+                            <i data-lucide="filter" class="w-12 h-12 mb-4 text-slate-300"></i>
+                            <p class="font-medium text-slate-600 text-base mb-1">Filtro en tiempo real</p>
+                            <p class="text-xs text-slate-400 max-w-sm">Seleccione uno o más criterios de la izquierda para ver los países que coinciden automáticamente.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1185,40 +1202,117 @@ const app = {
         const idx = this.state.filterCriteria.indexOf(qId);
         if (idx > -1) this.state.filterCriteria.splice(idx, 1);
         else this.state.filterCriteria.push(qId);
-        const btn = document.getElementById('filter-btn');
-        btn.innerText = `Buscar Países (${this.state.filterCriteria.length})`;
-        btn.disabled = this.state.filterCriteria.length === 0;
+
+        // Actualizar badges y botón de limpiar
+        const countBadge = document.getElementById('filter-count-badge');
+        const clearBtn = document.getElementById('clear-filters-btn');
+        const count = this.state.filterCriteria.length;
+
+        if (countBadge) {
+            countBadge.textContent = `${count}`;
+            countBadge.classList.toggle('hidden', count === 0);
+        }
+        if (clearBtn) {
+            clearBtn.classList.toggle('hidden', count === 0);
+        }
+
+        // Ejecutar búsqueda automática en tiempo real
+        this.executeFilter();
+    },
+
+    clearAllFilters: function () {
+        this.state.filterCriteria = [];
+        const container = document.getElementById('app-container');
+        this.renderFilterTool(container);
+        lucide.createIcons();
     },
 
     executeFilter: async function () {
-        const btn = document.getElementById('filter-btn');
-        const container = document.getElementById('filter-results');
-        btn.innerText = 'Cargando...';
-        btn.disabled = true;
+        const resultsContainer = document.getElementById('filter-results');
+        if (!resultsContainer) return;
 
-        // USAR faq_rows_corregido
-        let query = supabase.from('faq_rows_corregido').select('pais');
+        if (this.state.filterCriteria.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-12 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 text-slate-400">
+                    <i data-lucide="filter" class="w-12 h-12 mb-4 text-slate-300"></i>
+                    <p class="font-medium text-slate-600 text-base mb-1">Filtro en tiempo real</p>
+                    <p class="text-xs text-slate-400 max-w-sm">Seleccione uno o más criterios de la izquierda para ver los países que coinciden automáticamente.</p>
+                </div>`;
+            lucide.createIcons();
+            return;
+        }
+
+        // Loader mientras busca
+        resultsContainer.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-16 text-slate-400">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-3"></div>
+                <p class="text-sm font-medium text-slate-500">Filtrando países...</p>
+            </div>`;
+
+        let query = supabase.from('faq_rows_corregido').select('pais').order('pais', { ascending: true });
         this.state.filterCriteria.forEach(criteria => {
             const dbKey = `q_${criteria.replace(/\./g, '_')}_booleano`;
             query = query.eq(dbKey, true);
         });
 
         const { data, error } = await query;
-        btn.innerText = `Buscar Países (${this.state.filterCriteria.length})`;
-        btn.disabled = false;
+
+        if (error) {
+            resultsContainer.innerHTML = `
+                <div class="p-8 bg-red-50 text-red-700 rounded-xl border border-red-200 text-center">
+                    <p class="font-bold">Error al consultar los datos.</p>
+                </div>`;
+            return;
+        }
 
         if (data) {
-            const countries = data.map(d => d.pais);
+            let countries = data.map(d => d.pais);
+            
+            // Ordenar alfabéticamente (A-Z) en español
+            countries.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+
             analytics.filterExecuted(this.state.filterCriteria, countries.length);
+
             if (countries.length === 0) {
-                container.innerHTML = `<div class="p-8 bg-amber-50 text-amber-700 rounded-xl border">No hay resultados que cumplan todos los requisitos.</div>`;
+                resultsContainer.innerHTML = `
+                    <div class="p-8 bg-amber-50 text-amber-800 rounded-2xl border border-amber-200 text-center animate-in fade-in">
+                        <i data-lucide="alert-circle" class="w-10 h-10 mx-auto mb-3 text-amber-500"></i>
+                        <h4 class="font-bold text-lg mb-1">Sin coincidencias</h4>
+                        <p class="text-xs text-amber-700 max-w-md mx-auto">No hay ningún país que cumpla simultáneamente con todos los ${this.state.filterCriteria.length} criterios seleccionados.</p>
+                        <p class="text-xs text-amber-600 mt-2 italic">Pruebe desmarcar algún criterio para ampliar los resultados.</p>
+                    </div>`;
             } else {
-                container.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${countries.map(name => {
+                const countryCards = countries.map(name => {
                     const cData = COUNTRIES_LIST.find(c => c.name === name);
-                    return `<div onclick="app.selectCountry('${name}', 'filter')" class="bg-white p-6 rounded-xl border hover:shadow-lg cursor-pointer transition-all"><div class="flex items-center gap-4"><span class="fi fi-${cData?.flagCode}"></span><h4 class="font-bold">${name}</h4></div></div>`;
-                }).join('')}</div>`;
-                lucide.createIcons();
+                    return `
+                    <div onclick="app.selectCountry('${name}', 'filter')" class="group bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-lg cursor-pointer transition-all duration-200 flex items-center justify-between">
+                        <div class="flex items-center gap-3.5">
+                            <span class="fi fi-${cData?.flagCode || 'xx'} text-3xl rounded shadow-sm"></span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-base">${name}</h4>
+                                <span class="text-xs text-slate-400">${cData?.region || ''}</span>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
+                    </div>`;
+                }).join('');
+
+                resultsContainer.innerHTML = `
+                <div class="animate-in fade-in space-y-4">
+                    <div class="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            ${countries.length} país${countries.length > 1 ? 'es' : ''} encontrado${countries.length > 1 ? 's' : ''} (orden alfabético A-Z)
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">
+                            ${this.state.filterCriteria.length} criterio${this.state.filterCriteria.length > 1 ? 's' : ''} activo${this.state.filterCriteria.length > 1 ? 's' : ''}
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        ${countryCards}
+                    </div>
+                </div>`;
             }
+            lucide.createIcons();
         }
     },
 
