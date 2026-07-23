@@ -431,14 +431,18 @@ const app = {
     },
 
     focusHomeSearch: function () {
-        const input = document.getElementById('home-search-input');
-        if (input) {
-            input.focus();
-            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (window.innerWidth < 1024) {
+            this.setView('search');
+        } else {
+            const input = document.getElementById('home-search-input');
+            if (input) {
+                input.focus();
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
     },
 
-    // VISTA: HOME (LAYOUT 2 COLUMNAS: TARJETAS A LA IZQUIERDA Y MAPA A LA DERECHA)
+    // VISTA: HOME (MOBILE: SOLO 3 TARJETAS | DESKTOP: 2 COLUMNAS TARJETAS + MAPA)
     renderHome: function (container) {
         // Limpiar sección de impacto si existía
         const impactContainer = document.getElementById('impact-section');
@@ -479,7 +483,7 @@ const app = {
                         </div>
                         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-blue-700 bg-blue-50 w-fit group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-                            <span>Usar mapa o buscador</span>
+                            <span>Ir a Búsqueda por País</span>
                         </div>
                     </button>
 
@@ -512,8 +516,8 @@ const app = {
                     </button>
                 </div>
 
-                <!-- COLUMNA DERECHA: MAPA INTERACTIVO Y BUSCADOR -->
-                <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+                <!-- COLUMNA DERECHA: MAPA INTERACTIVO Y BUSCADOR (OCULTO EN CELULARES) -->
+                <div class="hidden lg:flex lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex-col justify-between">
                     <div>
                         <!-- Buscador Superior -->
                         <div class="mb-4">
