@@ -401,6 +401,9 @@ const app = {
                 analytics.toolOpened('filter');
                 this.renderFilterTool(container);
                 break;
+            case 'report':
+                this.renderReportForm(container);
+                break;
         }
 
         lucide.createIcons();
@@ -550,6 +553,17 @@ const app = {
                     </p>
                 </div>
 
+            </div>
+
+            <!-- LEYENDA REPORTAR ERROR O SUGERENCIA -->
+            <div class="mt-8 pt-4 border-t border-slate-200/60 text-center">
+                <p class="text-xs text-slate-500 font-medium flex items-center justify-center gap-1.5 flex-wrap">
+                    <span>¿Identificó alguna imprecisión o desea sugerir una actualización normativa?</span>
+                    <button onclick="app.setView('report')" class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors inline-flex items-center gap-1">
+                        <span>Reportar error o sugerencia aquí</span>
+                        <i data-lucide="message-square-plus" class="w-3.5 h-3.5"></i>
+                    </button>
+                </p>
             </div>
         </div>`;
 
@@ -1386,6 +1400,141 @@ const app = {
                     </div>
                 </div>`;
             }
+            lucide.createIcons();
+            this.notifyResize();
+        }
+    },
+
+    // VISTA: FORMULARIO DE REPORTES / SUGERENCIAS IN-APP
+    renderReportForm: function (container) {
+        const countryOptions = COUNTRIES_LIST.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+
+        container.innerHTML = `
+        <div class="max-w-2xl mx-auto py-4 animate-in fade-in duration-500">
+            <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                <div class="flex items-center gap-3.5 mb-6 pb-4 border-b border-slate-100">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="message-square-plus" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-slate-800">Reportar Error o Sugerencia</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Ayúdenos a mantener la normativa de la región precisa y actualizada.</p>
+                    </div>
+                </div>
+
+                <div id="report-alert" class="hidden mb-6 p-4 rounded-2xl text-xs font-medium"></div>
+
+                <form id="internal-report-form" onsubmit="app.handleReportSubmit(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nombre y Apellido *</label>
+                            <input type="text" id="report-name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. Dra. María González" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico *</label>
+                            <input type="email" id="report-email" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="ejemplo@organizacion.org" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">País Relacionado *</label>
+                        <select id="report-country" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white" required>
+                            <option value="">Seleccione un país...</option>
+                            ${countryOptions}
+                            <option value="General / América Latina">General / América Latina</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Descripción del Error o Sugerencia *</label>
+                        <textarea id="report-comments" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Describa detalladamente la imprecisión encontrada o la sugerencia de actualización normativa..." required></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Documento Adjunto (Opcional - PDF Máx. 5MB)</label>
+                        <input type="file" id="report-file" accept=".pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                    </div>
+
+                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+                        <button type="button" onclick="app.setView('home')" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="report-submit-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer">
+                            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                            <span>Enviar Reporte</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>`;
+
+        lucide.createIcons();
+        this.notifyResize();
+    },
+
+    handleReportSubmit: async function (e) {
+        e.preventDefault();
+        const alertEl = document.getElementById('report-alert');
+        const submitBtn = document.getElementById('report-submit-btn');
+
+        if (!alertEl || !submitBtn) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-white inline-block"></span> <span>Enviando...</span>`;
+
+        try {
+            const fileInput = document.getElementById('report-file');
+            let fileUrl = null;
+
+            if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                if (file.size > 5 * 1024 * 1024) {
+                    throw new Error('El archivo adjunto supera los 5MB permitidos.');
+                }
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+
+                const { data: uploadData, error: uploadError } = await supabase
+                    .storage
+                    .from('reportes')
+                    .upload(fileName, file);
+
+                if (!uploadError && uploadData) {
+                    const { data: urlData } = supabase
+                        .storage
+                        .from('reportes')
+                        .getPublicUrl(fileName);
+                    fileUrl = urlData?.publicUrl || null;
+                }
+            }
+
+            const formData = {
+                nombre_apellido: document.getElementById('report-name').value || null,
+                correo: document.getElementById('report-email').value || null,
+                pais: document.getElementById('report-country').value,
+                comentarios: document.getElementById('report-comments').value || null,
+                documento_adjunto_url: fileUrl
+            };
+
+            const { error: insertError } = await supabase
+                .from('reportes_usuarios')
+                .insert([formData]);
+
+            if (insertError) throw insertError;
+
+            alertEl.className = 'mb-6 p-4 rounded-2xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-start gap-2.5';
+            alertEl.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i> <div><strong>¡Gracias por su colaboración!</strong> Su reporte ha sido enviado exitosamente a la coordinación de ReGeCAM.</div>';
+            alertEl.classList.remove('hidden');
+
+            document.getElementById('internal-report-form').reset();
+        } catch (error) {
+            console.error('Error submitting report:', error);
+            alertEl.className = 'mb-6 p-4 rounded-2xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200 flex items-start gap-2.5';
+            alertEl.innerHTML = `<i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i> <div><strong>Error al enviar:</strong> ${error.message || 'Intente nuevamente.'}</div>`;
+            alertEl.classList.remove('hidden');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5"></i> <span>Enviar Reporte</span>`;
             lucide.createIcons();
             this.notifyResize();
         }
