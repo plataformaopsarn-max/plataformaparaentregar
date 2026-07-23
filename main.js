@@ -989,28 +989,28 @@ const app = {
                     </div>
                 </div>
 
-                <!-- CONTENIDO DISPONIBLE SOLO EN TABLETS Y DESKTOP (>= 768px) -->
-                <div class="hidden md:block">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 max-w-4xl mx-auto no-print">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
-                                <p class="text-xs text-slate-400 mt-0.5">Mínimo 2, máximo 3 países</p>
-                            </div>
-                            ${selected.length > 0 ? `<span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full">${selected.length} seleccionado${selected.length > 1 ? 's' : ''}</span>` : ''}
+                <!-- PANEL DE SELECCIÓN DE PAÍSES (SOLO EN PANTALLA) -->
+                <div class="hidden md:block no-print bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6 max-w-4xl mx-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700">Seleccionar países a comparar</label>
+                            <p class="text-xs text-slate-400 mt-0.5">Mínimo 2, máximo 3 países</p>
                         </div>
-                        <div class="flex flex-wrap gap-2 mb-6 justify-center">${countryPickerHtml}</div>
-                        <div class="flex justify-center">
-                            <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
-                                class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                                ${selected.length < 2 ? 'disabled' : ''}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                                Comparar países
-                            </button>
-                        </div>
+                        ${selected.length > 0 ? `<span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full">${selected.length} seleccionado${selected.length > 1 ? 's' : ''}</span>` : ''}
                     </div>
-                    <div id="compare-countries-results"></div>
+                    <div class="flex flex-wrap gap-2 mb-6 justify-center">${countryPickerHtml}</div>
+                    <div class="flex justify-center">
+                        <button onclick="app.executeCompareByCountries()" id="compare-countries-btn"
+                            class="bg-teal-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                            ${selected.length < 2 ? 'disabled' : ''}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Comparar países
+                        </button>
+                    </div>
                 </div>
+
+                <!-- CONTENEDOR DE RESULTADOS COMPARATIVOS (IMPRIMIBLE) -->
+                <div id="compare-countries-results"></div>
             </div>
         </div>`;
     },
