@@ -223,9 +223,20 @@ const app = {
             style.textContent = `
                 header, footer { display: none !important; }
                 body { background-color: transparent !important; min-height: 0 !important; height: auto !important; }
-                main { padding-top: 0.5rem !important; padding-bottom: 0 !important; max-width: 100% !important; min-height: 0 !important; }
+                main { padding-top: 0.5rem !important; padding-bottom: 2rem !important; max-width: 100% !important; min-height: 0 !important; height: auto !important; }
             `;
             document.head.appendChild(style);
+
+            // Observador dinámico de mutaciones DOM para auto-ajustar altura al expandir contenido
+            setTimeout(() => {
+                const container = document.getElementById('app-container');
+                if (container) {
+                    const observer = new MutationObserver(() => {
+                        this.notifyResize();
+                    });
+                    observer.observe(container, { childList: true, subtree: true, attributes: true });
+                }
+            }, 200);
         }
 
         // Cargar país y auto-imprimir si viene por parámetros de URL (workaround para sandbox)
@@ -393,23 +404,29 @@ const app = {
         }
 
         lucide.createIcons();
+        this.notifyResize();
+    },
 
-        // Si está embebido, notificar la altura al sitio padre para permitir auto-resizing dinámico
+    notifyResize: function () {
         if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
             const sendHeight = () => {
                 const appElem = document.getElementById('app-container') || document.body;
-                const rectHeight = appElem.getBoundingClientRect().height;
-                const height = rectHeight > 50 ? rectHeight : Math.max(appElem.scrollHeight, appElem.offsetHeight);
+                const h1 = appElem.scrollHeight || 0;
+                const h2 = appElem.offsetHeight || 0;
+                const h3 = document.documentElement.scrollHeight || 0;
+                const h4 = document.body.scrollHeight || 0;
+                const fullHeight = Math.max(h1, h2, h3, h4, 350);
+
                 window.parent.postMessage({
                     sentinel: 'ops-platform',
                     type: 'resize',
-                    height: Math.ceil(height) + 16
+                    height: Math.ceil(fullHeight) + 30
                 }, '*');
             };
             sendHeight();
-            setTimeout(sendHeight, 50);
-            setTimeout(sendHeight, 200);
-            setTimeout(sendHeight, 500);
+            setTimeout(sendHeight, 100);
+            setTimeout(sendHeight, 350);
+            setTimeout(sendHeight, 800);
         }
     },
 
@@ -850,6 +867,7 @@ const app = {
                     this.updateSearchResults();
                 });
             }
+            this.notifyResize();
         } catch (error) {
             console.error(error);
             container.innerHTML = `<div class="text-red-500 text-center">Error cargando datos: ${error.message}</div>`;
@@ -1111,6 +1129,7 @@ const app = {
             </div>
         </div>`;
         lucide.createIcons();
+        this.notifyResize();
     },
 
     executeCompare: async function () {
@@ -1364,6 +1383,7 @@ const app = {
                 </div>`;
             }
             lucide.createIcons();
+            this.notifyResize();
         }
     },
 
@@ -1637,6 +1657,7 @@ const app = {
                 setTimeout(() => this.scrollToSection(catId), 50);
             }
         }
+        this.notifyResize();
     }
 };
 
