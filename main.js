@@ -320,6 +320,15 @@ const app = {
         }
         this.render();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
+            try {
+                window.parent.postMessage({
+                    sentinel: 'ops-platform',
+                    type: 'scroll-top'
+                }, '*');
+            } catch (e) {}
+        }
     },
 
     goHome: function () {
