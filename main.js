@@ -557,10 +557,10 @@ const app = {
 
             <!-- LEYENDA REPORTAR ERROR O SUGERENCIA -->
             <div class="mt-8 pt-4 border-t border-slate-200/60 text-center">
-                <p class="text-xs text-slate-500 font-medium flex items-center justify-center gap-1.5 flex-wrap">
-                    <span>¿Identificó alguna imprecisión o desea sugerir una actualización normativa?</span>
+                <p class="text-xs text-slate-500 font-medium flex items-center justify-center gap-1 flex-wrap">
+                    <span>Por comentarios, sugerencias o reportes de actualizaciones normativas, puede contactarnos a través del siguiente</span>
                     <button onclick="app.setView('report')" class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors inline-flex items-center gap-1">
-                        <span>Reportar error o sugerencia aquí</span>
+                        <span>formulario</span>
                         <i data-lucide="message-square-plus" class="w-3.5 h-3.5"></i>
                     </button>
                 </p>
