@@ -413,48 +413,17 @@ const app = {
         }
     },
 
-    // VISTA: HOME (SOLO LAS 3 TARJETAS)
-    renderHome: function (container) {
-        // Limpiar sección de impacto si existía
-        const impactContainer = document.getElementById('impact-section');
-        if (impactContainer) {
-            impactContainer.innerHTML = '';
+    focusHomeSearch: function () {
+        const input = document.getElementById('home-search-input');
+        if (input) {
+            input.focus();
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-        container.innerHTML = `
-        <div class="max-w-5xl mx-auto py-4 animate-in fade-in duration-500">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card: Búsqueda por País -->
-                <button onclick="app.setView('search')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-blue-350 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-6 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="map" class="w-7 h-7 text-white"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Búsqueda por País</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Consulte el perfil regulatorio completo de cada país. Seleccione un país en el mapa o use el buscador para acceder a toda su normativa de ensayos clínicos.</p>
-                </button>
-                <!-- Card: Comparar -->
-                <button onclick="app.setView('compare')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-teal-350 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-6 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="scale" class="w-7 h-7 text-white"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Comparador</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Compare la normativa por requisito en los 22 países, o seleccione 2 a 3 países y vea todos sus requisitos lado a lado.</p>
-                </button>
-                <!-- Card: Filtrar -->
-                <button onclick="app.setView('filter')" class="group text-left bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-violet-350 transition-all duration-300 cursor-pointer flex flex-col h-full">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-6 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
-                        <i data-lucide="filter" class="w-7 h-7 text-white"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-xl tracking-tight mb-3">Filtro Avanzado</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
-                </button>
-            </div>
-        </div>`;
     },
 
-    // VISTA: BÚSQUEDA POR PAÍS (MAPA + BUSCADOR)
-    renderSearch: function (container) {
-        // Limpiar sección de impacto
+    // VISTA: HOME (LAYOUT 2 COLUMNAS: TARJETAS A LA IZQUIERDA Y MAPA A LA DERECHA)
+    renderHome: function (container) {
+        // Limpiar sección de impacto si existía
         const impactContainer = document.getElementById('impact-section');
         if (impactContainer) {
             impactContainer.innerHTML = '';
@@ -477,37 +446,89 @@ const app = {
         }
 
         container.innerHTML = `
-        <div class="animate-in fade-in duration-500">
-            <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center">Búsqueda por País</h2>
-            <p class="text-slate-700 mb-8 text-center text-base font-semibold max-w-2xl mx-auto leading-relaxed">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
-            
-            <div class="text-center mb-10 max-w-3xl mx-auto">
-                <div class="max-w-md mx-auto relative group z-20">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
-                    </div>
-                    <input 
-                        type="text" 
-                        id="home-search-input"
-                        class="block w-full pl-12 pr-4 py-3 border border-slate-200 rounded-full bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
-                        placeholder="Buscar país (ej. Argentina, México)..."
-                        value="${this.state.searchTerm}"
-                        autocomplete="off"
-                    >
-                    <div id="search-results-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-30 hidden">
-                    </div>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto py-2 animate-in fade-in duration-500">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- COLUMNA IZQUIERDA: 3 TARJETAS EN VERTICAL -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                    <!-- Card 1: Búsqueda por País -->
+                    <button onclick="app.focusHomeSearch()" class="w-full text-left bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:border-blue-400 transition-all duration-300 cursor-pointer flex flex-col justify-between flex-1 group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-4 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
+                                <i data-lucide="map" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Búsqueda por País</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Consulte el perfil regulatorio completo de cada país. Seleccione un país en el mapa o use el buscador para acceder a toda su normativa de ensayos clínicos.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-blue-700 bg-blue-50 w-fit group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                            <span>Usar mapa o buscador</span>
+                        </div>
+                    </button>
 
-            <div class="mb-12">
-                <div class="relative w-full max-w-2xl mx-auto h-[500px] md:h-[600px] bg-blue-50/50 rounded-3xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-4">
-                    <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-xl">
-                        ${mapPathsHtml}
-                    </svg>
+                    <!-- Card 2: Comparador -->
+                    <button onclick="app.setView('compare')" class="w-full text-left bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:border-teal-400 transition-all duration-300 cursor-pointer flex flex-col justify-between flex-1 group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center mb-4 shadow-lg shadow-teal-200/50 group-hover:scale-110 transition-transform">
+                                <i data-lucide="scale" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Comparador</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Compare la normativa por requisito en los 22 países, o seleccione 2 a 3 países y vea todos sus requisitos lado a lado.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-teal-700 bg-teal-50 w-fit group-hover:bg-teal-600 group-hover:text-white transition-colors">
+                            <span>Ir al Comparador &rarr;</span>
+                        </div>
+                    </button>
+
+                    <!-- Card 3: Filtro Avanzado -->
+                    <button onclick="app.setView('filter')" class="w-full text-left bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:border-violet-400 transition-all duration-300 cursor-pointer flex flex-col justify-between flex-1 group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-4 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
+                                <i data-lucide="filter" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Filtro Avanzado</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-violet-700 bg-violet-50 w-fit group-hover:bg-violet-600 group-hover:text-white transition-colors">
+                            <span>Ir a Filtrar &rarr;</span>
+                        </div>
+                    </button>
                 </div>
-                <p class="text-[10px] text-slate-400 text-center mt-3 max-w-lg mx-auto leading-tight italic">
-                    * El mapa tiene fines únicamente ilustrativos y no representa una escala geográfica exacta de los países y territorios.
-                </p>
+
+                <!-- COLUMNA DERECHA: MAPA INTERACTIVO Y BUSCADOR -->
+                <div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <!-- Buscador Superior -->
+                        <div class="mb-4">
+                            <div class="relative group z-20 max-w-lg mx-auto">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="home-search-input"
+                                    class="block w-full pl-12 pr-4 py-2.5 border border-slate-200 rounded-full bg-slate-50 focus:bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all shadow-sm text-sm"
+                                    placeholder="Buscar país (ej. Argentina, México)..."
+                                    value="${this.state.searchTerm}"
+                                    autocomplete="off"
+                                >
+                                <div id="search-results-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-30 hidden">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contenedor del Mapa -->
+                        <div class="relative w-full h-[520px] bg-blue-50/40 rounded-2xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-3">
+                            <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-md">
+                                ${mapPathsHtml}
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 text-center mt-3 leading-tight italic">
+                        * Seleccione un país en el mapa o use el buscador para ingresar a su perfil regulatorio.
+                    </p>
+                </div>
+
             </div>
         </div>`;
 
@@ -520,6 +541,14 @@ const app = {
         }
         
         this.updateSearchResults();
+    },
+
+    // VISTA: BÚSQUEDA POR PAÍS
+    renderSearch: function (container) {
+        this.renderHome(container);
+        setTimeout(() => {
+            this.focusHomeSearch();
+        }, 100);
     },
 
     updateSearchResults: function () {
