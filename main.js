@@ -698,10 +698,81 @@ const app = {
 
     // VISTA: BÚSQUEDA POR PAÍS
     renderSearch: function (container) {
-        this.renderHome(container);
+        const countryItems = COUNTRIES_LIST.map(c => `
+            <button onclick="app.selectCountry('${c.name}', 'search')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-blue-500 hover:shadow-md transition-all flex items-center justify-between group text-left">
+                <div class="flex items-center gap-3">
+                    <span class="fi fi-${c.flagCode} text-2xl rounded shadow-xs"></span>
+                    <span class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">${c.name}</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
+            </button>
+        `).join('');
+
+        container.innerHTML = `
+        <div class="max-w-3xl mx-auto py-4 animate-in fade-in duration-300">
+            <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-800">Búsqueda por País</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Seleccione un país de la lista o escriba para filtrar.</p>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="mobile-search-input"
+                        oninput="app.updateMobileSearchResults(this.value)"
+                        class="block w-full pl-12 pr-4 py-3 border border-slate-200 rounded-2xl bg-slate-50 focus:bg-white focus:ring-4 focus:ring-blue-50 focus:border-blue-500 transition-all text-sm font-medium"
+                        placeholder="Escriba el nombre del país (ej. Argentina, México)..."
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+
+            <div id="mobile-country-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                ${countryItems}
+            </div>
+        </div>`;
+
+        lucide.createIcons();
+
         setTimeout(() => {
-            this.focusHomeSearch();
-        }, 100);
+            const input = document.getElementById('mobile-search-input');
+            if (input && window.innerWidth < 1024) {
+                input.focus();
+            }
+        }, 150);
+    },
+
+    updateMobileSearchResults: function (term) {
+        const grid = document.getElementById('mobile-country-grid');
+        if (!grid) return;
+        const cleanTerm = (term || '').toLowerCase().trim();
+
+        const filtered = COUNTRIES_LIST.filter(c => c.name.toLowerCase().includes(cleanTerm));
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div class="col-span-full p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400 text-sm">No se encontraron países que coincidan con "${term}".</div>`;
+            return;
+        }
+
+        grid.innerHTML = filtered.map(c => `
+            <button onclick="app.selectCountry('${c.name}', 'search')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-blue-500 hover:shadow-md transition-all flex items-center justify-between group text-left">
+                <div class="flex items-center gap-3">
+                    <span class="fi fi-${c.flagCode} text-2xl rounded shadow-xs"></span>
+                    <span class="font-bold text-slate-800 text-sm group-hover:text-blue-600 transition-colors">${c.name}</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
+            </button>
+        `).join('');
+        lucide.createIcons();
     },
 
     updateSearchResults: function () {
