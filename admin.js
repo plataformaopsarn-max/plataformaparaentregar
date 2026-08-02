@@ -1,7 +1,7 @@
 // admin.js - Paginación, Filtros por País y Edición Avanzada
 
-const SUPABASE_URL = 'https://mugtfugfabhrqcomynrs.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODdzLCJleHAiOjIwODYyMzU0ODd9.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
+const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) || 'https://mugtfugfabhrqcomynrs.supabase.co';
+const SUPABASE_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODdzLCJleHAiOjIwODYyMzU0ODd9.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 

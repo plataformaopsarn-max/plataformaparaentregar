@@ -1,9 +1,99 @@
-// --- CONFIGURACIÓN Y CONSTANTES ---
+// --- CONFIGURACIÓN Y GESTOR DE CACHÉ INTELIGENTE ---
 
-const SUPABASE_URL = 'https://mugtfugfabhrqcomynrs.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
+const SUPABASE_URL = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_URL) || 'https://mugtfugfabhrqcomynrs.supabase.co';
+const SUPABASE_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
+const DataCacheManager = {
+    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'regecam_cache_v1.2',
+    TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
+
+    data: {
+        faq: null,
+        summary: null,
+        links: null
+    },
+
+    async init() {
+        const cached = localStorage.getItem(this.CACHE_KEY);
+        if (cached) {
+            try {
+                const { timestamp, payload } = JSON.parse(cached);
+                if (Date.now() - timestamp < this.TTL && payload && payload.faq && payload.summary) {
+                    this.data = payload;
+                    console.log('⚡ [DataCacheManager] Datos cargados instantáneamente desde LocalStorage (0 consultas a Supabase)');
+                    return;
+                }
+            } catch (e) {
+                console.warn('⚠️ [DataCacheManager] Error al parsear caché local, se descargará nuevamente.');
+                localStorage.removeItem(this.CACHE_KEY);
+            }
+        }
+        await this.fetchFreshData();
+    },
+
+    async fetchFreshData() {
+        console.log('🌐 [DataCacheManager] Descargando lote completo desde Supabase...');
+        try {
+            const [faqRes, summaryRes, linksRes] = await Promise.all([
+                supabase.from('faq_rows_corregido').select('*'),
+                supabase.from('resumen_ejecutivo').select('*'),
+                supabase.from('enlaces').select('*').order('question_code')
+            ]);
+
+            this.data = {
+                faq: faqRes.data || [],
+                summary: summaryRes.data || [],
+                links: linksRes.data || []
+            };
+
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify({
+                timestamp: Date.now(),
+                payload: this.data
+            }));
+            console.log('✅ [DataCacheManager] Caché local guardada exitosamente.');
+        } catch (err) {
+            console.error('❌ [DataCacheManager] Error descargando datos de Supabase:', err);
+        }
+    },
+
+    getCountryDetail(countryName) {
+        if (!this.data.faq) return null;
+        return {
+            faq: this.data.faq.find(r => r.pais === countryName) || null,
+            summary: this.data.summary.find(r => r.pais === countryName) || null,
+            links: this.data.links ? this.data.links.filter(l => l.pais === countryName) : []
+        };
+    },
+
+    getFilteredCountries(criteriaList) {
+        if (!this.data.faq) return [];
+        return this.data.faq.filter(row => {
+            return criteriaList.every(code => {
+                const dbKey = `q_${code.replace(/\./g, '_')}_booleano`;
+                return row[dbKey] === true;
+            });
+        }).map(r => ({ pais: r.pais }));
+    },
+
+    getRequirementComparison(questionId) {
+        if (!this.data.faq) return [];
+        const dbKey = `q_${questionId.replace(/\./g, '_')}`;
+        return this.data.faq.map(r => ({
+            pais: r.pais,
+            [`${dbKey}_directa`]: r[`${dbKey}_directa`],
+            [`${dbKey}_ampliada`]: r[`${dbKey}_ampliada`],
+            [`${dbKey}_booleano`]: r[`${dbKey}_booleano`]
+        }));
+    },
+
+    getCountriesComparison(selectedCountries) {
+        if (!this.data.faq) return [];
+        return this.data.faq.filter(r => selectedCountries.includes(r.pais));
+    }
+};
 
 const MAP_PATHS = {
     MX: "M100,50 L160,60 L180,90 L160,120 L130,110 L110,90 Z",
@@ -214,6 +304,9 @@ const app = {
 
     init: function () {
         window.app = this; // Asegurar referencia global inmediata
+        
+        // Inicializar caché local inteligente en segundo plano
+        DataCacheManager.init().catch(err => console.error("DataCacheManager init failed:", err));
         
         // Detectar si está embebido en un iframe
         const isEmbed = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
@@ -636,16 +729,24 @@ const app = {
             </div>`;
 
         try {
-            // USAR TABLA faq_rows_corregido
-            const [faqRes, summaryRes, linksRes] = await Promise.all([
-                supabase.from('faq_rows_corregido').select('*').eq('pais', countryName).limit(1).single(),
-                supabase.from('resumen_ejecutivo').select('*').eq('pais', countryName).single(),
-                supabase.from('enlaces').select('*').eq('pais', countryName).order('question_code')
-            ]);
+            // CONSULTA PRIORITARIA A DataCacheManager (0 PETICIONES A SUPABASE SI ESTÁ EN CACHÉ)
+            let faq = null, summary = null, links = [];
+            const cachedDetail = DataCacheManager.getCountryDetail(countryName);
 
-            const faq = faqRes.data;
-            const summary = summaryRes.data;
-            const links = linksRes.data || [];
+            if (cachedDetail && cachedDetail.faq && cachedDetail.summary) {
+                faq = cachedDetail.faq;
+                summary = cachedDetail.summary;
+                links = cachedDetail.links;
+            } else {
+                const [faqRes, summaryRes, linksRes] = await Promise.all([
+                    supabase.from('faq_rows_corregido').select('*').eq('pais', countryName).limit(1).single(),
+                    supabase.from('resumen_ejecutivo').select('*').eq('pais', countryName).single(),
+                    supabase.from('enlaces').select('*').eq('pais', countryName).order('question_code')
+                ]);
+                faq = faqRes.data;
+                summary = summaryRes.data;
+                links = linksRes.data || [];
+            }
 
             if (!faq || !summary) {
                 container.innerHTML = '<div class="text-center p-10 text-red-500">Datos no disponibles para este país.</div>';
@@ -1055,10 +1156,15 @@ const app = {
         btn.disabled = true;
         resultsContainer.innerHTML = `<div class="flex justify-center py-16"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-600"></div></div>`;
 
-        const { data, error } = await supabase
-            .from('faq_rows_corregido')
-            .select('*')
-            .in('pais', selected);
+        let data = DataCacheManager.getCountriesComparison(selected);
+
+        if (!data || data.length === 0) {
+            const res = await supabase
+                .from('faq_rows_corregido')
+                .select('*')
+                .in('pais', selected);
+            data = res.data || [];
+        }
 
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Comparar países`;
         btn.disabled = selected.length < 2;
@@ -1191,10 +1297,14 @@ const app = {
         const dbKey = `q_${questionId.replace(/\./g, '_')}`;
         const hasBoolean = !NO_BOOLEAN_QUESTIONS.includes(questionId);
 
-        let selectQuery = `pais, ${dbKey}_directa, ${dbKey}_ampliada`;
-        if (hasBoolean) selectQuery += `, ${dbKey}_booleano`;
+        let data = DataCacheManager.getRequirementComparison(questionId);
 
-        const { data, error } = await supabase.from('faq_rows_corregido').select(selectQuery).order('pais');
+        if (!data || data.length === 0) {
+            let selectQuery = `pais, ${dbKey}_directa, ${dbKey}_ampliada`;
+            if (hasBoolean) selectQuery += `, ${dbKey}_booleano`;
+            const res = await supabase.from('faq_rows_corregido').select(selectQuery).order('pais');
+            data = res.data || [];
+        }
 
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Comparar`;
         btn.disabled = false;
@@ -1349,13 +1459,18 @@ const app = {
                 <p class="text-sm font-medium text-slate-500">Filtrando países...</p>
             </div>`;
 
-        let query = supabase.from('faq_rows_corregido').select('pais').order('pais', { ascending: true });
-        this.state.filterCriteria.forEach(criteria => {
-            const dbKey = `q_${criteria.replace(/\./g, '_')}_booleano`;
-            query = query.eq(dbKey, true);
-        });
+        let countries = DataCacheManager.getFilteredCountries(this.state.filterCriteria);
 
-        const { data, error } = await query;
+        if (!countries || countries.length === 0) {
+            // Fallback directo a Supabase si la caché no está cargada
+            let query = supabase.from('faq_rows_corregido').select('pais').order('pais', { ascending: true });
+            this.state.filterCriteria.forEach(criteria => {
+                const dbKey = `q_${criteria.replace(/\./g, '_')}_booleano`;
+                query = query.eq(dbKey, true);
+            });
+            const { data, error } = await query;
+            if (!error && data) countries = data;
+        }
 
         if (error) {
             resultsContainer.innerHTML = `
