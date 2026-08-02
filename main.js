@@ -16,21 +16,25 @@ const DataCacheManager = {
         links: null
     },
 
-    async init() {
-        const cached = localStorage.getItem(this.CACHE_KEY);
-        if (cached) {
-            try {
+    loadSync() {
+        try {
+            const cached = localStorage.getItem(this.CACHE_KEY);
+            if (cached) {
                 const { timestamp, payload } = JSON.parse(cached);
                 if (Date.now() - timestamp < this.TTL && payload && payload.faq && payload.summary) {
                     this.data = payload;
                     console.log('⚡ [DataCacheManager] Datos cargados instantáneamente desde LocalStorage (0 consultas a Supabase)');
-                    return;
+                    return true;
                 }
-            } catch (e) {
-                console.warn('⚠️ [DataCacheManager] Error al parsear caché local, se descargará nuevamente.');
-                localStorage.removeItem(this.CACHE_KEY);
             }
+        } catch (e) {
+            localStorage.removeItem(this.CACHE_KEY);
         }
+        return false;
+    },
+
+    async init() {
+        if (this.loadSync()) return;
         await this.fetchFreshData();
     },
 
@@ -94,6 +98,9 @@ const DataCacheManager = {
         return this.data.faq.filter(r => selectedCountries.includes(r.pais));
     }
 };
+
+// Intentar carga sincrónica desde LocalStorage al evaluar el script
+DataCacheManager.loadSync();
 
 const MAP_PATHS = {
     MX: "M100,50 L160,60 L180,90 L160,120 L130,110 L110,90 Z",
@@ -320,14 +327,18 @@ const app = {
             `;
             document.head.appendChild(style);
 
-            // Observador dinámico de mutaciones DOM para auto-ajustar altura al expandir contenido
+            // Observador dinámico de mutaciones DOM con debouncing para evitar bucles infinitos de titileo
             setTimeout(() => {
                 const container = document.getElementById('app-container');
                 if (container) {
+                    let resizeTimer = null;
                     const observer = new MutationObserver(() => {
-                        this.notifyResize();
+                        if (resizeTimer) clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(() => {
+                            this.notifyResize();
+                        }, 150);
                     });
-                    observer.observe(container, { childList: true, subtree: true, attributes: true });
+                    observer.observe(container, { childList: true, subtree: true });
                 }
             }, 200);
         }
