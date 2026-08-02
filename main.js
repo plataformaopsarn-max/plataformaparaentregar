@@ -523,26 +523,31 @@ const app = {
         this.notifyResize();
     },
 
+    lastSentHeight: 0,
+    notifyResizeTimer: null,
+
     notifyResize: function () {
         if (window.self !== window.top || new URLSearchParams(window.location.search).has('embed')) {
-            const sendHeight = () => {
+            if (this.notifyResizeTimer) clearTimeout(this.notifyResizeTimer);
+            
+            this.notifyResizeTimer = setTimeout(() => {
                 const appElem = document.getElementById('app-container') || document.body;
                 const h1 = appElem.scrollHeight || 0;
                 const h2 = appElem.offsetHeight || 0;
                 const h3 = document.documentElement.scrollHeight || 0;
                 const h4 = document.body.scrollHeight || 0;
                 const fullHeight = Math.max(h1, h2, h3, h4, 350);
+                const targetHeight = Math.ceil(fullHeight) + 30;
 
-                window.parent.postMessage({
-                    sentinel: 'ops-platform',
-                    type: 'resize',
-                    height: Math.ceil(fullHeight) + 30
-                }, '*');
-            };
-            sendHeight();
-            setTimeout(sendHeight, 100);
-            setTimeout(sendHeight, 350);
-            setTimeout(sendHeight, 800);
+                if (Math.abs(targetHeight - this.lastSentHeight) > 5) {
+                    this.lastSentHeight = targetHeight;
+                    window.parent.postMessage({
+                        sentinel: 'ops-platform',
+                        type: 'resize',
+                        height: targetHeight
+                    }, '*');
+                }
+            }, 100);
         }
     },
 
