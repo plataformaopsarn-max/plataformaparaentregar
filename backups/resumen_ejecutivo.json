@@ -1,0 +1,200 @@
+[
+  {
+    "pais": "Argentina",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Administración Nacional de Medicamentos, Alimentos y Tecnología Médica (ANMAT).",
+    "sitio_web_oficial": "https://www.argentina.gob.ar/anmat",
+    "domicilio": "Av. de Mayo 869, Ciudad Autónoma de Buenos Aires, C1084AAD, Argentina.",
+    "correo_contacto": "responde@anmat.gob.ar.",
+    "telefonos": "0800-333-1234 (línea gratuita)."
+  },
+  {
+    "pais": "Brasil",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Agência Nacional de Vigilância Sanitária (ANVISA)",
+    "sitio_web_oficial": "https://www.gov.br/anvisa/pt-br",
+    "domicilio": "Setor de Indústria e Abastecimento (SIA), Trecho 5 – Guará, Brasília – DF, CEP: 71205-050",
+    "correo_contacto": "asnvs@anvisa.gov.br",
+    "telefonos": "Información general: 0 800 642 9782"
+  },
+  {
+    "pais": "Colombia",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Instituto Nacional de Vigilancia de Medicamentos y Alimentos (INVIMA)",
+    "sitio_web_oficial": "www.invima.gov.co",
+    "domicilio": "Carrera 10 No. 64-28, Bogotá D.C., Colombia",
+    "correo_contacto": "contactenos@invima.gov.co",
+    "telefonos": "Teléfono conmutador: (+57)(601) 242 50 00"
+  },
+  {
+    "pais": "Costa Rica",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Consejo Nacional de Investigación en Salud (CONIS)",
+    "sitio_web_oficial": "https://conis.ministeriodesalud.go.cr/",
+    "domicilio": "Ministerio de Salud; Edificio Norte; 1er. Piso; Calle 16, avenidas 6 y 8; San José, Costa Rica",
+    "correo_contacto": "conis@misalud.go.cr",
+    "telefonos": "(506) 4003-5425; (506) 4003-5113; (506) 2257-7821 Ext. 119; (506) 2257-7821 Ext. 122"
+  },
+  {
+    "pais": "Cuba",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Centro para el Control Estatal de Medicamentos, Equipos y Dispositivos Médicos (CECMED)",
+    "sitio_web_oficial": "www.cecmed.cu",
+    "domicilio": "Calle 5ta A #6020 e/ 60 y 62, Miramar, Playa, La Habana, Cuba. CP 11300",
+    "correo_contacto": "cecmed@cecmed.cu",
+    "telefonos": "+53 7 216 4100, +53 7 216 4153, +53 7 216 4143"
+  },
+  {
+    "pais": "Ecuador",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Agencia Nacional de Regulación, Control y Vigilancia Sanitaria (ARCSA)",
+    "sitio_web_oficial": "www.controlsanitario.gob.ec",
+    "domicilio": "Ciudadela Samanes, Av. Francisco de Orellana y Av. Paseo del Parque, Bloque 5, en Guayaquil, Ecuador",
+    "correo_contacto": "atencionalusuario@controlsanitario.gob.ec",
+    "telefonos": "(593) 2907 074 y 04372744"
+  },
+  {
+    "pais": "El Salvador",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Superintendencia de Regulación Sanitaria (SRS)",
+    "sitio_web_oficial": "https://www.srs.gob.sv/",
+    "domicilio": "Blv. Merliot y Av. Jayaque, Edif. SRS, Urb. Jardines del Volcán, Santa Tecla, La Libertad Sur, La Libertad.",
+    "correo_contacto": "consultas@srs.gob.sv",
+    "telefonos": "(+503) 2522-5000"
+  },
+  {
+    "pais": "Guatemala",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Departamento de Regulación y Control de Productos Farmacéuticos y Afines (DRCPFA)",
+    "sitio_web_oficial": "https://medicamentos.mspas.gob.gt/",
+    "domicilio": "Avenida Bolívar 28-07, Zona 8, Edificio DGRVCS, Ciudad de Guatemala",
+    "correo_contacto": "consultasdrcpfa@mspas.gob.gt",
+    "telefonos": "(502) 2265-6555 al 60, Extensión 115"
+  },
+  {
+    "pais": "Haití",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Direction de la Pharmacie, du Médicament et de la Médecine Traditionnelle (DPM/MT)",
+    "sitio_web_oficial": "https://www.mspp.gouv.ht/dpmmt/",
+    "domicilio": "Angle Rue Jacques Roumain et Blvd Maïs Gâté, Delmas, Haïti",
+    "correo_contacto": "dpmmt@mspp.gouv.ht",
+    "telefonos": "(509) 4039-9803, (509) 2226-8164, (509) 3800-1411"
+  },
+  {
+    "pais": "Honduras",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Agencia de Regulación Sanitaria (ARSA)",
+    "sitio_web_oficial": "https://arsa.gob.hn/",
+    "domicilio": "Tegucigalpa, M.D.C.: Comayagüela, Calle Los Alcaldes, frente a City Mall, Honduras.",
+    "correo_contacto": "consultas@arsa.hn",
+    "telefonos": "+504 2270-6600"
+  },
+  {
+    "pais": "Jamaica",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "División de Normas y Regulación (Standards and Regulation Division, SRD) del Ministerio de Salud y Bienestar.",
+    "sitio_web_oficial": "https://www.moh.gov.jm/",
+    "domicilio": "10-16 Grenada Way, Kingston 5.",
+    "correo_contacto": "pr@moh.gov.jm o info@moh.gov.jm",
+    "telefonos": "876-633-8172 | 876-633-7771 | 876-633-8172 (RKA)."
+  },
+  {
+    "pais": "México",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Comisión Federal para la Protección contra Riesgos Sanitarios (COFEPRIS).",
+    "sitio_web_oficial": "https://www.gob.mx/cofepris",
+    "domicilio": "Oklahoma 14 Col. Nápoles, Demarcación Territorial Benito Juárez, Ciudad de México, C.P. 03810. El horario de atención es de lunes a viernes de 9:00 a 18:00 horas.",
+    "correo_contacto": "contacto@cofepris.gob.mx",
+    "telefonos": "El teléfono de la oficina central es 55 5080-5200. Hay una línea de atención ciudadana sin costo: 800 033-5050. Para el área de Ensayos Clínicos, las extensiones son 1072 y 4373."
+  },
+  {
+    "pais": "Nicaragua",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Comité Nacional de Investigación en Salud (CONIS) y Autoridad Nacional de Regulación Sanitaria (ANRS)",
+    "sitio_web_oficial": "https://www.minsa.gob.ni/entidades/regulaci%C3%B3n-sanitaria",
+    "domicilio": "Complejo Nacional de Salud “Dra. Concepción Palacios”, costado oeste Colonia Primero de Mayo, Managua, Nicaragua.",
+    "correo_contacto": null,
+    "telefonos": "Central telefónica del MINSA: (505) 2289-4700"
+  },
+  {
+    "pais": "Panamá",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Ministerio de Salud (MINSA) - a través de la unidad de Regulación de Investigación para la Salud (RegulaIPS). Para productos farmacéuticos en investigación, la Dirección Nacional de Farmacia y Drogas (DNFD) adscrita al MINSA.",
+    "sitio_web_oficial": "www.minsa.gob.pa",
+    "domicilio": "Antiguo Hospital Gorgas, Calle Gorgas, Corregimiento de Ancón, Panamá. La sede principal del MINSA se encuentra en el Hospital Gorgas, Ancón, Ciudad de Panamá.",
+    "correo_contacto": "RegulaIPS: regulaips@minsa.gob.pa y rips.minsa@outlook.com\nMINSA General: saludaldia@minsa.gob.pa",
+    "telefonos": "RegulaIPS: 512-9479; DNFD: 512-9162; MINSA General: Central telefónica 512-9200"
+  },
+  {
+    "pais": "Paraguay",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Dirección Nacional de Vigilancia Sanitaria (DINAVISA).",
+    "sitio_web_oficial": "https://www.dinavisa.gov.py",
+    "domicilio": "Iturbe 883 casi Manuel Domínguez, Asunción, Paraguay.",
+    "correo_contacto": "secretariageneral@dinavisa.gov.py.",
+    "telefonos": "(+595) 021 453 666"
+  },
+  {
+    "pais": "Perú",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Instituto Nacional de Salud (INS) ",
+    "sitio_web_oficial": "https://www.ins.gob.pe",
+    "domicilio": "Calle Capac Yupanqui N° 1400, Jesús María, Lima, Perú",
+    "correo_contacto": "ensayosclinicos@ins.gob.pe (Consultas y solicitudes relacionadas con ensayos clínicos); notificacionesec@ins.gob.pe (Recepción de notificaciones de eventos adversos y seguridad); mesadepartesvirtual@ins.gob.pe (Recepción de documentos oficiales y trámites administrativos)",
+    "telefonos": "Conmutador general: (+51) 748-0000 - Central telefónica INS: (+51) 748-1111"
+  },
+  {
+    "pais": "República Dominicana",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Consejo Nacional de Bioética en Salud (CONABIOS) es el órgano de carácter permanente del Ministerio de Salud Pública y Asistencia Social (MSP) responsable de la bioética en investigación con seres humanos. La Dirección General de Medicamentos, Alimentos y Productos Sanitarios (DIGEMAPS) (dependencia del MSP) es clave para la regulación y farmacovigilancia de productos.",
+    "sitio_web_oficial": "https://conabios.gob.do/ y https://digemaps.gob.do/",
+    "domicilio": "(CONABIOS): Av. Bolívar No. 902, Ensanche La Julia, Santo Domingo, Distrito Nacional, República Dominicana (UCSD). (DIGEMAPS): Av. Dr. Héctor Homero Hernández, esq. av. Tiradentes, ensanche La Fe, Santo Domingo, República Dominicana.",
+    "correo_contacto": "conabios_rd@yahoo.com y info@digemaps.gob.do",
+    "telefonos": "(CONABIOS): 809-262-2216; Flota Administrativa: 829-745-8301. (DIGEMAPS): (809) 541-3121"
+  },
+  {
+    "pais": "Trinidad y Tobago",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Chemistry Food and Drugs Division (CFDD) bajo el Ministerio de Salud.",
+    "sitio_web_oficial": "https://health.gov.tt/services/chemistry-food-and-drugs-division",
+    "domicilio": "115, Frederick Street, Port-of-Spain, Trinidad.",
+    "correo_contacto": "cfdd@health.gov.tt.",
+    "telefonos": "623-5242."
+  },
+  {
+    "pais": "Uruguay",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "División Evaluación Sanitaria (DES)",
+    "sitio_web_oficial": "https://www.gub.uy/ministerio-salud-publica/politicas-y-gestion/programas/division-evaluacion-sanitaria",
+    "domicilio": "Avenida 18 de Julio 1892, Montevideo, Uruguay",
+    "correo_contacto": "des@msp.gub.uy",
+    "telefonos": "(+598) 1934-3021"
+  },
+  {
+    "pais": "Chile",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Instituto de Salud Pública de Chile (ISP)",
+    "sitio_web_oficial": "www.ispch.cl",
+    "domicilio": "Av. Marathon 1000, Ñuñoa - Santiago",
+    "correo_contacto": "estudiosclinicos@ispch.cl",
+    "telefonos": "Mesa Central: (56) 22575 5100 - Ensayos clínicos: (56-2) 25755377 - Contacto: 2 2575 5103"
+  },
+  {
+    "pais": "Venezuela",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Instituto Nacional de Higiene “Rafael Rangel” (INHRR) y la Junta Revisora de Productos Farmacéuticos (JRPF).",
+    "sitio_web_oficial": "www.inhrr.gob.ve.",
+    "domicilio": "Ciudad Universitaria – Los Chaguaramos – Edificio Instituto Nacional de Higiene “Rafael Rangel” – Piso 3 – Caracas – República Bolivariana de Venezuela – C.P.1041.",
+    "correo_contacto": "juntarevisora@inhrr.gob.ve.",
+    "telefonos": "(+58 212) 219.16.08."
+  },
+  {
+    "pais": "Bolivia",
+    "fecha_compilacion": "18/06/2026",
+    "autoridad_regulatoria": "Agencia Estatal de Medicamentos y Tecnologías en Salud (AGEMED), dependiente del Ministerio de Salud y Deportes",
+    "sitio_web_oficial": "www.agemed.gob.bo",
+    "domicilio": "Calle Muñoz Cornejo #2808, esq. Vincenti, Zona Sopocachi, La Paz - Bolivia",
+    "correo_contacto": "vigilancia.agemed@minsalud.gob.bo; fiscalizacion@agemed.gob.bo; denuncia.medicamentos@minsalud.gob.bo",
+    "telefonos": "Teléfonos principales: (591-2) 2119831 - (591-2) 2112598. Autorización de Comercialización: (591-2) 2129202. Vigilancia y Control: (591-2) 2120952. Evaluación de Tecnologías en Salud y Uso Racional: (591-2) 2156297. Ministerio de Salud (ente rector): (591-2) 2490554"
+  }
+]

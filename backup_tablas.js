@@ -1,30 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Error: las variables de entorno SUPABASE_URL y SUPABASE_ANON_KEY son requeridas.');
-  console.error('Configuralas como Secrets en el repositorio de GitHub.');
-  process.exit(1);
-}
+const supabaseUrl = process.env.SUPABASE_URL || 'https://mugtfugfabhrqcomynrs.supabase.co';
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
 
 async function getAllTables() {
-  try {
-    const res = await fetch(`${supabaseUrl}/rest/v1/`, {
-      headers: { 'apikey': supabaseKey }
-    });
-    const data = await res.json();
-    if (!data.definitions) return [];
-    
-    // Las tablas están en data.definitions (las properties)
-    const tables = Object.keys(data.definitions).filter(t => data.definitions[t].type !== 'rpc');
-    return tables;
-  } catch (err) {
-    console.error('Error al obtener la lista de tablas:', err.message);
-    return [];
-  }
+  return ['faq_rows_corregido', 'resumen_ejecutivo', 'enlaces', 'reportes_usuarios'];
 }
 
 async function fetchAllData(tableName) {
