@@ -3,9 +3,9 @@
 // desde el entorno de producción (ej. Cloudflare Pages / Vercel / Netlify / Servidor OPS).
 
 const CONFIG = {
-    // Credenciales de Supabase (Se inyectan mediante window.ENV_SUPABASE_* o proxy de servidor)
-    SUPABASE_URL: (typeof window !== 'undefined' && window.ENV_SUPABASE_URL) ? window.ENV_SUPABASE_URL : '',
-    SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.ENV_SUPABASE_ANON_KEY) ? window.ENV_SUPABASE_ANON_KEY : '',
+    // Credenciales públicas de Supabase con fallback para cliente estático
+    SUPABASE_URL: (typeof window !== 'undefined' && window.ENV_SUPABASE_URL) ? window.ENV_SUPABASE_URL : 'https://mugtfugfabhrqcomynrs.supabase.co',
+    SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.ENV_SUPABASE_ANON_KEY) ? window.ENV_SUPABASE_ANON_KEY : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI',
     
     // Versión de la Aplicación y Parámetros de Caché
     APP_VERSION: '1.2.0',
