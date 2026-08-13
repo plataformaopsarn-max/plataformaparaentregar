@@ -1546,74 +1546,74 @@ const app = {
                 <p class="text-sm font-medium text-slate-500">Filtrando países...</p>
             </div>`;
 
-        let countries = DataCacheManager.getFilteredCountries(this.state.filterCriteria);
+        let countryNames = [];
+        const cachedResults = DataCacheManager.getFilteredCountries(this.state.filterCriteria);
 
-        if (!countries || countries.length === 0) {
+        if (cachedResults && cachedResults.length > 0) {
+            countryNames = cachedResults.map(d => (typeof d === 'string' ? d : d.pais));
+        } else if (DataCacheManager.data.faq && DataCacheManager.data.faq.length > 0) {
+            // Caché cargada pero ningún país cumple con todos los criterios
+            countryNames = [];
+        } else {
             // Fallback directo a Supabase si la caché no está cargada
-            let query = supabase.from('faq_rows_corregido').select('pais').order('pais', { ascending: true });
-            this.state.filterCriteria.forEach(criteria => {
-                const dbKey = `q_${criteria.replace(/\./g, '_')}_booleano`;
-                query = query.eq(dbKey, true);
-            });
-            const { data, error } = await query;
-            if (!error && data) countries = data;
-        }
-
-        if (error) {
-            resultsContainer.innerHTML = `
-                <div class="p-8 bg-red-50 text-red-700 rounded-xl border border-red-200 text-center">
-                    <p class="font-bold">Error al consultar los datos.</p>
-                </div>`;
-            return;
-        }
-
-        if (data) {
-            let countries = data.map(d => d.pais);
-            
-            // Ordenar alfabéticamente (A-Z) en español
-            countries.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
-
-            analytics.filterExecuted(this.state.filterCriteria, countries.length);
-
-            if (countries.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div class="p-8 bg-amber-50 text-amber-800 rounded-2xl border border-amber-200 text-center animate-in fade-in">
-                        <i data-lucide="alert-circle" class="w-10 h-10 mx-auto mb-3 text-amber-500"></i>
-                        <h4 class="font-bold text-lg mb-1">Sin coincidencias</h4>
-                        <p class="text-xs text-amber-700 max-w-md mx-auto">No hay ningún país que cumpla simultáneamente con todos los ${this.state.filterCriteria.length} criterios seleccionados.</p>
-                        <p class="text-xs text-amber-600 mt-2 italic">Pruebe desmarcar algún criterio para ampliar los resultados.</p>
-                    </div>`;
-            } else {
-                const countryCards = countries.map(name => {
-                    const cData = COUNTRIES_LIST.find(c => c.name === name);
-                    return `
-                    <div onclick="app.selectCountry('${name}', 'filter')" class="group bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-lg cursor-pointer transition-all duration-200 flex items-center justify-between">
-                        <div class="flex items-center gap-3.5">
-                            <span class="fi fi-${cData?.flagCode || 'xx'} text-3xl rounded shadow-sm"></span>
-                            <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-base">${name}</h4>
-                        </div>
-                        <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
-                    </div>`;
-                }).join('');
-
-                resultsContainer.innerHTML = `
-                <div class="animate-in fade-in space-y-4">
-                    <div class="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-slate-200 shadow-sm">
-                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                            ${countries.length} país${countries.length > 1 ? 'es' : ''} encontrado${countries.length > 1 ? 's' : ''}
-                        </span>
-                        <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">
-                            ${this.state.filterCriteria.length} criterio${this.state.filterCriteria.length > 1 ? 's' : ''} activo${this.state.filterCriteria.length > 1 ? 's' : ''}
-                        </span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        ${countryCards}
-                    </div>
-                </div>`;
+            try {
+                let query = supabase.from('faq_rows_corregido').select('pais').order('pais', { ascending: true });
+                this.state.filterCriteria.forEach(criteria => {
+                    const dbKey = `q_${criteria.replace(/\./g, '_')}_booleano`;
+                    query = query.eq(dbKey, true);
+                });
+                const { data, error } = await query;
+                if (!error && data) {
+                    countryNames = data.map(d => d.pais);
+                }
+            } catch (err) {
+                console.error("Error executing filter query fallback:", err);
             }
-            lucide.createIcons();
-            this.notifyResize();
         }
+
+        // Ordenar alfabéticamente (A-Z) en español
+        countryNames.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+
+        analytics.filterExecuted(this.state.filterCriteria, countryNames.length);
+
+        if (countryNames.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="p-8 bg-amber-50 text-amber-800 rounded-2xl border border-amber-200 text-center animate-in fade-in">
+                    <i data-lucide="alert-circle" class="w-10 h-10 mx-auto mb-3 text-amber-500"></i>
+                    <h4 class="font-bold text-lg mb-1">Sin coincidencias</h4>
+                    <p class="text-xs text-amber-700 max-w-md mx-auto">No hay ningún país que cumpla simultáneamente con todos los ${this.state.filterCriteria.length} criterios seleccionados.</p>
+                    <p class="text-xs text-amber-600 mt-2 italic">Pruebe desmarcar algún criterio para ampliar los resultados.</p>
+                </div>`;
+        } else {
+            const countryCards = countryNames.map(name => {
+                const cData = COUNTRIES_LIST.find(c => c.name === name);
+                return `
+                <div onclick="app.selectCountry('${name}', 'filter')" class="group bg-white p-5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-lg cursor-pointer transition-all duration-200 flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <span class="fi fi-${cData?.flagCode || 'xx'} text-3xl rounded shadow-sm"></span>
+                        <h4 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-base">${name}</h4>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all"></i>
+                </div>`;
+            }).join('');
+
+            resultsContainer.innerHTML = `
+            <div class="animate-in fade-in space-y-4">
+                <div class="flex items-center justify-between bg-white px-5 py-3 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        ${countryNames.length} país${countryNames.length > 1 ? 'es' : ''} encontrado${countryNames.length > 1 ? 's' : ''}
+                    </span>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full">
+                        ${this.state.filterCriteria.length} criterio${this.state.filterCriteria.length > 1 ? 's' : ''} activo${this.state.filterCriteria.length > 1 ? 's' : ''}
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    ${countryCards}
+                </div>
+            </div>`;
+        }
+        lucide.createIcons();
+        this.notifyResize();
     },
 
     // VISTA: FORMULARIO DE REPORTES / SUGERENCIAS IN-APP
