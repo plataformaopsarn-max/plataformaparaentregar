@@ -1,9 +1,8 @@
 // config.js — Configuración Dinámica para la Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (OPS)
-// Este archivo abstrae completamente las credenciales. Las variables se leen
-// desde el entorno de producción (ej. Cloudflare Pages / Vercel / Netlify / Servidor OPS).
+// Abstrae las variables de conexión públicas para la lectura de datos de la plataforma.
 
 const CONFIG = {
-    // Credenciales públicas de Supabase con fallback para cliente estático
+    // URL y Llave pública anónima de Supabase
     SUPABASE_URL: (typeof window !== 'undefined' && window.ENV_SUPABASE_URL) ? window.ENV_SUPABASE_URL : 'https://mugtfugfabhrqcomynrs.supabase.co',
     SUPABASE_ANON_KEY: (typeof window !== 'undefined' && window.ENV_SUPABASE_ANON_KEY) ? window.ENV_SUPABASE_ANON_KEY : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI',
     
