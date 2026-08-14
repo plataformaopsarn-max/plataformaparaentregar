@@ -1,5 +1,5 @@
 # Documento de Especificación Técnica para Desarrolladores
-## Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (ReGeCAM - OPS/OMS)
+## Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (OPS/OMS)
 
 Este documento contiene las especificaciones técnicas internas de la arquitectura del software, patrones de diseño, diccionario del modelo de datos, flujo de control de estados y mecanismos de integración en embebidos (Iframe).
 
@@ -115,7 +115,7 @@ La plataforma está optimizada para ser embebida mediante un `<iframe>` en porta
 
 1. **Crear Proyecto en Cloudflare Pages**:
    - Conectar la cuenta de GitHub de la OPS.
-   - Seleccionar la carpeta `/regecam-public` (o la raíz del repositorio transferido).
+   - Seleccionar la raíz del repositorio (`/`).
    - Comando de Build: Ninguno (sitio estático HTML/JS puro).
    - Directorio de Salida: `/`
 2. **Configurar Variables de Entorno**:

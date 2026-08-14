@@ -1,4 +1,4 @@
-// config.js — Configuración Dinámica para la Plataforma ReGeCAM (OPS)
+// config.js — Configuración Dinámica para la Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (OPS)
 // Este archivo abstrae completamente las credenciales. Las variables se leen
 // desde el entorno de producción (ej. Cloudflare Pages / Vercel / Netlify / Servidor OPS).
 
@@ -9,7 +9,7 @@ const CONFIG = {
     
     // Versión de la Aplicación y Parámetros de Caché
     APP_VERSION: '1.2.0',
-    CACHE_KEY: 'regecam_cache_v1.2',
+    CACHE_KEY: 'plataforma_regulatoria_cache_v1.2',
     CACHE_TTL_MS: 24 * 60 * 60 * 1000 // 24 Horas
 };
 

@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
-    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'regecam_cache_v1.2',
+    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_v1.2',
     TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
 
     data: {
@@ -351,7 +351,7 @@ const app = {
         const qParam = params.get('q');
         const cParam = params.get('c');
         const isPrintMode = params.get('print') === 'true';
-        const referrerParam = params.get('referrer') || 'https://www.paho.org/es/regecam';
+        const referrerParam = params.get('referrer') || 'https://www.paho.org/es';
 
         if (viewParam) {
             this.state.view = viewParam;
@@ -1734,7 +1734,7 @@ const app = {
             if (insertError) throw insertError;
 
             alertEl.className = 'mb-6 p-4 rounded-2xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-start gap-2.5';
-            alertEl.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i> <div><strong>¡Gracias por su colaboración!</strong> Su reporte ha sido enviado exitosamente a la coordinación de ReGeCAM.</div>';
+            alertEl.innerHTML = '<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i> <div><strong>¡Gracias por su colaboración!</strong> Su reporte ha sido enviado exitosamente a la coordinación de la plataforma.</div>';
             alertEl.classList.remove('hidden');
 
             document.getElementById('internal-report-form').reset();
@@ -1949,10 +1949,10 @@ const app = {
                     </span>
                     <span class="text-sm font-semibold">Modo de Impresión: Generando PDF para ${countryName}...</span>
                 </div>
-                <button onclick="window.location.href='https://www.paho.org/es/regecam'" 
+                <button onclick="window.location.href='https://www.paho.org/es'" 
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
                         style="cursor: pointer;">
-                    &larr; volver a Regecam
+                    &larr; Volver a la plataforma
                 </button>
             `;
             document.body.insertBefore(banner, document.body.firstChild);

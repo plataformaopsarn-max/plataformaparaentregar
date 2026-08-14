@@ -1,7 +1,7 @@
-# Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (ReGeCAM)
+# Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas
 ### Organización Panamericana de la Salud (OPS / OMS) — Programa Regional de Bioética
 
-Bienvenido al repositorio oficial del frontend público de la **Plataforma ReGeCAM**. Este proyecto contiene la interfaz interactiva para la consulta, comparación y filtrado en tiempo real del marco normativo y regulatorio sobre ensayos clínicos en 22 países de América Latina y el Caribe.
+Bienvenido al repositorio oficial del frontend público de la **Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas**. Este proyecto contiene la interfaz interactiva para la consulta, comparación y filtrado en tiempo real del marco normativo y regulatorio sobre ensayos clínicos en 22 países de América Latina y el Caribe.
 
 ---
 
@@ -21,13 +21,13 @@ La plataforma está diseñada bajo una arquitectura moderna de cliente ligero (*
 ## 📁 Estructura del Repositorio Público
 
 ```
-regecam-public/
+plataforma-publica/
 ├── index.html                  # HTML principal con estructura responsiva y meta-etiquetas SEO/Analytics
 ├── main.js                     # Controlador principal de vistas, búsqueda, filtros, comparadores y caché
 ├── config.js                   # Módulo dinámico para abstracción de credenciales y variables de entorno
 ├── .env.example                # Plantilla de variables de entorno para integración continua (CI/CD)
 ├── TECHNICAL_SPECIFICATION.md  # Especificaciones técnicas completas para desarrolladores
-├── logo-final.png              # Isotipo oficial de la plataforma ReGeCAM
+├── logo-final.png              # Isotipo oficial de la plataforma
 ├── logos-header.png            # Banner institucional OPS / OMS / Programa Regional de Bioética
 └── Logo2.png                   # Isotipo secundario institucional
 ```
@@ -57,7 +57,7 @@ Las credenciales de acceso a la API REST (`ENV_SUPABASE_URL` y `ENV_SUPABASE_ANO
 Para garantizar que la plataforma pueda soportar miles de usuarios simultáneos en el portal de la OPS sin saturar los límites de la API REST o la base de datos:
 
 1. **Carga Inicial Única (Batch Fetch)**: Al ingresar por primera vez, el módulo `DataCacheManager` realiza una consulta comprimida en lote para obtener la matriz regulatoria (~300 KB).
-2. **Caché en Cliente (TTL 24hs)**: La información se almacena en `localStorage` bajo la clave `regecam_cache_v1.2` con un tiempo de expiración de 24 horas.
+2. **Caché en Cliente (TTL 24hs)**: La información se almacena en `localStorage` bajo la clave `plataforma_regulatoria_cache_v1.2` con un tiempo de expiración de 24 horas.
 3. **Navegación Instantánea con 0 Consultas HTTP**:
    - **Búsqueda por país**: 0 peticiones a la API.
    - **Filtros por requisitos**: 0 peticiones a la API.
