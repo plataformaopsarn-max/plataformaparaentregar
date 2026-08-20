@@ -172,14 +172,14 @@ const CATEGORIES = [
 ];
 
 const QUESTIONS = {
-    '1.1': '¿Cuál es la Autoridad Reguladora Nacional (ARN) para ensayos clínicos?',
+    '1.1': '¿Cuál es la Autoridad Regulatoria Nacional (ARN) para ensayos clínicos?',
     '1.2': '¿Cuáles son las normativas principales que rigen la investigación en salud?',
     '1.3': '¿Cuáles son las normativas principales que rigen la autorización de ensayos clínicos?',
-    '1.4': '¿Se requiere la aprobación de un Comité de Ética en Investigación (CEI)?',
-    '1.5': '¿La aprobación de un Comité de Ética en Investigación (CEI) debe ser previa a la presentación frente a la Autoridad Regulatoria?',
-    '1.6': '¿Existe un sistema de acreditación de los CEI?',
-    '1.7': '¿Existe un registro público de los CEI?',
-    '1.8': '¿Se establece qué tipo de investigaciones deben ser autorizadas por la ARN antes de su inicio?',
+    '1.4': '¿Se requiere la aprobación de un Comité de Ética de la Investigación (CEI)?',
+    '1.5': '¿La aprobación de un Comité de Ética de la Investigación (CEI) debe ser previa a la presentación frente a la Autoridad Regulatoria Nacional (ARN)?',
+    '1.6': '¿Existe un sistema de acreditación de los Comités de Ética de la Investigación (CEI)?',
+    '1.7': '¿Existe un registro público de los Comités de Ética de la Investigación (CEI)?',
+    '1.8': '¿Se establece qué tipo de investigaciones deben ser autorizadas por la Autoridad Regulatoria Nacional (ARN) antes de su inicio?',
     '2.1': '¿La normativa define al patrocinador de un ensayo clínico?',
     '2.2': '¿Se requiere que el patrocinador tenga un representante legal o una entidad jurídica domiciliada en el país?',
     '2.3': '¿Se establecen los requisitos que debe cumplir el patrocinador para poder actuar como tal?',
@@ -200,7 +200,7 @@ const QUESTIONS = {
     '5.1': 'Informes de Seguridad: ¿Se establecen cuáles son los requisitos, canales, mecanismos y plazos para notificar EAS y RASI/SUSARs?',
     '5.2': '¿Se requiere la presentación de informes anuales de seguridad?',
     '5.3': '¿Se requiere la presentación de informes de seguimiento periódicos?',
-    '5.4': '¿Se establece qué tipo de enmiendas al protocolo requieren aprobación previa de la ARN y/o del CEI?',
+    '5.4': '¿Se establece qué tipo de enmiendas al protocolo requieren aprobación previa de la Autoridad Regulatoria Nacional (ARN) y/o del Comité de Ética de la Investigación (CEI)?',
     '5.5': '¿Existen obligaciones sobre el acceso post-estudio a la intervención en investigación?',
     '6.1': '¿Existe una ley de protección de datos personales aplicable a los ensayos clínicos?',
     '6.2': '¿Existen normativas o guías específicas para ensayos clínicos con vacunas?',
@@ -211,9 +211,9 @@ const QUESTIONS = {
 const NO_BOOLEAN_QUESTIONS = ['1.1', '1.2', '1.3', '3.7'];
 
 const RESOURCE_SUBTITLES = {
-    '7.1': { title: 'Normativas Clave de Referencia Rápida', icon: 'scroll-text' },
-    '7.2': { title: 'Formularios Oficiales', icon: 'file-text' },
-    '7.3': { title: 'Guías, Instructivos Oficiales y Web', icon: 'book-open' }
+    '7.1': { title: 'Normativas clave de referencia rápida', icon: 'scroll-text' },
+    '7.2': { title: 'Formularios oficiales', icon: 'file-text' },
+    '7.3': { title: 'Guías, instructivos oficiales y web', icon: 'book-open' }
 };
 
 // --- ANALYTICS ---
@@ -599,12 +599,12 @@ const app = {
                             <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mb-4 shadow-lg shadow-blue-200/50 group-hover:scale-110 transition-transform">
                                 <i data-lucide="map" class="w-6 h-6 text-white"></i>
                             </div>
-                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Búsqueda por País</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Consulte el perfil regulatorio completo de cada país. Seleccione un país en el mapa o use el buscador para acceder a toda su normativa de ensayos clínicos.</p>
+                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Búsqueda por país</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Seleccione un país en el mapa o use el buscador para acceder a su perfil regulatorio.</p>
                         </div>
                         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-blue-700 bg-blue-50 w-fit group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-                            <span>Ir a Búsqueda por País</span>
+                            <span>Ir a búsqueda por país</span>
                         </div>
                     </button>
 
@@ -615,10 +615,10 @@ const app = {
                                 <i data-lucide="scale" class="w-6 h-6 text-white"></i>
                             </div>
                             <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Comparador</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Compare la normativa por requisito en los 22 países, o seleccione 2 a 3 países y vea todos sus requisitos lado a lado.</p>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Vea la normativa por pregunta o requisito en los países que seleccione.</p>
                         </div>
                         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-teal-700 bg-teal-50 w-fit group-hover:bg-teal-600 group-hover:text-white transition-colors">
-                            <span>Ir al Comparador &rarr;</span>
+                            <span>Ir al comparador &rarr;</span>
                         </div>
                     </button>
 
@@ -628,11 +628,11 @@ const app = {
                             <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center mb-4 shadow-lg shadow-violet-200/50 group-hover:scale-110 transition-transform">
                                 <i data-lucide="filter" class="w-6 h-6 text-white"></i>
                             </div>
-                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Filtro Avanzado</h3>
-                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente.</p>
+                            <h3 class="font-extrabold text-slate-800 text-lg tracking-tight mb-2">Filtro avanzado</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-3">Identifique los países según preguntas o requisitos específicos.</p>
                         </div>
                         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-violet-700 bg-violet-50 w-fit group-hover:bg-violet-600 group-hover:text-white transition-colors">
-                            <span>Ir a Filtrar &rarr;</span>
+                            <span>Ir a filtrar &rarr;</span>
                         </div>
                     </button>
                 </div>
@@ -716,7 +716,7 @@ const app = {
                         <i data-lucide="search" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold text-slate-800">Búsqueda por País</h2>
+                        <h2 class="text-xl font-bold text-slate-800">Búsqueda por país</h2>
                         <p class="text-xs text-slate-500 mt-0.5">Seleccione un país de la lista o escriba para filtrar.</p>
                     </div>
                 </div>
@@ -887,7 +887,7 @@ const app = {
                                                 <h5 class="font-bold text-blue-700 mb-2">${link.titulo}</h5>
                                                 <p class="text-sm text-slate-600 mb-4">${link.proposito_descripcion || link.descripcion || ''}</p>
                                                 <a href="${link.enlace}" target="_blank" rel="noopener noreferrer" onclick="analytics.resourceLinkClicked('${countryName}', '${link.titulo.replace(/'/g, '\\&apos;')}', '${subCode}', '${link.enlace}')" class="inline-flex items-center gap-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors">
-                                                    Acceder al Recurso <i data-lucide="external-link" class="w-3 h-3"></i>
+                                                    Acceder al recurso <i data-lucide="external-link" class="w-3 h-3"></i>
                                                 </a>
                                             </div>
                                         `).join('')}
@@ -942,7 +942,7 @@ const app = {
                                 ${cleanSource ? `
                                     <div class="mt-4 pt-4 border-t border-slate-100">
                                         <button onclick="app.toggleSource('source-${qId.replace(/\./g, '-')}')" class="text-xs font-bold text-slate-500 hover:text-blue-600 flex items-center gap-2 transition-colors no-print">
-                                            <i data-lucide="book-open" class="w-3 h-3"></i> Ver Fuente
+                                            <i data-lucide="book-open" class="w-3 h-3"></i> Ver fuente
                                         </button>
                                         <div id="source-${qId.replace(/\./g, '-')}" class="hidden print-visible mt-3 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-500 font-mono whitespace-pre-wrap animate-in fade-in duration-200"><span class="font-bold mb-1 text-slate-700 hidden print:inline">Fuente:</span> ${cleanSource}</div>
                                     </div>` : ''}
@@ -965,7 +965,7 @@ const app = {
                         <span class="fi fi-${flagCode} text-5xl shadow-md rounded-sm" style="width: 1.5em; height: 1.125em;"></span>
                         <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">${countryName}</h1>
                     </div>
-                    <p class="text-slate-600 font-bold text-lg">Informe automatizado - Marco General</p>
+                    <p class="text-slate-600 font-bold text-lg">Informe automatizado - Marco general</p>
                     <p class="text-sm text-slate-400 mt-2 italic">Información Regulatoria para Ensayos Clínicos en América Latina y el Caribe</p>
                     <div class="mt-4 text-xs text-slate-400">Fecha de generación: ${new Date().toLocaleDateString()}</div>
                 </div>
@@ -998,10 +998,10 @@ const app = {
                         <div class="flex items-center gap-2">
                             <button onclick="app.scrollToSection(7)" class="bg-teal-50 text-teal-700 border border-teal-200 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-teal-100 transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                                Ver Recursos
+                                Ver recursos
                             </button>
                             <button onclick="app.printReport('${summary.pais}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 shadow-sm transition-all">
-                                <i data-lucide="printer" class="w-4 h-4"></i> Generar Informe PDF
+                                <i data-lucide="printer" class="w-4 h-4"></i> Generar informe PDF
                             </button>
                         </div>
                     </div>
@@ -1013,11 +1013,11 @@ const app = {
                     <div class="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto custom-scrollbar pr-2">
                          <div class="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-6 border border-blue-100 shadow-sm">
                             <h3 class="font-bold text-blue-800 mb-4 flex items-center gap-2">
-                                <i data-lucide="info" class="w-5 h-5"></i> Información General
+                                <i data-lucide="info" class="w-5 h-5"></i> Información general
                             </h3>
                             <div class="space-y-4 text-sm">
                                 <div><strong class="block text-slate-500 text-xs uppercase tracking-wide">Autoridad</strong><span class="text-slate-800 font-medium">${summary.autoridad_regulatoria}</span></div>
-                                <div><strong class="block text-slate-500 text-xs uppercase tracking-wide">Sitio Web</strong><a href="${summary.sitio_web_oficial}" target="_blank" class="text-blue-600 hover:underline break-words">${summary.sitio_web_oficial}</a></div>
+                                <div><strong class="block text-slate-500 text-xs uppercase tracking-wide">Sitio web</strong><a href="${summary.sitio_web_oficial}" target="_blank" class="text-blue-600 hover:underline break-words">${summary.sitio_web_oficial}</a></div>
                                 <div><strong class="block text-slate-500 text-xs uppercase tracking-wide mb-1">Contacto</strong><div class="flex items-start gap-2 text-slate-700 mb-1"><i data-lucide="mail" class="w-3 h-3 mt-1 text-slate-400"></i><span class="break-all">${summary.correo_contacto}</span></div></div>
                                 <div><strong class="block text-slate-500 text-xs uppercase tracking-wide">Domicilio</strong><div class="flex items-start gap-2 text-slate-700"><i data-lucide="map-pin" class="w-3 h-3 mt-1 text-slate-400"></i><span>${summary.domicilio}</span></div></div>
                                 ${summary.fecha_compilacion ? `
@@ -1110,19 +1110,19 @@ const app = {
         container.innerHTML = `
         <div class="animate-in fade-in pb-20">
             <h2 class="text-3xl font-bold text-slate-800 mb-2 text-center no-print">Comparador</h2>
-            <p class="text-slate-500 mb-6 text-center text-sm no-print">Dos modos de comparación para analizar la normativa de la región.</p>
+            <p class="text-slate-500 mb-6 text-center text-sm no-print">Vea la normativa por pregunta o requisito en los países que seleccione.</p>
 
             <!-- TABS -->
             <div class="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mx-auto mb-8 no-print">
                 <button onclick="app.setCompareMode('requirement')" class="px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
                     mode === 'requirement' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                 }">
-                    Por Requisito
+                    Por requisito
                 </button>
                 <button onclick="app.setCompareMode('countries')" class="px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
                     mode === 'countries' ? 'bg-white text-teal-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
                 }">
-                    Por País
+                    Por país
                 </button>
             </div>
 
@@ -1154,17 +1154,17 @@ const app = {
                     </div>
                 </div>
                 <div id="compare-requirement-print-header" class="print-only mb-6 border-b-2 border-slate-900 pb-4 hidden">
-                    <h1 class="text-2xl font-black text-slate-900 uppercase">Informe Comparativo por Requisito</h1>
+                    <h1 class="text-2xl font-black text-slate-900 uppercase">Informe comparativo por requisito</h1>
                     <p id="compare-requirement-print-title" class="text-base font-bold text-blue-800 mt-1"></p>
                     <div class="text-xs text-slate-500 mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
                 </div>
                 <div id="compare-selected-question" class="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-2xl hidden animate-in fade-in flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Requisito Comparado</span>
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">Requisito comparado</span>
                         <h3 id="compare-question-title" class="text-xl font-bold text-slate-800 mt-1"></h3>
                     </div>
                     <button onclick="app.printComparison('requirement')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-blue-700 shadow-sm transition-all no-print shrink-0 cursor-pointer">
-                        <i data-lucide="printer" class="w-4 h-4"></i> Generar Informe PDF
+                        <i data-lucide="printer" class="w-4 h-4"></i> Generar informe PDF
                     </button>
                 </div>
                 <div id="compare-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -1177,12 +1177,12 @@ const app = {
                     <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mx-auto mb-3 shadow-inner">
                         <i data-lucide="monitor" class="w-6 h-6"></i>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-base mb-1.5">Funcionalidad para Tablets y Computadoras (PC)</h4>
+                    <h4 class="font-bold text-slate-800 text-base mb-1.5">Funcionalidad para tablets y computadoras (PC)</h4>
                     <p class="text-xs text-slate-600 leading-relaxed mb-4">
                         La comparación en paralelo de varios países requiere mayor ancho de pantalla para visualizar las columnas de forma legible. Esta modalidad está disponible exclusivamente en <strong>Tablets</strong> y <strong>Computadoras de Escritorio</strong>.
                     </p>
                     <div class="bg-white p-3 rounded-xl border border-blue-100 text-xs text-blue-800 font-medium flex items-center justify-center gap-2 shadow-xs">
-                        <span>💡 En su celular, le recomendamos utilizar la pestaña <strong>"Por Requisito"</strong>.</span>
+                        <span>💡 En su celular, le recomendamos utilizar la pestaña <strong>"Por requisito"</strong>.</span>
                     </div>
                 </div>
 
@@ -1318,16 +1318,16 @@ const app = {
         <div class="space-y-4">
             <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm no-print">
                 <div>
-                    <h3 class="font-bold text-slate-800 text-base">Comparativa de ${colCount} Países</h3>
+                    <h3 class="font-bold text-slate-800 text-base">Comparativa de ${colCount} países</h3>
                     <p class="text-xs text-slate-500">${selected.join(' vs ')}</p>
                 </div>
                 <button onclick="app.printComparison('countries')" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-teal-700 shadow-sm transition-all cursor-pointer">
-                    <i data-lucide="printer" class="w-4 h-4"></i> Generar Informe PDF
+                    <i data-lucide="printer" class="w-4 h-4"></i> Generar informe PDF
                 </button>
             </div>
 
             <div class="print-only mb-6 border-b-2 border-black pb-4">
-                <h1 class="text-2xl font-black text-black uppercase">Informe Comparativo por Países</h1>
+                <h1 class="text-2xl font-black text-black uppercase">Informe comparativo por países</h1>
                 <p class="text-base font-bold text-black mt-1">Países comparados: ${selected.join(', ')}</p>
                 <div class="text-xs text-black mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
             </div>
@@ -1463,8 +1463,8 @@ const app = {
 
         container.innerHTML = `
         <div class="animate-in fade-in pb-20">
-            <h2 class="text-3xl font-bold text-slate-800 mb-2">Filtro Avanzado</h2>
-            <p class="text-slate-500 mb-8 text-sm">Identifique países que cumplen con <strong>todos</strong> los criterios seleccionados simultáneamente en tiempo real.</p>
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Filtro avanzado</h2>
+            <p class="text-slate-500 mb-8 text-sm">Identifique los países según preguntas o requisitos específicos.</p>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- PANEL IZQUIERDO: CRITERIOS -->
@@ -1638,17 +1638,17 @@ const app = {
                 <form id="internal-report-form" onsubmit="app.handleReportSubmit(event)" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Nombre y Apellido *</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Nombre y apellido *</label>
                             <input type="text" id="report-name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Ej. Dra. María González" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico *</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Correo electrónico *</label>
                             <input type="email" id="report-email" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="ejemplo@organizacion.org" required>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">País Relacionado *</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">País relacionado *</label>
                         <select id="report-country" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white" required>
                             <option value="">Seleccione un país...</option>
                             ${countryOptions}
@@ -1657,12 +1657,12 @@ const app = {
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Comentario o Sugerencia *</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Comentario o sugerencia *</label>
                         <textarea id="report-comments" rows="4" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Describa detalladamente su comentario o sugerencia de actualización normativa..." required></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Documento Adjunto (Opcional - PDF Máx. 5MB)</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Documento adjunto (opcional - PDF máx. 5MB)</label>
                         <input type="file" id="report-file" accept=".pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
                     </div>
 
@@ -1672,7 +1672,7 @@ const app = {
                         </button>
                         <button type="submit" id="report-submit-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2 cursor-pointer">
                             <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                            <span>Enviar Reporte</span>
+                            <span>Enviar reporte</span>
                         </button>
                     </div>
                 </form>
@@ -1745,7 +1745,7 @@ const app = {
             alertEl.classList.remove('hidden');
         } finally {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5"></i> <span>Enviar Reporte</span>`;
+            submitBtn.innerHTML = `<i data-lucide="send" class="w-3.5 h-3.5"></i> <span>Enviar reporte</span>`;
             lucide.createIcons();
             this.notifyResize();
         }
@@ -1758,7 +1758,7 @@ const app = {
             const btn = el.previousElementSibling;
             if (btn) {
                 const isHidden = el.classList.contains('hidden');
-                btn.innerHTML = `<i data-lucide="book-open" class="w-3 h-3"></i> ${isHidden ? 'Ver Fuente' : 'Ocultar Fuente'}`;
+                btn.innerHTML = `<i data-lucide="book-open" class="w-3 h-3"></i> ${isHidden ? 'Ver fuente' : 'Ocultar fuente'}`;
                 lucide.createIcons();
             }
         }
