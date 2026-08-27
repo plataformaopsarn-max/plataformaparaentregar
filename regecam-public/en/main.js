@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
-    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_v1.2',
+    CACHE_KEY: 'plataforma_regulatoria_cache_en_v1.2',
     TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
 
     data: {
@@ -23,7 +23,7 @@ const DataCacheManager = {
                 const { timestamp, payload } = JSON.parse(cached);
                 if (Date.now() - timestamp < this.TTL && payload && payload.faq && payload.summary) {
                     this.data = payload;
-                    console.log('⚡ [DataCacheManager] Datos cargados instantáneamente desde LocalStorage (0 consultas a Supabase)');
+                    console.log('⚡ [DataCacheManager-EN] Data loaded instantly from LocalStorage (0 Supabase queries)');
                     return true;
                 }
             }
@@ -39,27 +39,58 @@ const DataCacheManager = {
     },
 
     async fetchFreshData() {
-        console.log('🌐 [DataCacheManager] Descargando lote completo desde Supabase...');
+        console.log('🌐 [DataCacheManager-EN] Fetching data from Supabase (English tables)...');
         try {
-            const [faqRes, summaryRes, linksRes] = await Promise.all([
+            const [faqEsRes, faqEnRes, summaryRes, linksRes, linksDescEnRes] = await Promise.all([
                 supabase.from('faq_rows_corregido').select('*'),
+                supabase.from('faq_rows_corregido_en').select('*'),
                 supabase.from('resumen_ejecutivo').select('*'),
-                supabase.from('enlaces').select('*').order('question_code')
+                supabase.from('enlaces').select('*').order('question_code'),
+                supabase.from('enlaces_descripcion_en').select('*')
             ]);
 
+            const faqEs = faqEsRes.data || [];
+            const faqEn = faqEnRes.data || [];
+            const summary = summaryRes.data || [];
+            const links = linksRes.data || [];
+            const linksDescEn = linksDescEnRes.data || [];
+
+            // Map English descriptions by link ID
+            const descEnMap = new Map();
+            linksDescEn.forEach(item => {
+                if (item.id != null) descEnMap.set(item.id, item.proposito_descripcion_en);
+            });
+
+            // Merge English descriptions into links
+            const mergedLinks = links.map(link => ({
+                ...link,
+                proposito_descripcion_en: descEnMap.get(link.id) || null
+            }));
+
+            // Merge FAQ rows: prioritize English row for countries in faq_rows_corregido_en, fallback to Spanish
+            const enCountryMap = new Map();
+            faqEn.forEach(row => {
+                if (row.pais) enCountryMap.set(row.pais, row);
+            });
+
+            const mergedFaq = faqEs.map(esRow => {
+                const enRow = enCountryMap.get(esRow.pais);
+                return enRow ? { ...esRow, ...enRow } : esRow;
+            });
+
             this.data = {
-                faq: faqRes.data || [],
-                summary: summaryRes.data || [],
-                links: linksRes.data || []
+                faq: mergedFaq,
+                summary: summary,
+                links: mergedLinks
             };
 
             localStorage.setItem(this.CACHE_KEY, JSON.stringify({
                 timestamp: Date.now(),
                 payload: this.data
             }));
-            console.log('✅ [DataCacheManager] Caché local guardada exitosamente.');
+            console.log('✅ [DataCacheManager-EN] Local cache saved successfully with English tables.');
         } catch (err) {
-            console.error('❌ [DataCacheManager] Error descargando datos de Supabase:', err);
+            console.error('❌ [DataCacheManager-EN] Error downloading data from Supabase:', err);
         }
     },
 
@@ -885,7 +916,7 @@ const app = {
                                         ${subLinks.map(link => `
                                             <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors">
                                                 <h5 class="font-bold text-blue-700 mb-2">${link.titulo}</h5>
-                                                <p class="text-sm text-slate-600 mb-4">${link.proposito_descripcion || link.descripcion || ''}</p>
+                                                <p class="text-sm text-slate-600 mb-4">${link.proposito_descripcion_en || link.proposito_descripcion || link.descripcion || ''}</p>
                                                 <a href="${link.enlace}" target="_blank" rel="noopener noreferrer" onclick="analytics.resourceLinkClicked('${countryName}', '${link.titulo.replace(/'/g, '\\&apos;')}', '${subCode}', '${link.enlace}')" class="inline-flex items-center gap-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors">
                                                     Access resource <i data-lucide="external-link" class="w-3 h-3"></i>
                                                 </a>

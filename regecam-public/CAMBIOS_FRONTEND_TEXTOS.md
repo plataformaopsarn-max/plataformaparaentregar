@@ -46,10 +46,17 @@ Se convirtieron todas las palabras intermedias a minúsculas:
 
 # PARTE 2: Espejo en Inglés (`/en/index.html` y `/en/main.js`)
 
-## 2.1. Arquitectura y Regla Fundamental de Supabase
+## 2.1. Arquitectura y Conexión con Supabase en Inglés
 - La versión en inglés reside en la subcarpeta `/en/`.
-- **NO se modifica el esquema ni los datos de Supabase**: Las tablas (`faq_rows_corregido`, `resumen_ejecutivo`, `enlaces`, `reportes_usuarios`) contienen textos en español.
-- Para no romper las consultas de Supabase (`r.pais === countryName`), en `COUNTRIES_LIST` el atributo `name` **permanece con el valor en español** (ej. `"Brasil"`, `"México"`, `"República Dominicana"`), y se incorpora la propiedad `displayName` para la interfaz (ej. `"Brazil"`, `"Mexico"`, `"Dominican Republic"`).
+- **Estructura de Tablas en Supabase (`mugtfugfabhrqcomynrs`)**:
+  - `faq_rows_corregido_en`: Contiene las respuestas narrativas (`_directa`, `_ampliada`, `_fuente`) traducidas al inglés para los países cargados (ej. Argentina piloto).
+  - `enlaces_descripcion_en`: Contiene la columna `proposito_descripcion_en` vinculada por `id` a la tabla `enlaces`.
+  - `resumen_ejecutivo`: Se consulta directamente de la tabla original ya que contiene datos factuales (autoridad, web, domicilio, etc.).
+  - `faq_rows_corregido`: Se usa como respaldo (fallback) para los países que aún están en proceso de traducción.
+- **DataCacheManager para EN (`en/main.js`)**:
+  - Clave de caché local independiente: `plataforma_regulatoria_cache_en_v1.2` (evita colisiones con la versión en español).
+  - En `fetchFreshData()`, se realiza la descarga en paralelo de las tablas en inglés y español, fusionando automáticamente las descripciones de enlaces (`proposito_descripcion_en`) y priorizando las filas de `faq_rows_corregido_en`.
+- En `COUNTRIES_LIST` el atributo `name` **permanece con el valor en español** (ej. `"Brasil"`, `"México"`, `"República Dominicana"`), y se incorpora la propiedad `displayName` para la interfaz (ej. `"Brazil"`, `"Mexico"`, `"Dominican Republic"`).
 
 ```javascript
 // Estructura en en/main.js
