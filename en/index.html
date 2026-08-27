@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información Regulatoria para Ensayos Clínicos en América Latina y el Caribe</title>
+    <title>Regulatory Information on Clinical Trials in Latin America and the Caribbean</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4BZ8GDMZ5"></script>
@@ -30,7 +30,7 @@
 
     <!-- 5. Supabase & Configuración Centralizada -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
+    <script src="../config.js"></script>
 
     <style>
         body {
@@ -171,12 +171,12 @@
     <header class="bg-white border-b border-slate-200 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
             <div class="flex justify-between items-center">
-                <img src="logos-header.png" alt="OPS | OMS | Programa Regional de Bioética"
+                <img src="../logos-header.png" alt="PAHO | WHO | Regional Bioethics Program"
                     class="h-10 sm:h-14 md:h-16 w-auto object-contain">
                 <div class="flex items-center gap-2 text-sm">
-                    <span class="text-blue-600 font-bold">ES</span>
+                    <a href="../index.html" class="text-slate-500 hover:text-blue-600 font-medium transition-colors">ES</a>
                     <span class="text-slate-300">|</span>
-                    <a href="en/index.html" class="text-slate-500 hover:text-blue-600 font-medium transition-colors">EN</a>
+                    <span class="text-blue-600 font-bold">EN</span>
                 </div>
             </div>
         </div>
@@ -192,9 +192,9 @@
                 <div class="flex items-center">
                     <button onclick="app.setView('home')" 
                             class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-2xl text-sm sm:text-base font-extrabold flex items-center gap-2.5 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer"
-                            title="Volver al menú principal">
+                            title="Back to main menu">
                         <i data-lucide="layout-grid" class="w-5 h-5 stroke-[2.5]"></i>
-                        <span>Menú principal</span>
+                        <span>Main menu</span>
                     </button>
                 </div>
             </div>
@@ -218,40 +218,40 @@
 
                 <!-- Col 1: Acerca de -->
                 <div>
-                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Acerca de</p>
+                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">About</p>
                     <ul class="space-y-3">
-                        <li><a href="https://www.paho.org/es/quienes-somos" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Acerca de OPS/OMS</a></li>
-                        <li><a href="https://www.paho.org/es/bioetica" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Programa Regional de Bioética</a></li>
-                        <li><a href="https://www.paho.org/es/carreras-ops" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Empleo en OPS</a></li>
-                        <li><a href="https://www.paho.org/es/carreras-ops/programa-pasantias-ops-fomentar-liderazgo-futuro-salud-publica" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Pasantías</a></li>
+                        <li><a href="https://www.paho.org/en/who-we-are" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">About PAHO/WHO</a></li>
+                        <li><a href="https://www.paho.org/en/bioethics" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Regional Bioethics Program</a></li>
+                        <li><a href="https://www.paho.org/en/careers-paho" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Careers at PAHO</a></li>
+                        <li><a href="https://www.paho.org/en/careers-paho/paho-internship-program-fostering-future-leaders-public-health" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Internships</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 2: Políticas -->
                 <div>
-                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Políticas</p>
+                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Policies</p>
                     <ul class="space-y-3">
-                        <li><a href="https://www.paho.org/es/politica-privacidad" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Aviso de privacidad</a></li>
-                        <li><a href="https://www.paho.org/es/node/93183" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Política de protección de datos</a></li>
-                        <li><a href="https://www.paho.org/es/terminos-condiciones-para-uso-sitio" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Términos y condiciones de uso</a></li>
-                        <li><a href="https://www.paho.org/es/relaciones-comerciales-con-ops" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Relaciones comerciales con OPS</a></li>
-                        <li><a href="https://www.paho.org/es/alerta-intentos-estafa-nombre-opsoms" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Alerta — Intentos de estafa</a></li>
+                        <li><a href="https://www.paho.org/en/privacy-policy" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Privacy notice</a></li>
+                        <li><a href="https://www.paho.org/en/node/93183" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Data protection policy</a></li>
+                        <li><a href="https://www.paho.org/en/terms-conditions-site-use" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Terms and conditions of use</a></li>
+                        <li><a href="https://www.paho.org/en/doing-business-paho" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Doing business with PAHO</a></li>
+                        <li><a href="https://www.paho.org/en/alert-scam-attempts-name-pahowho" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Alert — Scam attempts</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3: Contáctenos -->
                 <div>
-                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Contáctenos</p>
+                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Contact us</p>
                     <ul class="space-y-3">
-                        <li><a href="https://www.paho.org/es/consultas" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Consultas generales</a></li>
-                        <li><a href="https://www.paho.org/es/denunciar-conductas-indebidas" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Denunciar faltas de conducta</a></li>
-                        <li><a href="#" onclick="app.setView('report'); return false;" class="text-slate-400 hover:text-white text-sm transition-colors">Sugerir actualización de datos / Reportar</a></li>
+                        <li><a href="https://www.paho.org/en/inquiries" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">General inquiries</a></li>
+                        <li><a href="https://www.paho.org/en/report-misconduct" target="_blank" rel="noopener" class="text-slate-400 hover:text-white text-sm transition-colors">Report misconduct</a></li>
+                        <li><a href="#" onclick="app.setView('report'); return false;" class="text-slate-400 hover:text-white text-sm transition-colors">Suggest data update / Report</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 4: Síguenos -->
                 <div>
-                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Síguenos</p>
+                    <p class="text-white font-bold text-sm uppercase tracking-widest mb-5">Follow us</p>
                     <div class="flex flex-wrap gap-2 mb-6">
                         <a href="https://x.com/opsoms" target="_blank" rel="noopener" aria-label="X" title="X" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-blue-600 flex items-center justify-center transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.736-8.857L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -272,8 +272,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M0 12c0 3.074 2.494 5.568 5.568 5.568 3.075 0 5.569-2.494 5.569-5.568 0-3.075-2.494-5.568-5.569-5.568C2.494 6.432 0 8.925 0 12zm12.863 0c0 3.074 2.494 5.568 5.569 5.568C21.506 17.568 24 15.074 24 12c0-3.075-2.494-5.568-5.568-5.568-3.075 0-5.569 2.493-5.569 5.568z"/></svg>
                         </a>
                     </div>
-                    <a href="https://www.paho.org/es" target="_blank" rel="noopener">
-                        <img src="logos-header.png" alt="OPS | OMS | Programa Regional de Bioética" class="h-10 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity">
+                    <a href="https://www.paho.org/en" target="_blank" rel="noopener">
+                        <img src="../logos-header.png" alt="PAHO | WHO | Regional Bioethics Program" class="h-10 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity">
                     </a>
                 </div>
 
@@ -283,8 +283,8 @@
         <!-- Barra de copyright -->
         <div class="border-t border-slate-800">
             <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
-                <span>Oficina Regional para las Américas de la Organización Mundial de la Salud</span>
-                <span>&copy; Organización Panamericana de la Salud. Todos los derechos reservados.</span>
+                <span>Regional Office for the Americas of the World Health Organization</span>
+                <span>&copy; Pan American Health Organization. All rights reserved.</span>
             </div>
         </div>
 
