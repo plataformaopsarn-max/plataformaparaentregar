@@ -26,18 +26,26 @@ app.state = {
 
 ## 2. Modelo de Datos y Tablas en Supabase (PostgreSQL)
 
-El frontend público interactúa con la API REST de PostgreSQL expuesta por PostgREST en Supabase:
+El frontend público interactúa con la API REST de PostgreSQL expuesta por PostgREST en Supabase (`mugtfugfabhrqcomynrs`):
 
-### A. Tabla `faq_rows_corregido` (Matriz Regulatoria Principal)
+### A. Tabla `faq_rows_corregido` (Matriz Regulatoria en Español)
 Contiene las respuestas regulatorias de los 22 países para las 38 preguntas divididas en 6 categorías procesales.
 * `pais` (text, Primary Key / Index): Nombre oficial del país (ej. "Argentina", "México", "Honduras").
-* `q_X_Y_directa` (text): Respuesta corta o resumen directo para la pregunta `X.Y` (ej. `q_1_1_directa`).
-* `q_X_Y_ampliada` (text): Explicación detallada, excepciones y marco normativo para la pregunta `X.Y`.
+* `q_X_Y_directa` (text): Respuesta corta o resumen directo en español para la pregunta `X.Y` (ej. `q_1_1_directa`).
+* `q_X_Y_ampliada` (text): Explicación detallada, excepciones y marco normativo en español.
 * `q_X_Y_booleano` (boolean): Valor booleano (`true`/`false`) para preguntas de verificación binaria utilizadas en el **Filtro Avanzado**.
 * `q_X_Y_fuente` (text): Cita bibliográfica o enlace oficial de la normativa aplicable.
 
-### B. Tabla `resumen_ejecutivo` (Metadatos Institucionales)
-Almacena la información institucional básica de la Autoridad Regulatoria Nacional (ARN) de cada país.
+### B. Tabla `faq_rows_corregido_en` (Matriz Regulatoria en Inglés)
+Espejo 1:1 de `faq_rows_corregido` con los textos traducidos al inglés técnico institucional.
+* `pais` (text, Primary Key): Mismo valor exacto de país en español (mantiene integridad referencial).
+* `q_X_Y_directa` (text): Respuesta directa en inglés.
+* `q_X_Y_ampliada` (text): Explicación ampliada en inglés.
+* `q_X_Y_fuente` (text): Cita de fuentes con conectores en inglés (*Article*, *Annex*, *Section*, *Recitals*) manteniendo los nombres oficiales de leyes sin traducir.
+* `q_X_Y_booleano` (boolean): Idéntico valor lógico que la versión en español.
+
+### C. Tabla `resumen_ejecutivo` (Metadatos Institucionales)
+Almacena la información institucional básica de la Autoridad Regulatoria Nacional (ARN) de cada país (utilizada de forma compartida por ambas versiones lingüísticas).
 * `pais` (text, Unique): Nombre del país.
 * `autoridad_regulatoria` (text): Nombre completo de la ARN (ej. "ANMAT", "COFEPRIS", "ARSA").
 * `sitio_web_oficial` (text): URL del portal oficial de la autoridad.
@@ -45,17 +53,21 @@ Almacena la información institucional básica de la Autoridad Regulatoria Nacio
 * `domicilio` (text): Dirección física de la sede central.
 * `fecha_compilacion` (text): Fecha de la última revisión normativa.
 
-### C. Tabla `enlaces` (Recursos y Leyes Clave)
-Almacena la biblioteca de normativas, leyes, formularios y guías rápidas.
-* `pais` (text): País asociado.
-* `question_code` (text): Código de agrupación (`7.1` = Normativas Clave, `7.2` = Formularios y Guías, `7.3` = Sitios de Interés).
-* `titulo` (text): Nombre oficial de la norma o ley (ej. "Disposición ANMAT 7516/25").
-* `enlace` (text): URL de descarga o consulta directa del documento PDF o portal.
-* `proposito_descripcion` (text): Descripción breve del alcance de la norma.
-* `peso` (numeric): Prioridad de ordenamiento visual.
+### D. Tabla `enlaces` y `enlaces_descripcion_en` (Recursos y Leyes Clave)
+* **`enlaces`**: Biblioteca base de normativas, leyes, formularios y guías rápidas.
+  * `id` (bigint, PK): Identificador único del recurso.
+  * `pais` (text): País asociado.
+  * `question_code` (text): Código de agrupación (`7.1` = Normativas Clave, `7.2` = Formularios y Guías, `7.3` = Sitios de Interés).
+  * `titulo` (text): Nombre oficial de la norma o ley (sin traducir por estándar legal).
+  * `enlace` (text): URL oficial de consulta/descarga.
+  * `proposito_descripcion` (text): Descripción breve en español.
+  * `peso` (numeric): Prioridad de ordenamiento.
+* **`enlaces_descripcion_en`**: Tabla de traducción 1:1 por ID.
+  * `id` (bigint, PK / FK a `enlaces.id`): Identificador del enlace.
+  * `proposito_descripcion_en` (text): Traducción al inglés del propósito/descripción de la norma.
 
-### D. Tabla `reportes_usuarios` (Formulario In-App)
-Almacena los comentarios, sugerencias y actualizaciones enviadas por los usuarios.
+### E. Tabla `reportes_usuarios` (Formulario In-App)
+Almacena los comentarios, sugerencias y actualizaciones enviadas por los usuarios (tanto desde la versión ES como EN).
 * `id` (bigint, Auto-increment): Identificador único del reporte.
 * `created_at` (timestamp): Estampa de tiempo del envío.
 * `nombre_apellido` (text): Nombre del remitente.

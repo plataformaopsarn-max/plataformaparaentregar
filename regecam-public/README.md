@@ -7,13 +7,14 @@ Bienvenido al repositorio oficial del frontend público de la **Plataforma de In
 
 ## 🚀 Vista General y Arquitectura
 
-La plataforma está diseñada bajo una arquitectura moderna de cliente ligero (**Jamstack / Single-Page Application**), optimizada para ofrecer **máxima velocidad de respuesta**, **cero vulnerabilidades de exposición de credenciales** y **alta escalabilidad** mediante caché local inteligente y despliegue continuo (CI/CD).
+La plataforma está diseñada bajo una arquitectura moderna de cliente ligero (**Jamstack / Single-Page Application**) con soporte **bilingüe nativo (Español / Inglés)**, optimizada para ofrecer **máxima velocidad de respuesta**, **cero vulnerabilidades de exposición de credenciales** y **alta escalabilidad** mediante caché local inteligente y despliegue continuo (CI/CD).
 
 ### 🛠️ Tecnologías Principales:
 * **Core Logic**: HTML5 + Vanilla JavaScript (ES6+ Modules)
+* **Internacionalización (i18n)**: Versión en español en la raíz (`/`) y espejo completo en inglés en subcarpeta (`/en/`) con selector de idioma en header.
 * **Estilos (CSS)**: Tailwind CSS (Utility-First Design System) + Font Inter (Google Fonts)
 * **Iconografía & Banderas**: Lucide Icons + Flag Icons (CDN SVG)
-* **Conectividad REST/API**: Supabase Client JS v2 (vía proxy o variables de entorno)
+* **Conectividad REST/API**: Supabase Client JS v2
 * **Gestión de Caché**: `DataCacheManager` en cliente (LocalStorage + Batch Pre-fetching con TTL de 24h)
 
 ---
@@ -22,11 +23,15 @@ La plataforma está diseñada bajo una arquitectura moderna de cliente ligero (*
 
 ```
 plataforma-publica/
-├── index.html                  # HTML principal con estructura responsiva y meta-etiquetas SEO/Analytics
-├── main.js                     # Controlador principal de vistas, búsqueda, filtros, comparadores y caché
+├── index.html                  # Versión en Español: estructura responsiva y meta-etiquetas SEO/Analytics
+├── main.js                     # Controlador principal en Español (vistas, búsqueda, filtros, comparadores)
+├── en/                         # 🇬🇧 Espejo completo en Inglés
+│   ├── index.html              # HTML en inglés (título, navegación, footer PAHO/EN, selector ES|EN)
+│   └── main.js                 # Controlador en inglés (categorías, 38 preguntas, conexión a tablas _en)
 ├── config.js                   # Módulo dinámico para abstracción de credenciales y variables de entorno
 ├── .env.example                # Plantilla de variables de entorno para integración continua (CI/CD)
-├── TECHNICAL_SPECIFICATION.md  # Especificaciones técnicas completas para desarrolladores
+├── CAMBIOS_FRONTEND_TEXTOS.md  # Registro maestro de cambios y guía de replicación para LLMs
+├── TECHNICAL_SPECIFICATION.md  # Especificaciones técnicas completas del modelo de datos y APIs
 ├── logo-final.png              # Isotipo oficial de la plataforma
 ├── logos-header.png            # Banner institucional OPS / OMS / Programa Regional de Bioética
 └── Logo2.png                   # Isotipo secundario institucional

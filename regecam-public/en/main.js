@@ -1694,7 +1694,14 @@ const app = {
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Attachment (optional - PDF max. 5MB)</label>
-                        <input type="file" id="report-file" accept=".pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <label for="report-file" class="cursor-pointer inline-flex items-center gap-2 py-2 px-4 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors border border-blue-100 shadow-xs">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                <span>Choose file</span>
+                            </label>
+                            <span id="report-file-name" class="text-xs text-slate-500 truncate max-w-xs">No file chosen</span>
+                            <input type="file" id="report-file" accept=".pdf" class="hidden" onchange="const f = this.files[0]; document.getElementById('report-file-name').textContent = f ? f.name : 'No file chosen';">
+                        </div>
                     </div>
 
                     <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
@@ -1769,6 +1776,8 @@ const app = {
             alertEl.classList.remove('hidden');
 
             document.getElementById('internal-report-form').reset();
+            const fileNameLabel = document.getElementById('report-file-name');
+            if (fileNameLabel) fileNameLabel.textContent = 'No file chosen';
         } catch (error) {
             console.error('Error submitting report:', error);
             alertEl.className = 'mb-6 p-4 rounded-2xl text-xs font-medium bg-rose-50 text-rose-800 border border-rose-200 flex items-start gap-2.5';
