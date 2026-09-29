@@ -966,7 +966,7 @@ const app = {
                         <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">${countryName}</h1>
                     </div>
                     <p class="text-slate-600 font-bold text-lg">Informe automatizado - Marco general</p>
-                    <p class="text-sm text-slate-400 mt-2 italic">Información Regulatoria para Ensayos Clínicos en América Latina y el Caribe</p>
+                    <p class="text-sm text-slate-400 mt-2 italic">REGIA — Regulaciones para la Investigación en las Américas (OPS/OMS)</p>
                     <div class="mt-4 text-xs text-slate-400">Fecha de generación: ${new Date().toLocaleDateString()}</div>
                 </div>
 
@@ -1156,7 +1156,7 @@ const app = {
                 <div id="compare-requirement-print-header" class="print-only mb-6 border-b-2 border-slate-900 pb-4 hidden">
                     <h1 class="text-2xl font-black text-slate-900 uppercase">Informe comparativo por requisito</h1>
                     <p id="compare-requirement-print-title" class="text-base font-bold text-blue-800 mt-1"></p>
-                    <div class="text-xs text-slate-500 mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
+                    <div class="text-xs text-slate-500 mt-2">REGIA — Regulaciones para la Investigación en las Américas (OPS/OMS) | Fecha de generación: ${new Date().toLocaleDateString()}</div>
                 </div>
                 <div id="compare-selected-question" class="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-2xl hidden animate-in fade-in flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -1329,7 +1329,7 @@ const app = {
             <div class="print-only mb-6 border-b-2 border-black pb-4">
                 <h1 class="text-2xl font-black text-black uppercase">Informe comparativo por países</h1>
                 <p class="text-base font-bold text-black mt-1">Países comparados: ${selected.join(', ')}</p>
-                <div class="text-xs text-black mt-2">Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas | Fecha de generación: ${new Date().toLocaleDateString()}</div>
+                <div class="text-xs text-black mt-2">REGIA — Regulaciones para la Investigación en las Américas (OPS/OMS) | Fecha de generación: ${new Date().toLocaleDateString()}</div>
             </div>
 
             <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden bg-white">

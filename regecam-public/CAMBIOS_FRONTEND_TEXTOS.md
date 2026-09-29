@@ -1,4 +1,5 @@
-# Registro Maestro de Cambios y Guía de Replicación para LLMs (OPS / OMS)
+# REGIA (Regulaciones para la Investigación en las Américas)
+## Registro Maestro de Cambios y Guía de Replicación para LLMs (OPS / OMS)
 
 Este documento contiene la especificación completa y detallada de:
 1. **Correcciones de estilo y terminología institucional en la versión en Español.**

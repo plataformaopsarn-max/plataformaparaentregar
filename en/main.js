@@ -997,7 +997,7 @@ const app = {
                         <h1 class="text-4xl font-black text-slate-900 uppercase tracking-tight">${countryData?.displayName || countryName}</h1>
                     </div>
                     <p class="text-slate-600 font-bold text-lg">Automated report - General framework</p>
-                    <p class="text-sm text-slate-400 mt-2 italic">Regulatory Information for Clinical Trials in Latin America and the Caribbean</p>
+                    <p class="text-sm text-slate-400 mt-2 italic">REGIA — Regulations for Research in the Americas (PAHO/WHO)</p>
                     <div class="mt-4 text-xs text-slate-400">Generated on: ${new Date().toLocaleDateString()}</div>
                 </div>
 
@@ -1187,7 +1187,7 @@ const app = {
                 <div id="compare-requirement-print-header" class="print-only mb-6 border-b-2 border-slate-900 pb-4 hidden">
                     <h1 class="text-2xl font-black text-slate-900 uppercase">Comparative report by requirement</h1>
                     <p id="compare-requirement-print-title" class="text-base font-bold text-blue-800 mt-1"></p>
-                    <div class="text-xs text-slate-500 mt-2">Regulatory Information Platform on Clinical Trials in the Americas | Generated on: ${new Date().toLocaleDateString()}</div>
+                    <div class="text-xs text-slate-500 mt-2">REGIA — Regulations for Research in the Americas (PAHO/WHO) | Generated on: ${new Date().toLocaleDateString()}</div>
                 </div>
                 <div id="compare-selected-question" class="mb-8 p-6 bg-blue-50/50 border border-blue-100 rounded-2xl hidden animate-in fade-in flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -1360,7 +1360,7 @@ const app = {
             <div class="print-only mb-6 border-b-2 border-black pb-4">
                 <h1 class="text-2xl font-black text-black uppercase">Comparative report by country</h1>
                 <p class="text-base font-bold text-black mt-1">Compared countries: ${selected.join(', ')}</p>
-                <div class="text-xs text-black mt-2">Regulatory Information Platform on Clinical Trials in the Americas | Generated on: ${new Date().toLocaleDateString()}</div>
+                <div class="text-xs text-black mt-2">REGIA — Regulations for Research in the Americas (PAHO/WHO) | Generated on: ${new Date().toLocaleDateString()}</div>
             </div>
 
             <div class="rounded-2xl border border-slate-200 shadow-sm overflow-hidden bg-white">

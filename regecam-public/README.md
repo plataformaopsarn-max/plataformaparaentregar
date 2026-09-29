@@ -1,7 +1,7 @@
-# Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas
-### Organización Panamericana de la Salud (OPS / OMS) — Programa Regional de Bioética
+# REGIA — Regulaciones para la Investigación en las Américas
+### Plataforma de Información Regulatoria sobre Ensayos Clínicos | Organización Panamericana de la Salud (OPS / OMS) — Programa Regional de Bioética
 
-Bienvenido al repositorio oficial del frontend público de la **Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas**. Este proyecto contiene la interfaz interactiva para la consulta, comparación y filtrado en tiempo real del marco normativo y regulatorio sobre ensayos clínicos en 22 países de América Latina y el Caribe.
+Bienvenido al repositorio oficial del frontend público de **REGIA (Regulaciones para la Investigación en las Américas)**. Este proyecto contiene la interfaz interactiva para la consulta, comparación y filtrado en tiempo real del marco normativo y regulatorio sobre ensayos clínicos en 22 países de América Latina y el Caribe.
 
 ---
 
