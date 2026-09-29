@@ -1,0 +1,1746 @@
+[
+  {
+    "id": 1,
+    "proposito_descripcion_en": "Establishes the comprehensive regulatory framework for Good Clinical Practice (GCP) and the evaluation and oversight of clinical pharmacology studies conducted for marketing-authorization purposes. Adopts the ICH E6(R3) Guideline and repeals the previous regulation (Disp. 6677/10), consolidating all requirements into a single regulatory instrument."
+  },
+  {
+    "id": 2,
+    "proposito_descripcion_en": "Approves the \"Guide for Research in Human Health\" (Guía para Investigaciones en Salud Humana), establishing the general ethical and operational framework for all health research in the country. Created the National Registry of Health Research (Registro Nacional de Investigaciones en Salud, RENIS)."
+  },
+  {
+    "id": 3,
+    "proposito_descripcion_en": "Article 58 sets out the fundamental legal requirements for medical research involving human subjects, including the need for informed consent and prior approval by an accredited research ethics committee."
+  },
+  {
+    "id": 4,
+    "proposito_descripcion_en": "Regulates the comprehensive protection of personal data, including \"sensitive data\" such as health information. Establishes the rights of data subjects and the obligations of data controllers, and applies directly to the management of clinical trial participants' information."
+  },
+  {
+    "id": 5,
+    "proposito_descripcion_en": "Approves the specific regime applicable to clinical studies conducted with Medical Technology (medical devices), complementing drug regulation."
+  },
+  {
+    "id": 6,
+    "proposito_descripcion_en": "Sets out the specific requirements for the listing and registration of vaccines, detailing the technical and clinical documentation required for their authorization."
+  },
+  {
+    "id": 7,
+    "proposito_descripcion_en": "Approves the \"Guide for Biobanks of Human Biological Samples for Research Purposes\" (Guía para Biobancos de Muestras Biológicas de Origen Humano con Fines de Investigación), setting out the ethical and technical guidelines for the collection, storage, and use of biological samples."
+  },
+  {
+    "id": 8,
+    "proposito_descripcion_en": "Establishes the \"Ethical and Operational Guidelines for Expedited Ethical Review\" (Pautas Éticas y Operativas para la Evaluación Ética Acelerada) of research involving human subjects in public health emergency contexts, such as the COVID-19 pandemic."
+  },
+  {
+    "id": 9,
+    "proposito_descripcion_en": "Main form for requesting authorization of a new clinical trial."
+  },
+  {
+    "id": 10,
+    "proposito_descripcion_en": "Form used to add or remove sites and investigators from an already-authorized study."
+  },
+  {
+    "id": 11,
+    "proposito_descripcion_en": "Form for requesting approval of significant changes to the protocol of an ongoing study."
+  },
+  {
+    "id": 12,
+    "proposito_descripcion_en": "Form for notifying updates to the Investigational Product Monograph."
+  },
+  {
+    "id": 13,
+    "proposito_descripcion_en": "Form for submitting follow-up or closure reports, or for reporting serious deviations."
+  },
+  {
+    "id": 14,
+    "proposito_descripcion_en": "Provides recommendations for implementing decentralized clinical trial (DCT) elements, such as telemedicine, home visits, and direct shipment of the investigational product, aligning local practice with global trends."
+  },
+  {
+    "id": 15,
+    "proposito_descripcion_en": "Details the guidelines and documentation required for the evaluation and registration process for vaccines and blood products, serving as a technical guide for applicants."
+  },
+  {
+    "id": 16,
+    "proposito_descripcion_en": "Central portal of the regulatory authority, providing access to regulations, news, health alerts, the fee schedule, and query systems."
+  },
+  {
+    "id": 17,
+    "proposito_descripcion_en": "Public, mandatory registry of all human health research conducted in Argentina, managed through the SISA platform. Promotes transparency and access to information."
+  },
+  {
+    "id": 327,
+    "proposito_descripcion_en": "Regulation establishing the creation of ANMAT."
+  },
+  {
+    "id": 341,
+    "proposito_descripcion_en": "Document detailing how to register in the system, pay fees, and submit the required documentation."
+  },
+  {
+    "id": 18,
+    "proposito_descripcion_en": "Main regulatory framework for clinical trials in Bolivia."
+  },
+  {
+    "id": 19,
+    "proposito_descripcion_en": "Current guideline (AGEMED Regulation 2024-02) for Good Clinical Practice inspections in clinical trials involving medicines and medical devices. Full official title: \"Manual de Inspección de Buenas Prácticas Clínicas para Medicamentos y Dispositivos Médicos\" [Good Clinical Practice Inspection Manual for Medicines and Medical Devices]."
+  },
+  {
+    "id": 20,
+    "proposito_descripcion_en": "General legal framework for medicines and investigational products."
+  },
+  {
+    "id": 21,
+    "proposito_descripcion_en": "Implementing regulation detailing the application of the Ley del Medicamento, including the requirement for clinical studies."
+  },
+  {
+    "id": 22,
+    "proposito_descripcion_en": "Official forms for authorization applications."
+  },
+  {
+    "id": 23,
+    "proposito_descripcion_en": "Reminder regarding the mandatory authorization requirement for clinical trials."
+  },
+  {
+    "id": 24,
+    "proposito_descripcion_en": "Procedures for the registration of medicines."
+  },
+  {
+    "id": 25,
+    "proposito_descripcion_en": "Access to all regulatory documentation and up-to-date circulars."
+  },
+  {
+    "id": 365,
+    "proposito_descripcion_en": "Regulates the clinical trial of prototype mechanical ventilators in four stages (design, simulation, animal, human) to assess their safety and performance."
+  },
+  {
+    "id": 441,
+    "proposito_descripcion_en": "Official AGEMED manual regulating the procedures and requirements for the sanitary registration, relisting, and batch release of vaccines, including clinical studies and ESAVI reporting (Resolución Ministerial N° 0512)."
+  },
+  {
+    "id": 442,
+    "proposito_descripcion_en": "2024 AGEMED guideline establishing the systematic process for assessing the benefits, efficacy, clinical/technical safety, and cost-effectiveness of health technologies (medical devices, diagnostic equipment, and interventions). Relevant to clinical trials involving medical devices and other specific situations (AGEMED Regulation 2024-03)."
+  },
+  {
+    "id": 443,
+    "proposito_descripcion_en": "AGEMED resolution of September 18, 2025, approving the Basic List of Medicinal Plants for Traditional Use – 2nd Edition (102 species and 2 products of other origin), the basis for producing artisanal traditional natural products. Tacitly replaces RA N° 291/2019 (Art. FIFTH). Available on the AGEMED portal, under REGULATION > RESOLUTIONS AND DECREES > ADMINISTRATIVE RESOLUTIONS."
+  },
+  {
+    "id": 444,
+    "proposito_descripcion_en": "Law of December 19, 2013, regulating the practice and integration of Bolivian ancestral traditional medicine within the National Health System. Its Article 28 requires the preparation of the Basic List of raw materials and research by the Ministry of Health and Sports (through the Vice-Ministry of Traditional Medicine and Interculturality and AGEMED), the regulatory basis for RA Regulatoria N° 30/2025."
+  },
+  {
+    "id": 69,
+    "proposito_descripcion_en": "Establishes the new legal framework for research ethics involving human subjects in Brazil."
+  },
+  {
+    "id": 70,
+    "proposito_descripcion_en": "Implements Lei nº 14.874/2024 and establishes the structure and transition of the new National Research Ethics System."
+  },
+  {
+    "id": 71,
+    "proposito_descripcion_en": "ANVISA's main regulation defining the procedures for conducting drug clinical trials for registration purposes."
+  },
+  {
+    "id": 72,
+    "proposito_descripcion_en": "Brazil's General Data Protection Law, applicable to the data of clinical trial participants."
+  },
+  {
+    "id": 73,
+    "proposito_descripcion_en": "Establishes the ethical standards of the CEP/CONEP system, which remain partially in force during the transition period to the new system."
+  },
+  {
+    "id": 74,
+    "proposito_descripcion_en": "Details the criteria and the list of Equivalent Foreign Regulatory Authorities (AREE) for the application of the optimized review procedure (reliance)."
+  },
+  {
+    "id": 75,
+    "proposito_descripcion_en": "Establishes the procedures for ANVISA's collection of the Health Surveillance Inspection Fee (TFVS)."
+  },
+  {
+    "id": 76,
+    "proposito_descripcion_en": "Sets out complementary, specific Good Manufacturing Practice (GMP) requirements for Investigational Medicinal Products."
+  },
+  {
+    "id": 77,
+    "proposito_descripcion_en": "Standardized form for submitting the details of a specific clinical trial (DEEC) to ANVISA."
+  },
+  {
+    "id": 78,
+    "proposito_descripcion_en": "Form for requesting the initial approval of the Drug Clinical Development Dossier (DDCM)."
+  },
+  {
+    "id": 79,
+    "proposito_descripcion_en": "Form for submitting amendments considered substantial to the protocol of an already-approved clinical trial."
+  },
+  {
+    "id": 80,
+    "proposito_descripcion_en": "Form for notifying ANVISA of the clinical trial's start date (enrollment of the first participant) in Brazil."
+  },
+  {
+    "id": 81,
+    "proposito_descripcion_en": "Provides detailed instructions on how to compile and submit the DDCM and DEEC regulatory dossiers through the Solicita system."
+  },
+  {
+    "id": 82,
+    "proposito_descripcion_en": "Guide for submitting secondary filings, such as substantial amendments, modifications to the IP, and notifications of trial suspension and cancellation."
+  },
+  {
+    "id": 83,
+    "proposito_descripcion_en": "Provides instructions on using the VigiMed system to report SUSARs and details the sponsor's responsibilities in monitoring trial safety."
+  },
+  {
+    "id": 84,
+    "proposito_descripcion_en": "Document from the CEP/CONEP system guiding CEPs on their operating procedures. (Note: subject to revision by the new National Research Ethics Authority.)"
+  },
+  {
+    "id": 85,
+    "proposito_descripcion_en": "Official Portuguese translation of the ICH E6(R2) guideline, adopted by ANVISA as the Good Clinical Practice standard."
+  },
+  {
+    "id": 86,
+    "proposito_descripcion_en": "Main portal of Brazil's health regulatory authority."
+  },
+  {
+    "id": 87,
+    "proposito_descripcion_en": "Electronic system for submitting regulatory filings to ANVISA."
+  },
+  {
+    "id": 88,
+    "proposito_descripcion_en": "Electronic system for reporting adverse events related to medicines and vaccines."
+  },
+  {
+    "id": 89,
+    "proposito_descripcion_en": "Unified national database for records of research involving human subjects, managed by the ethics system."
+  },
+  {
+    "id": 90,
+    "proposito_descripcion_en": "Platform for the public registration of clinical trials conducted in Brazil, a member of the WHO registry network."
+  },
+  {
+    "id": 317,
+    "proposito_descripcion_en": "This document seeks to establish technical criteria for the preclinical evaluations that determine the safety profile of new therapeutic candidates. Its aim is to standardize these risk assessments to generate high-quality information useful for the regulatory approval process."
+  },
+  {
+    "id": 324,
+    "proposito_descripcion_en": "Establishes exceptional, temporary measures (until December 31, 2026) for managing review queues, creating specific queues for reliance-based filings and prioritizing those combining reliance with rare-disease or strategic criteria."
+  },
+  {
+    "id": 330,
+    "proposito_descripcion_en": "Creates and defines the powers of the Agência Nacional de Vigilância Sanitária (National Health Surveillance Agency, ANVISA)."
+  },
+  {
+    "id": 331,
+    "proposito_descripcion_en": "Establishes the rules for conducting clinical trials with investigational advanced therapy products in Brazil."
+  },
+  {
+    "id": 340,
+    "proposito_descripcion_en": "Clarifies the most frequently asked questions on clinical research involving medicines and biological products, guiding compliance with RDC nº 945/2024 and IN nº 338/2024, without creating new regulatory obligations."
+  },
+  {
+    "id": 358,
+    "proposito_descripcion_en": "Updates the monetary amounts of the Health Surveillance Inspection Fee (TFVS), applicable to services and activities subject to ANVISA's oversight."
+  },
+  {
+    "id": 359,
+    "proposito_descripcion_en": "Approves ethical guidelines for research projects involving the storage and use of human biological material."
+  },
+  {
+    "id": 360,
+    "proposito_descripcion_en": "Establishes the National Guidelines for Biobanks and Biorepositories of human biological material for research purposes, including definitions and ethical and operational standards."
+  },
+  {
+    "id": 361,
+    "proposito_descripcion_en": "Sets out good sanitary practices for the transport of human biological material, defining safety standards and material protection throughout transit."
+  },
+  {
+    "id": 362,
+    "proposito_descripcion_en": "Approves ethical guidelines and procedures for the evaluation and processing of research projects in human genetics."
+  },
+  {
+    "id": 363,
+    "proposito_descripcion_en": "Defines a special regulatory procedure for the evaluation of clinical trials, GMP certification, and sanitary registration of medicines intended for the treatment, diagnosis, or prevention of rare diseases, seeking to expedite their availability without compromising quality, safety, and efficacy."
+  },
+  {
+    "id": 364,
+    "proposito_descripcion_en": "Establishes the priority classification of applications for registration, post-registration changes, prior agreement for clinical trials, and GMP certification for medicines and active pharmaceutical ingredients (APIs). Revokes RDC nº 204/2017 (Art. 17). In force since January 15, 2026."
+  },
+  {
+    "id": 453,
+    "proposito_descripcion_en": "Regulatory guidance from the Instância Nacional de Ética em Pesquisa (Inaep) regulating the single ethical opinion regime for multicenter research, establishing the residual authority of local CEPs, the distinction between ethical and administrative/institutional review, and the guidelines for the Informed Consent Form (TCLE) in multicenter studies."
+  },
+  {
+    "id": 49,
+    "proposito_descripcion_en": "Establishes the fundamental ethical and legal framework governing all scientific research involving human subjects in the country, including the requirement for prior ethical review."
+  },
+  {
+    "id": 50,
+    "proposito_descripcion_en": "Implementing regulation of Ley N° 20.120, detailing the organization and powers of Scientific Ethics Committees (CECs) and sponsors' responsibilities."
+  },
+  {
+    "id": 51,
+    "proposito_descripcion_en": "Amends Decreto N° 114 of 2010, which approves the implementing regulation of Ley N° 20.120 on scientific research involving human subjects and their genome, and prohibits human cloning."
+  },
+  {
+    "id": 52,
+    "proposito_descripcion_en": "Approves the Regulation of the National Pharmaceutical Products Control System, specifically regulating the authorization for the provisional use of pharmaceutical products for scientific research or clinical trial purposes (IP)."
+  },
+  {
+    "id": 53,
+    "proposito_descripcion_en": "Amends the Código Sanitario, empowering the ISP to provisionally authorize the use of unregistered pharmaceutical products for clinical trials and establishing the confidential nature of medical prescriptions and clinical information."
+  },
+  {
+    "id": 54,
+    "proposito_descripcion_en": "Incorporates Title V (On Clinical Trials) into Book Four of the Código Sanitario, regulating the provisional authorization of pharmaceutical products/medical devices for research, and establishing the right to continued, free-of-charge treatment after the study."
+  },
+  {
+    "id": 55,
+    "proposito_descripcion_en": "Protection of personal data, fundamental to the processing of genome data and other sensitive data arising from research."
+  },
+  {
+    "id": 56,
+    "proposito_descripcion_en": "Regulates the protection and processing of personal and sensitive data (including the human biological profile) and creates the Personal Data Protection Agency."
+  },
+  {
+    "id": 57,
+    "proposito_descripcion_en": "Approves the \"Good Clinical Practice Guide\" (Guía de Buenas Prácticas Clínicas)."
+  },
+  {
+    "id": 58,
+    "proposito_descripcion_en": "Establishes and updates the method for reporting adverse events."
+  },
+  {
+    "id": 59,
+    "proposito_descripcion_en": "Initial authorization procedure for the provisional use of the Investigational Product (IP) before the ISP."
+  },
+  {
+    "id": 60,
+    "proposito_descripcion_en": "Document used to request changes or amendments to a protocol previously authorized by the ISP."
+  },
+  {
+    "id": 61,
+    "proposito_descripcion_en": "Procedure required to extend the validity of the clinical trial authorization."
+  },
+  {
+    "id": 62,
+    "proposito_descripcion_en": "Formally documents the closure of a research site for a specific study."
+  },
+  {
+    "id": 63,
+    "proposito_descripcion_en": "Informs the ISP of the remaining unused IP stock at the end of the study; mandatory in the event of closure or non-renewal."
+  },
+  {
+    "id": 64,
+    "proposito_descripcion_en": "Used to report national Related, Unexpected Serious Adverse Events (EASRI) through GICONA."
+  },
+  {
+    "id": 65,
+    "proposito_descripcion_en": "Details the electronic process for obtaining the Customs Destination Certificate (CDA) and the Use and Disposal Authorization (UyD) through GICONA, including the Safety Period (maximum 15 business days)."
+  },
+  {
+    "id": 66,
+    "proposito_descripcion_en": "Establishes the safety reporting time frames (7 and 15 calendar days) and the reporting channels (GICONA or email) for EASRI, RAMSI, and DSUR."
+  },
+  {
+    "id": 67,
+    "proposito_descripcion_en": "Establishes the requirements and time frames (15 business days through GICONA) for reporting critical/very serious and major/serious protocol deviations."
+  },
+  {
+    "id": 325,
+    "proposito_descripcion_en": "Approves the \"General Considerations Guide for Clinical Studies\" (Guía de consideraciones generales para estudios clínicos). Adopts the ICH E8(R1) guidelines."
+  },
+  {
+    "id": 329,
+    "proposito_descripcion_en": "Regulates individuals' rights and duties in connection with actions related to their healthcare."
+  },
+  {
+    "id": 332,
+    "proposito_descripcion_en": "Recognition and protection of individuals' rights in mental health care."
+  },
+  {
+    "id": 344,
+    "proposito_descripcion_en": "Establishes the procedure for the national registry of Scientific Ethics Committee (CEC) accreditations."
+  },
+  {
+    "id": 345,
+    "proposito_descripcion_en": "Aims to establish the accreditation standards for Scientific Ethics Committees (CECs) that evaluate research involving human subjects. Regulates their structure, operation, procedures, and responsibilities."
+  },
+  {
+    "id": 422,
+    "proposito_descripcion_en": "Establishes and regulates the basis of administrative procedure for acts of the State Administration in Chile. Sets the maximum 6-month time frame for the final decision on any administrative procedure (Article 27), applicable to the ISP's authorization of clinical studies."
+  },
+  {
+    "id": 423,
+    "proposito_descripcion_en": "Updates the Guide for the authorization and control of the use of pharmaceutical products in clinical trials. Regulates the submission, evaluation, and validity period of authorization for the use of investigational pharmaceutical products."
+  },
+  {
+    "id": 424,
+    "proposito_descripcion_en": "Approves Norma Técnica N° 131, which defines the criteria for establishing therapeutic equivalence in pharmaceutical products in Chile. Technical framework for bioequivalence studies of generic medicines."
+  },
+  {
+    "id": 425,
+    "proposito_descripcion_en": "Approves Norma Técnica N° 136, which establishes the list of active ingredients contained in pharmaceutical products that must demonstrate therapeutic equivalence (bioequivalence) in Chile."
+  },
+  {
+    "id": 426,
+    "proposito_descripcion_en": "Approves Norma Técnica N° 170 on the sanitary registration of biotechnological products derived from recombinant DNA techniques. Applicable to biosimilars and biotechnological products."
+  },
+  {
+    "id": 427,
+    "proposito_descripcion_en": "Official ISP guideline setting out guidance for the design, conduct, and reporting of clinical trials with biological products, including vaccines and biosimilars."
+  },
+  {
+    "id": 26,
+    "proposito_descripcion_en": "Scientific, technical, and administrative standards for health research, risk classification, and informed consent."
+  },
+  {
+    "id": 27,
+    "proposito_descripcion_en": "Regulates scientific and technological development activities in the health sector, including the evaluation of drug research projects by INVIMA (Article 6). Note: Chapter I on the Advisory Commission on Science and Technology (Articles 1, 2, and 3) was repealed by Resolución 631 de 1999."
+  },
+  {
+    "id": 28,
+    "proposito_descripcion_en": "Adopts Good Clinical Practice (GCP) for institutions conducting research involving medicines and human subjects, and requires registration of projects with INVIMA."
+  },
+  {
+    "id": 29,
+    "proposito_descripcion_en": "Regulation on the content and frequency of adverse event reports during the clinical research phase."
+  },
+  {
+    "id": 30,
+    "proposito_descripcion_en": "General provisions for the protection of personal data."
+  },
+  {
+    "id": 31,
+    "proposito_descripcion_en": "Approval of amendments that include extension periods."
+  },
+  {
+    "id": 32,
+    "proposito_descripcion_en": "Completion and evaluation of protocols by the Research Ethics Committee (CEI) prior to submission to INVIMA."
+  },
+  {
+    "id": 33,
+    "proposito_descripcion_en": "Checklist for receiving the supporting documentation for protocol submission."
+  },
+  {
+    "id": 34,
+    "proposito_descripcion_en": "Application for the import of supplies for research protocols, including investigational products and comparators."
+  },
+  {
+    "id": 35,
+    "proposito_descripcion_en": "Submission of annual safety reports (DSURs) by the sponsor/CRO."
+  },
+  {
+    "id": 36,
+    "proposito_descripcion_en": "Bimonthly report of unexpected, related international serious adverse events (SUSAR)."
+  },
+  {
+    "id": 37,
+    "proposito_descripcion_en": "Notification of the closure of a clinical study protocol."
+  },
+  {
+    "id": 38,
+    "proposito_descripcion_en": "Submission of amendments, new sites/investigators, and changes to informed consent forms."
+  },
+  {
+    "id": 39,
+    "proposito_descripcion_en": "Submission of the annual follow-up report for research protocols."
+  },
+  {
+    "id": 40,
+    "proposito_descripcion_en": "Guidelines for submitting supporting documentation for the evaluation of interventional Phase I to IV clinical research protocols."
+  },
+  {
+    "id": 41,
+    "proposito_descripcion_en": "Guidelines for the evaluation, follow-up, and completion of research protocols, including observational Phase IV studies."
+  },
+  {
+    "id": 42,
+    "proposito_descripcion_en": "Guidelines for the establishment and operation of research ethics committees."
+  },
+  {
+    "id": 43,
+    "proposito_descripcion_en": "Guidelines for submitting annual safety reports (DSURs) for clinical research protocols."
+  },
+  {
+    "id": 44,
+    "proposito_descripcion_en": "Guidelines for reporting national and international serious and non-serious adverse events."
+  },
+  {
+    "id": 45,
+    "proposito_descripcion_en": "Introductory guide on GCP and the certification process for investigators and institutions."
+  },
+  {
+    "id": 46,
+    "proposito_descripcion_en": "Ensures the proper handling and use of the investigational medicine, covering manufacturing, stability, labeling, import, and export aspects."
+  },
+  {
+    "id": 47,
+    "proposito_descripcion_en": "Describes the use of the eReporting Industria online tool for adverse event reporting by sponsors/CROs."
+  },
+  {
+    "id": 48,
+    "proposito_descripcion_en": "Guidelines for applications to import supplies and export biological samples."
+  },
+  {
+    "id": 333,
+    "proposito_descripcion_en": "Provides guidance to Ethics Committees, sponsors, and research sites on the safety monitoring system and adverse event reporting in clinical studies."
+  },
+  {
+    "id": 445,
+    "proposito_descripcion_en": "Requirements for registering tissue banks and IPS institutions with the Donation and Transplant Network, and requirements for authorizing the use of unclaimed bodies for teaching and research purposes (Articles 21, 22, and 25). Note: Article 20 was amended by Resolución 0042 de 2008."
+  },
+  {
+    "id": 446,
+    "proposito_descripcion_en": "National Transparency and Right to Public Information Access Law. Provides the legal basis for INVIMA's duty to publish the official list of CEIs affiliated with GCP-certified institutions, and the other public registries of the regulatory system."
+  },
+  {
+    "id": 447,
+    "proposito_descripcion_en": "Guidelines for submitting to INVIMA amendments (relevant and non-relevant), new sites or institutions, new principal investigators, and updated versions of informed consent forms associated with clinical drug study protocols."
+  },
+  {
+    "id": 448,
+    "proposito_descripcion_en": "Partially regulates Ley 1581 de 2012. Defines data subject authorization, privacy notice mechanisms, international data transfers, and the duties of data controllers and processors."
+  },
+  {
+    "id": 449,
+    "proposito_descripcion_en": "Single Regulatory Decree of the Office of the Presidency, compiling the implementing regulations of Ley 1581 de 2012, in particular those relating to the National Database Registry administered by the Superintendencia de Industria y Comercio."
+  },
+  {
+    "id": 91,
+    "proposito_descripcion_en": "Fundamental legal framework for participant protection and general regulation."
+  },
+  {
+    "id": 92,
+    "proposito_descripcion_en": "Requirements, procedures, time frames, and obligations of research stakeholders."
+  },
+  {
+    "id": 93,
+    "proposito_descripcion_en": "Protection of personal and sensitive data, including biomedical data."
+  },
+  {
+    "id": 94,
+    "proposito_descripcion_en": "Regulates the organization and structure of CONIS, the regulatory body."
+  },
+  {
+    "id": 96,
+    "proposito_descripcion_en": "Official portal for consulting all national legislation."
+  },
+  {
+    "id": 97,
+    "proposito_descripcion_en": "Compilation of regulations applicable to biomedical research."
+  },
+  {
+    "id": 98,
+    "proposito_descripcion_en": "Formal application for registering biomedical studies with CONIS."
+  },
+  {
+    "id": 99,
+    "proposito_descripcion_en": "Document for requesting accreditation of principal investigators in interventional clinical studies."
+  },
+  {
+    "id": 100,
+    "proposito_descripcion_en": "Checklist for protocol registration documentation."
+  },
+  {
+    "id": 101,
+    "proposito_descripcion_en": "Official forms for sworn statements required in various procedures."
+  },
+  {
+    "id": 102,
+    "proposito_descripcion_en": "Specific form for the authorization of human biobanks."
+  },
+  {
+    "id": 103,
+    "proposito_descripcion_en": "Official guide for the registration process with CONIS."
+  },
+  {
+    "id": 104,
+    "proposito_descripcion_en": "Complete documentation for the accreditation of investigators, CECs, CROs (OIC), and Site Management Organizations (OAC)."
+  },
+  {
+    "id": 105,
+    "proposito_descripcion_en": "Central access to all services, procedures, and resources."
+  },
+  {
+    "id": 106,
+    "proposito_descripcion_en": "Portal for CONIS's official services and procedures."
+  },
+  {
+    "id": 107,
+    "proposito_descripcion_en": "Registration and lookup system for accredited investigators."
+  },
+  {
+    "id": 108,
+    "proposito_descripcion_en": "Answers to common questions about procedures and requirements."
+  },
+  {
+    "id": 334,
+    "proposito_descripcion_en": "Amends the implementing regulation of the Ley Reguladora de Investigación Biomédica."
+  },
+  {
+    "id": 335,
+    "proposito_descripcion_en": "Amendment to the National Pharmacovigilance System Regulation."
+  },
+  {
+    "id": 336,
+    "proposito_descripcion_en": "Good Pharmacovigilance Practice Regulation."
+  },
+  {
+    "id": 342,
+    "proposito_descripcion_en": "Partial amendment of the \"Reglamento a la Ley Reguladora de Investigación Biomédica\" (2023)."
+  },
+  {
+    "id": 343,
+    "proposito_descripcion_en": "Establishes the rules for formulating, approving, conducting, and disseminating biomedical research carried out at facilities of the Caja Costarricense de Seguro Social."
+  },
+  {
+    "id": 109,
+    "proposito_descripcion_en": "Establishes the principles and regulations governing social relations in the field of health. Repeals Ley 41 of 1983."
+  },
+  {
+    "id": 110,
+    "proposito_descripcion_en": "Approves the \"REGLAMENTO DE LOS ENSAYOS CLÍNICOS EN CUBA\" [Regulation of Clinical Trials in Cuba], consolidating the legal provisions and establishing the general framework for the approval, control, ethics, and commercialization of clinical trials in the country."
+  },
+  {
+    "id": 111,
+    "proposito_descripcion_en": "Establishes the \"PROCEDIMIENTO PARA LA TRAMITACIÓN, CONTROL Y CONDUCCIÓN DE LOS ENSAYOS CLÍNICOS\" [Procedure for Processing, Controlling, and Conducting Clinical Trials]. Details the operational steps, time frames, forms (annexes), and specific responsibilities for implementing the general regulation set out in Resolución 435."
+  },
+  {
+    "id": 112,
+    "proposito_descripcion_en": "Approves the \"Directrices sobre Buenas Prácticas Clínicas (BPC) en Cuba\" [Guidelines on Good Clinical Practice in Cuba]. Establishes the ethical and scientific quality standard for the design, conduct, registration, and reporting of trials, aligning Cuba with international ICH principles."
+  },
+  {
+    "id": 113,
+    "proposito_descripcion_en": "Establishes the \"Requerimientos para la creación y funcionamiento de los Comités de Ética de la Investigación (CEI)\" [Requirements for Establishing and Operating Research Ethics Committees], ensuring these committees have the structure and procedures needed to protect participants' rights, safety, and well-being."
+  },
+  {
+    "id": 114,
+    "proposito_descripcion_en": "Approves the \"Reglamento para el control del movimiento transfronterizo de muestras de material biológico\" [Regulation for Controlling the Cross-Border Movement of Biological Material Samples]. The specific regulation to be followed for the import and export of biological samples for research."
+  },
+  {
+    "id": 115,
+    "proposito_descripcion_en": "Serves as the main GCP guide for sponsors and CROs, detailing the documentation, monitoring, audit, and quality management requirements for the standardized conduct of clinical trials in Cuba."
+  },
+  {
+    "id": 116,
+    "proposito_descripcion_en": "Official portal of the technical regulatory authority. The main source for specific regulations, GCP and GMP guidelines, pharmacovigilance, certifications, and official announcements."
+  },
+  {
+    "id": 117,
+    "proposito_descripcion_en": "Institutional website of the mandatory coordinating partner for foreign sponsors. Provides information on its services, news, publications, and contact details."
+  },
+  {
+    "id": 118,
+    "proposito_descripcion_en": "Official, mandatory platform for registering all clinical trials before the first participant is enrolled. Allows public searching of ongoing and completed trials, and is the portal through which sponsors carry out registration."
+  },
+  {
+    "id": 119,
+    "proposito_descripcion_en": "Centralized repository of informational resources on health research ethics."
+  },
+  {
+    "id": 318,
+    "proposito_descripcion_en": "Guide for conducting pharmacogenomic studies during drug development."
+  },
+  {
+    "id": 319,
+    "proposito_descripcion_en": "Public information CECMED must provide. Specifications for the Summary of Product Characteristics of a marketing-authorized product."
+  },
+  {
+    "id": 321,
+    "proposito_descripcion_en": "Active pharmaceutical ingredients requiring in vivo comparative bioavailability studies to demonstrate therapeutic equivalence, 2nd Edition."
+  },
+  {
+    "id": 322,
+    "proposito_descripcion_en": "Submission of clinical evidence for the Sanitary Registration of medical equipment and devices."
+  },
+  {
+    "id": 323,
+    "proposito_descripcion_en": "Sets out the fundamental aspects to consider when classifying the categories used to report the intensity and causal relationship of adverse events occurring during the conduct of clinical trials."
+  },
+  {
+    "id": 347,
+    "proposito_descripcion_en": "Establishes the basic principles for regulating social relations in the field of public health that underpin Ley 165, whose text it implements."
+  },
+  {
+    "id": 348,
+    "proposito_descripcion_en": "Establishes and approves the official procedure for the establishment and operation of the National Commission on Medical Ethics."
+  },
+  {
+    "id": 366,
+    "proposito_descripcion_en": "Establishes the requirements for authorizing the compassionate use of investigational products."
+  },
+  {
+    "id": 432,
+    "proposito_descripcion_en": "International standard harmonized by the International Council for Harmonisation, setting out Good Clinical Practice principles and requirements for the design, conduct, registration, and reporting of clinical trials. Adopted by Cuba as the technical reference for clinical trials."
+  },
+  {
+    "id": 433,
+    "proposito_descripcion_en": "Establishes the requirements for authorizing and modifying clinical trials in Cuba. Includes, in its Annex 4, general considerations for the clinical evaluation of vaccines. A central CECMED technical standard for evaluating clinical trials."
+  },
+  {
+    "id": 434,
+    "proposito_descripcion_en": "Guidelines on Good Manufacturing Practice for Pharmaceutical Products. Its Annex 07 sets out Good Manufacturing Practice for investigational pharmaceutical products. Issued under CECMED Resolución 156/2012."
+  },
+  {
+    "id": 435,
+    "proposito_descripcion_en": "CECMED resolution approving and bringing into force Regulación 16-2012 on Good Manufacturing Practice Guidelines for Pharmaceutical Products, including the requirements applicable to investigational pharmaceutical products."
+  },
+  {
+    "id": 436,
+    "proposito_descripcion_en": "Regulation for the Sanitary Control of Imports of Medicines for Human Use. The specific regulation governing the application for authorization to import the investigational product, comparator, and supplementary supplies for clinical trials."
+  },
+  {
+    "id": 337,
+    "proposito_descripcion_en": "Defines the technical standards, risk categories, and specific ethical requirements for conducting research involving human subjects within the health system."
+  },
+  {
+    "id": 437,
+    "proposito_descripcion_en": "Approves and brings into force, for all of CECMED's regulatory functions, the practice of regulatory reliance, whereby the authority may take into account the decisions of other regulatory authorities or international bodies (Regional Reference NRAs certified by PAHO, WHO-listed Authorities, and authorities with bilateral agreements) for its own decisions, while retaining independence and responsibility for them. Enables expedited procedures for WHO-prequalified products."
+  },
+  {
+    "id": 438,
+    "proposito_descripcion_en": "Emergency Use Authorization for Medicines and Biological Products for Human Use, Medical Devices, and Other Health Technologies, in emergency situations declared by the competent authorities."
+  },
+  {
+    "id": 439,
+    "proposito_descripcion_en": "Requirements for applying for Emergency Use Authorization of investigational medicines and biological products for human use. An operational technical standard complementing CECMED's Resolución 54/2020."
+  },
+  {
+    "id": 440,
+    "proposito_descripcion_en": "Requirements for Bioavailability and Bioequivalence studies. Sets out the methodological and technical requirements applicable to this type of study in drug development."
+  },
+  {
+    "id": 120,
+    "proposito_descripcion_en": "Regulates the approval, authorization, conduct, oversight, and control of clinical trials in Ecuador. Repeals Acuerdo Ministerial Nro. 0075-2017."
+  },
+  {
+    "id": 121,
+    "proposito_descripcion_en": "Regulates the actions that give effect to the universal right to health. Establishes the MSP's responsibility for health science and technology research and development under bioethical principles."
+  },
+  {
+    "id": 122,
+    "proposito_descripcion_en": "Regulates the procedure for the MSP's evaluation, approval, and oversight of CEISHs and CEASs."
+  },
+  {
+    "id": 123,
+    "proposito_descripcion_en": "Guarantees the exercise of the right to personal data protection. Regulates the processing of health data in clinical trials, requiring explicit consent."
+  },
+  {
+    "id": 124,
+    "proposito_descripcion_en": "Regulates activities related to the donation, extraction, and use of human anatomical components. Relevant to research involving biological samples, tissues, and cells."
+  },
+  {
+    "id": 125,
+    "proposito_descripcion_en": "Establishes GMP requirements for the manufacture of medicines and investigational products."
+  },
+  {
+    "id": 127,
+    "proposito_descripcion_en": "Official form addressed to ARCSA's Executive Director to request approval of a clinical trial."
+  },
+  {
+    "id": 128,
+    "proposito_descripcion_en": "Application to import investigational products, comparators, and supplies (kits) for approved clinical trials."
+  },
+  {
+    "id": 129,
+    "proposito_descripcion_en": "Compilation of ARCSA's official forms for various procedures."
+  },
+  {
+    "id": 130,
+    "proposito_descripcion_en": "Form for submitting a research protocol for ethical evaluation by a CEISH."
+  },
+  {
+    "id": 131,
+    "proposito_descripcion_en": "Form for registering a CRO in ARCSA's national database."
+  },
+  {
+    "id": 132,
+    "proposito_descripcion_en": "Form for registering a CIC in ARCSA's National Registry of Clinical Research Sites."
+  },
+  {
+    "id": 133,
+    "proposito_descripcion_en": "Form for requesting authorization for substantial amendments or reporting administrative amendments to approved protocols."
+  },
+  {
+    "id": 134,
+    "proposito_descripcion_en": "Describes in detail ARCSA's procedure for approving clinical trials in Ecuador."
+  },
+  {
+    "id": 135,
+    "proposito_descripcion_en": "Sets out the technical sanitary procedure for inspections verifying compliance with Good Clinical Practice, Good Manufacturing Practice, and Good Laboratory Practice."
+  },
+  {
+    "id": 136,
+    "proposito_descripcion_en": "Government portal with information on the requirements and procedure for requesting clinical trial approval."
+  },
+  {
+    "id": 137,
+    "proposito_descripcion_en": "Official information on ARCSA's inspection process for verifying compliance with GCP, GMP, and GLP."
+  },
+  {
+    "id": 138,
+    "proposito_descripcion_en": "Official repository of ARCSA's current regulatory documents and instructions, including those on clinical trials."
+  },
+  {
+    "id": 139,
+    "proposito_descripcion_en": "Guidance information from the MSP on the approval and operation of CEISHs."
+  },
+  {
+    "id": 140,
+    "proposito_descripcion_en": "Describes the procedure for requesting a letter of interest for research purposes from the MSP, a prerequisite for studies involving public health facilities."
+  },
+  {
+    "id": 367,
+    "proposito_descripcion_en": "Technical sanitary regulation for the approval of clinical trials and the certification of products for human use and consumption and their establishments, during public health or other emergencies."
+  },
+  {
+    "id": 368,
+    "proposito_descripcion_en": "Establishes the criteria and requirements for demonstrating bioequivalence and bioavailability in medicines for human use and consumption."
+  },
+  {
+    "id": 418,
+    "proposito_descripcion_en": "Creates the Agencia Nacional de Regulación, Control y Vigilancia Sanitaria (ARCSA). Establishes its powers over the control and authorization of clinical trials (Art. 10, item 8)."
+  },
+  {
+    "id": 419,
+    "proposito_descripcion_en": "Regulates the approval and oversight of observational research and intervention studies involving human subjects that do not constitute drug clinical trials."
+  },
+  {
+    "id": 420,
+    "proposito_descripcion_en": "Establishes the regulatory framework for comprehensive cancer care in Ecuador, including provisions applicable to oncology clinical research (Arts. 35, 36, and Amending Provision)."
+  },
+  {
+    "id": 421,
+    "proposito_descripcion_en": "Official Ministry of Public Health dashboard with the public, up-to-date list of approved CEISHs, managed by the Dirección Nacional de Investigación en Salud."
+  },
+  {
+    "id": 141,
+    "proposito_descripcion_en": "Establishes, in Articles 65, 68, and 69, that health is a public good, that the State shall safeguard it, and that a Consejo Superior de Salud Pública (on which the CNEIS is administratively dependent) shall oversee the population's health."
+  },
+  {
+    "id": 142,
+    "proposito_descripcion_en": "Regulates the registration, quality, import, marketing, and safety of medicines. Article 29 establishes that all drug experimentation requires prior authorization from the DNM."
+  },
+  {
+    "id": 143,
+    "proposito_descripcion_en": "Develops the provisions of the Ley de Medicamentos, detailing procedures for the registration, import, control, and surveillance of pharmaceutical products and medical supplies."
+  },
+  {
+    "id": 144,
+    "proposito_descripcion_en": "General legal framework for public health in El Salvador. Regulates health professions and the operation of health facilities."
+  },
+  {
+    "id": 145,
+    "proposito_descripcion_en": "Guarantees patients' rights, including the right to information, dignified treatment, confidentiality, and informed consent — all fundamental principles for clinical trial participants."
+  },
+  {
+    "id": 146,
+    "proposito_descripcion_en": "Creates the Sistema Nacional Integrado de Salud and, in Chapter VII, establishes the promotion and regulation of health research, binding on all entities within the system."
+  },
+  {
+    "id": 148,
+    "proposito_descripcion_en": "Establishes the minimum quality and competence requirements for performing clinical laboratory tests, including the handling, acceptance, rejection, and preservation of biological samples."
+  },
+  {
+    "id": 149,
+    "proposito_descripcion_en": "Forms published on the SRS's official website."
+  },
+  {
+    "id": 150,
+    "proposito_descripcion_en": "Establishes the international ethical and scientific quality standard for the design, conduct, registration, and reporting of clinical studies involving human subjects."
+  },
+  {
+    "id": 156,
+    "proposito_descripcion_en": "Official website of the new regulatory authority."
+  },
+  {
+    "id": 157,
+    "proposito_descripcion_en": "Official portal for searching and consulting the full text of current laws and decrees in El Salvador."
+  },
+  {
+    "id": 314,
+    "proposito_descripcion_en": "Creates the SRS, defines its mandate, and establishes the dissolution of the DNM. The foundational law of the new framework."
+  },
+  {
+    "id": 315,
+    "proposito_descripcion_en": "SRS's governing document detailing all procedures and requirements. Mandatory reading."
+  },
+  {
+    "id": 320,
+    "proposito_descripcion_en": "Establishes clinical trial evaluation criteria for preparing rulings based on compliance with chemical, medical, biomedical, and ethical-methodological review requirements."
+  },
+  {
+    "id": 353,
+    "proposito_descripcion_en": "Describes the organization and operating process of the National Health Research Ethics Committee."
+  },
+  {
+    "id": 369,
+    "proposito_descripcion_en": "Establishes and standardizes the operating procedures the CNEIS must follow to ethically evaluate health research projects."
+  },
+  {
+    "id": 370,
+    "proposito_descripcion_en": "Establishes the personal data protection regime."
+  },
+  {
+    "id": 372,
+    "proposito_descripcion_en": "Establishes the technical requirements and format for submitting bioequivalence studies to the SRS/DNM for evaluation and registration."
+  },
+  {
+    "id": 402,
+    "proposito_descripcion_en": "Provides guidance on the technical criteria to be met for labeling these products, to ensure their correct identification, traceability, safety, and proper use."
+  },
+  {
+    "id": 403,
+    "proposito_descripcion_en": "Provides investigators and institutions or sites seeking to conduct clinical trial research in El Salvador with guidance and a research protocol template."
+  },
+  {
+    "id": 404,
+    "proposito_descripcion_en": "Facilitates preparation of the Investigator's Brochure and ensures the necessary information on these products' quality, safety, and efficacy is included."
+  },
+  {
+    "id": 405,
+    "proposito_descripcion_en": "Facilitates preparation of the Investigator's Brochure and ensures the necessary information on the quality, safety, and efficacy of investigational vaccines is included."
+  },
+  {
+    "id": 406,
+    "proposito_descripcion_en": "Provides investigators and institution holders with guidance to facilitate preparation of the Investigator's Brochure for biotechnological products."
+  },
+  {
+    "id": 407,
+    "proposito_descripcion_en": "Guidance document facilitating preparation of the Investigator's Brochure for antivenoms/immunoglobulins from immunized animals as investigational products."
+  },
+  {
+    "id": 408,
+    "proposito_descripcion_en": "Establishes guidelines for the ongoing monitoring and early detection of risk alerts during exceptional circumstances (crises and emergencies)."
+  },
+  {
+    "id": 409,
+    "proposito_descripcion_en": "Guidance for the principal investigator and sponsors on the requirements to be met at the clinical trial completion stage, in accordance with Good Clinical Practice."
+  },
+  {
+    "id": 410,
+    "proposito_descripcion_en": "Guidance for investigators and institutions on an Investigator's Brochure template for clinical trials using pharmaceutical products."
+  },
+  {
+    "id": 411,
+    "proposito_descripcion_en": "Guidance for investigators and all public and private institutions on how to report adverse events."
+  },
+  {
+    "id": 412,
+    "proposito_descripcion_en": "Sets out the steps for validating the inventory of products to be used in the clinical trial for periodic imports."
+  },
+  {
+    "id": 413,
+    "proposito_descripcion_en": "Guidance on the aspects to be evaluated for authorizing, rejecting, or raising observations on research protocols, and the steps for registering and maintaining the protocol."
+  },
+  {
+    "id": 414,
+    "proposito_descripcion_en": "List of relevant links (applicable international documents)."
+  },
+  {
+    "id": 415,
+    "proposito_descripcion_en": "Provides the information needed to submit applications for Phase I, II, and III clinical trials, or pilot and pivotal stages, on the shared SRS–CNEIS-ES platform."
+  },
+  {
+    "id": 416,
+    "proposito_descripcion_en": "Establishes the criteria to be met for requesting regulatory authorization under exceptional emergency circumstances before the SRS."
+  },
+  {
+    "id": 158,
+    "proposito_descripcion_en": "Sets out the detailed requirements, ethical principles, and procedures for authorizing, conducting, and overseeing clinical trials involving human subjects. The specific, governing regulation."
+  },
+  {
+    "id": 159,
+    "proposito_descripcion_en": "Generally regulates the sanitary control, registration, import, and marketing of medicines and related products. Provides the broader regulatory context within which trials are framed."
+  },
+  {
+    "id": 160,
+    "proposito_descripcion_en": "The framework law for public health in Guatemala. Establishes the right to health, the State's obligations, and the general principles for controlling and overseeing products that affect health."
+  },
+  {
+    "id": 161,
+    "proposito_descripcion_en": "Requires State entities to modernize, streamline, and digitalize administrative procedures, promoting remote management and the use of electronic means."
+  },
+  {
+    "id": 162,
+    "proposito_descripcion_en": "Regulates the Reference Sanitary Registration for Biological and Biotechnological Products, relevant to the post-research registration strategy for vaccines and other biologics."
+  },
+  {
+    "id": 163,
+    "proposito_descripcion_en": "Establishes the requirements for the Homologation of Sanitary Registration for Medicines and Vaccines, a key step for products approved by other high-surveillance agencies."
+  },
+  {
+    "id": 164,
+    "proposito_descripcion_en": "Website with direct downloads of forms."
+  },
+  {
+    "id": 165,
+    "proposito_descripcion_en": "Reference document for verifying GMP compliance in the pharmaceutical industry, applicable to the manufacture of the investigational product."
+  },
+  {
+    "id": 166,
+    "proposito_descripcion_en": "Official website of the DRCPFA. Provides centralized access to regulations, forms, announcements, and news."
+  },
+  {
+    "id": 167,
+    "proposito_descripcion_en": "Dedicated page with information, requirements, and direct access to the forms needed for authorizing and managing clinical trials in Guatemala."
+  },
+  {
+    "id": 176,
+    "proposito_descripcion_en": "The overarching legal framework establishing the right to health in Honduras and laying the foundation for regulating research involving human subjects."
+  },
+  {
+    "id": 177,
+    "proposito_descripcion_en": "EXPRESSLY REVOKED by Acuerdo No. 0256-ARSA-2025 (Second Clause), in force since February 27, 2026. Kept for historical reference for clinical trials authorized under its previous regime. Acuerdo 0256-ARSA-2025 applies to new authorizations."
+  },
+  {
+    "id": 178,
+    "proposito_descripcion_en": "This regulation governs all aspects of medical devices in Honduras."
+  },
+  {
+    "id": 179,
+    "proposito_descripcion_en": "This recent regulation is fundamental for pharmacovigilance and technovigilance."
+  },
+  {
+    "id": 180,
+    "proposito_descripcion_en": "Partial amendment of ARSA's cost-recovery fees. The Second Clause and the provisions of the Eighth Clause referring to amendments to Acuerdo 041-2020 were REPEALED by Acuerdo No. 0256-ARSA-2025 (Third Clause). The rest of Acuerdo 31-2021 remains in force. Clinical trial fees are now governed by the new fee tables in Acuerdo 0256-ARSA-2025."
+  },
+  {
+    "id": 181,
+    "proposito_descripcion_en": "Website with form templates for procedures before ARSA."
+  },
+  {
+    "id": 182,
+    "proposito_descripcion_en": "The agency's central portal, where news, announcements, and health alerts are published, and access is provided to information on procedures and services."
+  },
+  {
+    "id": 183,
+    "proposito_descripcion_en": "ARSA's digital library, where the full texts of the agreements, regulations, laws, and decrees making up Honduras's sanitary regulatory framework can be found and downloaded."
+  },
+  {
+    "id": 326,
+    "proposito_descripcion_en": "Establishes the provisions for controlling drug safety. Its Chapter IX specifically regulates the obligations, time frames, and formats for reporting adverse events in clinical trials."
+  },
+  {
+    "id": 338,
+    "proposito_descripcion_en": "Establishes the National Technovigilance System to guarantee the safety, quality, and performance of medical devices in Honduras. Regulates the reporting, analysis, and follow-up of adverse incidents and risks associated with these products to protect public health."
+  },
+  {
+    "id": 339,
+    "proposito_descripcion_en": "Creates ARSA to supervise, oversee, and inspect establishments, products, and services of health interest. It also regulates the granting, renewal, and control of sanitary registrations, licenses, and authorizations."
+  },
+  {
+    "id": 401,
+    "proposito_descripcion_en": "Regulation for the sanitary control of pharmaceutical products and other products of health interest."
+  },
+  {
+    "id": 193,
+    "proposito_descripcion_en": "Creates the ANRS and defines its role in regulating sanitary products, including its function in evaluating investigational products for clinical trials."
+  },
+  {
+    "id": 417,
+    "proposito_descripcion_en": "Framework regulation governing the authorization, conduct, follow-up, and control of clinical trials with pharmaceutical products and medical devices in Honduras. Published in La Gaceta No. 37,055 of January 28, 2026, in force since February 27, 2026. Expressly revokes Acuerdo 041-2020 and partially amends Acuerdo 031-2021. Introduces mandatory sponsor legal representation, mandatory insurance, ICTRP registration, semi-annual reports, specific chapters for CROs and the principal investigator, and new fee tables that vary by resolution time frame."
+  },
+  {
+    "id": 198,
+    "proposito_descripcion_en": "Establishes the basis and modalities for access to health services and defines the powers of the federation and the states in matters of general public health, constituting the supreme legal framework for all sanitary activity in the country, including research involving human subjects."
+  },
+  {
+    "id": 199,
+    "proposito_descripcion_en": "Details the administrative, ethical, and operational provisions for conducting health research, specifying the requirements for protocol authorization, the responsibilities of ethics and research committees, and the safeguards for protecting research subjects."
+  },
+  {
+    "id": 200,
+    "proposito_descripcion_en": "Law in force since March 21, 2025, regulating the processing of personal data by private parties (including sponsors and private entities): requires a privacy notice, express written consent for sensitive health-related personal data, and respect for ARCO rights. Repealed the identically named 2010 law."
+  },
+  {
+    "id": 201,
+    "proposito_descripcion_en": "Regulates the sanitary control of medicines and other health supplies, including investigational products, covering aspects such as import, labeling, and good practices."
+  },
+  {
+    "id": 202,
+    "proposito_descripcion_en": "Establishes the specific, mandatory technical, methodological, and ethical criteria for conducting health research projects involving human subjects, serving as the main operational standard for designing and conducting clinical trials."
+  },
+  {
+    "id": 203,
+    "proposito_descripcion_en": "Establishes the mandatory guidelines for setting up and operating pharmacovigilance in Mexico, defining responsibilities for reporting, collecting, and evaluating adverse events."
+  },
+  {
+    "id": 204,
+    "proposito_descripcion_en": "Establishes the minimum requirements for manufacturing marketed and investigational medicines, ensuring their quality, safety, and efficacy."
+  },
+  {
+    "id": 205,
+    "proposito_descripcion_en": "Establishes the mandatory scientific, ethical, technological, and administrative criteria for preparing, compiling, using, handling, filing, keeping confidential, and owning the clinical record."
+  },
+  {
+    "id": 206,
+    "proposito_descripcion_en": "Establishes the guidelines for reporting, recording, and following up on adverse incidents related to the use of medical devices, in order to protect users' health."
+  },
+  {
+    "id": 207,
+    "proposito_descripcion_en": "Agreement in force since June 17, 2025, establishing the criteria and the list of foreign regulatory authorities (EMA, FDA, MHRA, and Health Canada) for recognizing, through the reliance model, prior authorizations of Phase III research protocols. Sets a resolution time frame of 45 calendar days."
+  },
+  {
+    "id": 208,
+    "proposito_descripcion_en": "Official, mandatory form for requesting the initial authorization of a research protocol involving human subjects before COFEPRIS, under any of its modalities (medicines, bioequivalence, new resources, etc.)."
+  },
+  {
+    "id": 209,
+    "proposito_descripcion_en": "Official, mandatory form for requesting authorization of any modification or amendment to a research protocol previously authorized by COFEPRIS."
+  },
+  {
+    "id": 210,
+    "proposito_descripcion_en": "Provides applicants with detailed instructions on how to complete the required information and attach the required documentation on the DIGIPRIS platform for the initial protocol authorization procedure."
+  },
+  {
+    "id": 211,
+    "proposito_descripcion_en": "Provides applicants with detailed instructions on the process for submitting modifications or amendments to protocols, Investigator's Brochures, or informed consents through the DIGIPRIS platform."
+  },
+  {
+    "id": 212,
+    "proposito_descripcion_en": "Technical reference manual for users to correctly navigate and use the DIGIPRIS platform, explaining its features for managing self-service procedures."
+  },
+  {
+    "id": 213,
+    "proposito_descripcion_en": "Single, mandatory electronic portal for submitting and managing self-service procedures before COFEPRIS, including all clinical trial-related applications and modifications."
+  },
+  {
+    "id": 214,
+    "proposito_descripcion_en": "Provides the guidelines and recommendations issued by CONBIOÉTICA for the establishment, registration, and operation of Research Ethics Committees, ensuring their protocol evaluations adhere to the highest national and international ethical standards."
+  },
+  {
+    "id": 215,
+    "proposito_descripcion_en": "Provides a public, up-to-date list of all Research Ethics Committees holding a current registration with CONBIOÉTICA, allowing sponsors and authorities to verify the validity of the committee evaluating a given protocol."
+  },
+  {
+    "id": 216,
+    "proposito_descripcion_en": "Website with information of interest for research falling under COFEPRIS's scope."
+  },
+  {
+    "id": 349,
+    "proposito_descripcion_en": "This decree amends the Ley General de Salud to integrate digital health, regulate the use of vaping devices, and strengthen the National Infrastructure Master Plan. It also centralizes the planning of medical supplies and establishes alternative mechanisms for resolving medical disputes."
+  },
+  {
+    "id": 350,
+    "proposito_descripcion_en": "Establishes administrative simplification measures for procedures before COFEPRIS, aiming to reduce regulatory burdens, time frames, and requirements for users and companies in the health sector."
+  },
+  {
+    "id": 397,
+    "proposito_descripcion_en": "Establishes the guidelines and criteria for registration holders, sponsors, and investigators to report the safety of medicines and vaccines during clinical studies in Mexico. Aims to ensure the regulatory authority has detailed adverse event information to assess the benefit/risk balance both before and after product authorization."
+  },
+  {
+    "id": 398,
+    "proposito_descripcion_en": "Establishes the criteria and structure that sanitary registration holders must follow to report on their products' safety."
+  },
+  {
+    "id": 399,
+    "proposito_descripcion_en": "Establishes the tests and procedures for demonstrating that a medicine is interchangeable. Sets the requirements Authorized Third Parties conducting interchangeability tests must meet. Sets the requirements for conducting biocomparability studies."
+  },
+  {
+    "id": 451,
+    "proposito_descripcion_en": "Updates the submission methods for the COFEPRIS-04-010 and COFEPRIS-09-012 procedures: establishes the hybrid procedure (DIGIPRiS and CIS), eliminates modality D (no-risk research) from the authorization procedure, updates the requirements, and creates the immediate-resolution pathway for certain amendments."
+  },
+  {
+    "id": 452,
+    "proposito_descripcion_en": "Law in force since March 21, 2025, regulating the processing of personal data by public-sector obligated parties (public institutions and hospitals): establishes the privacy notice, ARCO rights, and administrative, physical, and technical security measures. Repealed the identically named 2017 law."
+  },
+  {
+    "id": 190,
+    "proposito_descripcion_en": "The central regulation governing clinical trials in Nicaragua. Sets out all the requirements, procedures, definitions, and responsibilities for authorizing, conducting, and closing drug clinical trials."
+  },
+  {
+    "id": 191,
+    "proposito_descripcion_en": "The framework law of the health system. Establishes the State's responsibility to promote health research and lays the foundation for the National Research Committee (CONIS)."
+  },
+  {
+    "id": 192,
+    "proposito_descripcion_en": "Regulates pharmaceutical products and establishes the legal mandate requiring the Ministry of Health's authorization and oversight of clinical trials."
+  },
+  {
+    "id": 194,
+    "proposito_descripcion_en": "Establishes the legal framework for protecting personal information, relevant to handling clinical trial participants' data."
+  },
+  {
+    "id": 195,
+    "proposito_descripcion_en": "Establishes the time frames and mechanisms for reporting suspected adverse reactions (including RASI/SUSARs) and the requirements for Periodic Safety Reports (IPS/DSUR)."
+  },
+  {
+    "id": 196,
+    "proposito_descripcion_en": "Establishes the administrative process for requesting import and export permits for regulated products, applicable to importing the investigational product and, by inference, to shipping biological sample kits."
+  },
+  {
+    "id": 197,
+    "proposito_descripcion_en": "This guide establishes MINSA's standards for handling biological samples. Details the collection and preservation procedures, and the packaging and transport system to ensure sample integrity and safety."
+  },
+  {
+    "id": 351,
+    "proposito_descripcion_en": "Regulates the clinical research system."
+  },
+  {
+    "id": 352,
+    "proposito_descripcion_en": "Guideline for applying good practices in using regulatory decisions from other jurisdictions in the regulation of medicines and medical devices in Nicaragua."
+  },
+  {
+    "id": 395,
+    "proposito_descripcion_en": "Approves the update of Normativa 063 on Pharmacovigilance and its corresponding manual in Nicaragua. Its purpose is to regulate the organization and operation of the technical and administrative processes for monitoring the safety and benefit-risk ratio of pharmaceutical products within national territory."
+  },
+  {
+    "id": 396,
+    "proposito_descripcion_en": "Establishes the legal and technical guidelines for medicines for human use and vaccines in the country."
+  },
+  {
+    "id": 217,
+    "proposito_descripcion_en": "Regulates and promotes health research, establishes MINSA's oversight role, and the CNBI's functions."
+  },
+  {
+    "id": 218,
+    "proposito_descripcion_en": "Regulates medicines and other human health products, as well as their public procurement."
+  },
+  {
+    "id": 219,
+    "proposito_descripcion_en": "Implements Ley 419 de 2024, establishing procedures for investigational products and pharmacovigilance."
+  },
+  {
+    "id": 220,
+    "proposito_descripcion_en": "Regulates patients' rights and obligations regarding information and free, informed decision-making."
+  },
+  {
+    "id": 221,
+    "proposito_descripcion_en": "Establishes the principles, rights, obligations, and procedures governing personal data protection."
+  },
+  {
+    "id": 222,
+    "proposito_descripcion_en": "Establishes the administrative procedure for registering and tracking health research projects."
+  },
+  {
+    "id": 223,
+    "proposito_descripcion_en": "Establishes a special procedure for registering and tracking research protocols related to emergencies, disasters, or disease outbreaks."
+  },
+  {
+    "id": 224,
+    "proposito_descripcion_en": "Regulates research involving human tissues and cells in the Republic of Panama."
+  },
+  {
+    "id": 225,
+    "proposito_descripcion_en": "Digital platform for the mandatory registration of all health research projects."
+  },
+  {
+    "id": 226,
+    "proposito_descripcion_en": "Official forms for submitting protocols to accredited bioethics committees."
+  },
+  {
+    "id": 227,
+    "proposito_descripcion_en": "CNBI system for the electronic submission and management of research protocols for ethical review."
+  },
+  {
+    "id": 228,
+    "proposito_descripcion_en": "International form for reporting suspected serious adverse reactions."
+  },
+  {
+    "id": 229,
+    "proposito_descripcion_en": "Complete instructions for using the research registration platform."
+  },
+  {
+    "id": 230,
+    "proposito_descripcion_en": "Diagram and explanation of the complete registration and approval process."
+  },
+  {
+    "id": 231,
+    "proposito_descripcion_en": "Documents governing the CNBI's operation and the protocol review process."
+  },
+  {
+    "id": 232,
+    "proposito_descripcion_en": "Links to key international ethical guidelines (Declaration of Helsinki, CIOMS Guidelines, GCP)."
+  },
+  {
+    "id": 233,
+    "proposito_descripcion_en": "Guidance for complying with Ley 81 in research."
+  },
+  {
+    "id": 234,
+    "proposito_descripcion_en": "International standards for designing, conducting, and reporting clinical trials."
+  },
+  {
+    "id": 389,
+    "proposito_descripcion_en": "Circular from Panama's Ministry of Health (2015) listing which institutional bioethics committees are accredited to approve clinical research, and establishing that all research must have their prior endorsement before it begins."
+  },
+  {
+    "id": 390,
+    "proposito_descripcion_en": "Executive Decree creating and regulating Panama's CNBI, establishing its structure, functions, composition, and procedures, and constituting it as the governing body and highest authority over all institutional bioethics committees in the country."
+  },
+  {
+    "id": 391,
+    "proposito_descripcion_en": "Operational guide from Panama's Ministry of Health explaining step by step the workflow every health research protocol must follow before being conducted: obtaining institutional agreement, registering with MINSA, and obtaining approval from an accredited bioethics committee."
+  },
+  {
+    "id": 392,
+    "proposito_descripcion_en": "Operational FAQ for investigators on using Panama's MINSA RESEGIS platform, addressing practical questions on registration, document uploads, updates, and closing health research projects."
+  },
+  {
+    "id": 393,
+    "proposito_descripcion_en": "User manual for Panama's MINSA RESEGIS platform, explaining step by step how to create a user account, register health research projects, search the public list of protocols, and use the statistics module."
+  },
+  {
+    "id": 394,
+    "proposito_descripcion_en": "RESEGIS operational guide explaining how to link co-investigators to a project (registered or in process) and how to update the project's follow-up throughout its life cycle, from ethical approval through closure or publication."
+  },
+  {
+    "id": 235,
+    "proposito_descripcion_en": "Establishes the fundamental legal framework for regulating all health products in Paraguay. Creates the health authority (DINAVISA's predecessor) and defines its powers."
+  },
+  {
+    "id": 236,
+    "proposito_descripcion_en": "Guarantees the protection of personal data of every person in Paraguay. Although its title is specific, its scope of application is general, and it explicitly defines \"health-related data\" as \"sensitive data,\" establishing principles of consent, security, and confidentiality directly applicable to clinical trial participants' data."
+  },
+  {
+    "id": 237,
+    "proposito_descripcion_en": "Establishes the National Researchers System and regulates the scientific researcher career track in Paraguay. Sets out the ethical principles that must govern researchers' conduct, including respect for intellectual property, scientific integrity, transparency in the use of funds, and avoiding conflicts of interest."
+  },
+  {
+    "id": 238,
+    "proposito_descripcion_en": "The main specific regulation for clinical trials. Sets out the detailed requirements for authorizing, conducting, controlling, and overseeing trials with medicines, vaccines, medical devices, and in vitro diagnostic products."
+  },
+  {
+    "id": 239,
+    "proposito_descripcion_en": "Regulates the conduct of observational Post-Authorization Safety Studies (EPA/PASS) for medicines already registered with DINAVISA."
+  },
+  {
+    "id": 241,
+    "proposito_descripcion_en": "Approves and implements the \"Política Nacional de Ética en la Investigación para la Salud Paraguay 2023\" [National Health Research Ethics Policy, Paraguay 2023]."
+  },
+  {
+    "id": 242,
+    "proposito_descripcion_en": "Master form for requesting a clinical trial's initial authorization from DINAVISA. Also used to report the study's cancellation. Consolidates the trial's key information and serves as a checklist of the required documentation."
+  },
+  {
+    "id": 243,
+    "proposito_descripcion_en": "Document for submitting the qualifications, experience, and commitment statement of the Principal Investigator and key team members, ensuring they meet the fitness requirements set out in the regulation."
+  },
+  {
+    "id": 244,
+    "proposito_descripcion_en": "Specific form for processing the import authorization of investigational products, comparators, and complementary products, once the clinical trial has been authorized. This is a subsequent, separate step from the study's authorization."
+  },
+  {
+    "id": 245,
+    "proposito_descripcion_en": "Form used to request DINAVISA's approval for any substantial protocol change that could affect participant safety or the study's scientific validity."
+  },
+  {
+    "id": 246,
+    "proposito_descripcion_en": "Ethical and operational framework adopted by DINAVISA for evaluating and authorizing the use of unproven interventions outside the context of a conventional clinical trial during public health emergencies, such as epidemics or pandemics."
+  },
+  {
+    "id": 247,
+    "proposito_descripcion_en": "Central portal for all regulatory information, regulations, and contact with the authority."
+  },
+  {
+    "id": 248,
+    "proposito_descripcion_en": "Specific department within DINAVISA responsible for evaluating and overseeing clinical trials."
+  },
+  {
+    "id": 249,
+    "proposito_descripcion_en": "Governing health authority in Paraguay, under which DINAVISA operates."
+  },
+  {
+    "id": 354,
+    "proposito_descripcion_en": "Sets out and lists the requirements and forms needed to obtain authorization for clinical trials with medicines, vaccines, and medical devices in Paraguay."
+  },
+  {
+    "id": 355,
+    "proposito_descripcion_en": "Implements the National Health Research Ethics Policy 2023 in Paraguay, establishing the accreditation, renewal, and oversight processes for Health Research Ethics Committees (CEIS). Defines the operational, technical, and ethical requirements these committees must meet to be authorized by the MSPBS to operate in the country."
+  },
+  {
+    "id": 356,
+    "proposito_descripcion_en": "Establishes the requirements and processes for CEIS to obtain Supplementary Accreditation from DINAVISA (mandatory for committees that already hold basic accreditation and wish to review and monitor clinical trials with medicines, vaccines, and medical devices in Paraguay)."
+  },
+  {
+    "id": 388,
+    "proposito_descripcion_en": "Establishes the powers, authority, and organizational structure of the national health surveillance directorate."
+  },
+  {
+    "id": 428,
+    "proposito_descripcion_en": "Expands Resolución DINAVISA N.º 238/2024. Establishes that the Investigator's Brochure must comply with the ICH E6(R3) Good Clinical Practice guideline (grounds for rejecting authorization), and that the sponsor must submit the study's global reports to DINAVISA within no more than 12 months of the trial's completion, aligned with the ICH E3 Guideline on Clinical Study Reports (grounds for sanction)."
+  },
+  {
+    "id": 429,
+    "proposito_descripcion_en": "Amends and expands the provisions of Ley N.º 6788/2021 on DINAVISA's powers, authority, and organizational structure. Incorporates the functions of the former Instituto Nacional de Alimentación y Nutrición (INAN) into DINAVISA, consolidating it as the sole national health surveillance authority. Enacted on October 31, 2024."
+  },
+  {
+    "id": 430,
+    "proposito_descripcion_en": "Paraguay's first general, comprehensive personal data protection law. Establishes data subject rights (access, rectification, erasure, objection, portability), regulates the processing of sensitive data — including health, genetic, and biometric data — and creates the National Personal Data Protection Agency (ANPDP) as the oversight authority. Enacted on November 27, 2025, with a 24-month vacatio legis period (taking effect in November 2027)."
+  },
+  {
+    "id": 431,
+    "proposito_descripcion_en": "Approves the fee for CEIS accreditation with DINAVISA. Establishes the regulatory cost of the CEIS accreditation procedure, relevant to committees evaluating clinical trials with medicines, vaccines, and medical devices."
+  },
+  {
+    "id": 257,
+    "proposito_descripcion_en": "Ley General de Salud. Establishes that health protection is of public interest and that the State promotes scientific research."
+  },
+  {
+    "id": 258,
+    "proposito_descripcion_en": "Personal Data Protection Law. Guarantees the fundamental right to personal data protection."
+  },
+  {
+    "id": 259,
+    "proposito_descripcion_en": "Implementing regulation of Ley N° 29733, the Personal Data Protection Law (in force since March 30, 2025). Replaces Decreto Supremo N° 003-2013-JUS and regulates consent, sensitive health data, 48-hour security incident notification, and cross-border data flow in clinical trials."
+  },
+  {
+    "id": 260,
+    "proposito_descripcion_en": "Clinical Trials Regulation. Establishes the procedure for authorization, conduct, and subsequent actions, including post-trial access."
+  },
+  {
+    "id": 261,
+    "proposito_descripcion_en": "Amendment to the Clinical Trials Regulation, approved by Decreto Supremo N° 021-2017-SA."
+  },
+  {
+    "id": 262,
+    "proposito_descripcion_en": "Documento Técnico \"Consideraciones Éticas para la Investigación en Salud con Seres Humanos\" [Technical Document on Ethical Considerations for Health Research Involving Human Subjects]. Defines the ethical principles and the CIEIs' role."
+  },
+  {
+    "id": 263,
+    "proposito_descripcion_en": "Approves NTS N° 219-MINSA/DIGEMID-2024, regulating the Clinical Trial Dispensing Unit (UDEC)."
+  },
+  {
+    "id": 264,
+    "proposito_descripcion_en": "Law on Pharmaceutical Products, Medical Devices, and Health Products. Legal framework for managing health products."
+  },
+  {
+    "id": 265,
+    "proposito_descripcion_en": "Amends and supplements the clinical trial authorization procedure."
+  },
+  {
+    "id": 266,
+    "proposito_descripcion_en": "Sponsor Registration Application. Used to register the sponsor as such in REPEC."
+  },
+  {
+    "id": 267,
+    "proposito_descripcion_en": "Registration of a Contract Research Organization (CRO)."
+  },
+  {
+    "id": 268,
+    "proposito_descripcion_en": "Sworn statement of compliance with the minimum requirements for the Research Site (CI)."
+  },
+  {
+    "id": 269,
+    "proposito_descripcion_en": "Application for accreditation/renewal of accreditation for the Institutional Research Ethics Committee (CIEI)."
+  },
+  {
+    "id": 270,
+    "proposito_descripcion_en": "Sworn statement of compliance with the CIEI's accreditation standards (signed by the institution's highest authority)."
+  },
+  {
+    "id": 271,
+    "proposito_descripcion_en": "Research Team Curriculum Vitae (includes the Principal Investigator's experience, scientific output, and time availability)."
+  },
+  {
+    "id": 272,
+    "proposito_descripcion_en": "Detailed National Total Clinical Trial Budget (includes a statement of the amount and source of funding)."
+  },
+  {
+    "id": 273,
+    "proposito_descripcion_en": "List of Products and Supplies to be used/imported in the Clinical Trial. Used to request an expansion or modification of supplies."
+  },
+  {
+    "id": 274,
+    "proposito_descripcion_en": "Sworn Statement of Absence of Financial Conflict of Interest (signed by the Sponsor and the Principal Investigator)."
+  },
+  {
+    "id": 275,
+    "proposito_descripcion_en": "Sworn Statement of the Research Site's Readiness (signed by the Sponsor's Representative and the Principal Investigator)."
+  },
+  {
+    "id": 276,
+    "proposito_descripcion_en": "Clinical Trial Results Report to be published on REPEC."
+  },
+  {
+    "id": 277,
+    "proposito_descripcion_en": "Provides the guidelines and workflow for administrative procedures, including authorization, modifications, safety notifications, and closures."
+  },
+  {
+    "id": 278,
+    "proposito_descripcion_en": "Provides the guidelines for the submission, structure, and content of the final results report, particularly for studies conducted only in Peru."
+  },
+  {
+    "id": 384,
+    "proposito_descripcion_en": "Approves the INS's Texto Único de Procedimientos Administrativos (Single Text of Administrative Procedures), which forms an integral annex to this Decreto Supremo."
+  },
+  {
+    "id": 385,
+    "proposito_descripcion_en": "Approves the Integrated Text of the INS's Organization and Functions Regulation."
+  },
+  {
+    "id": 386,
+    "proposito_descripcion_en": "Approves the Regulation for the Sanitary Registration, Control, and Surveillance of Pharmaceutical Products, Medical Devices, and Health Products."
+  },
+  {
+    "id": 387,
+    "proposito_descripcion_en": "Aims to guide sponsors and investigators on the correct reporting of adverse events and safety data to protect research subjects."
+  },
+  {
+    "id": 450,
+    "proposito_descripcion_en": "Amends Ley N° 27444, the General Administrative Procedure Law. Establishes the indefinite validity of the Research Site Registration Certificate (RCI), exempt from the three-year renewal required under the Clinical Trials Regulation."
+  },
+  {
+    "id": 300,
+    "proposito_descripcion_en": "Official communications used to clarify, update, or establish new regulatory requirements. Essential to monitor for their publication to stay current with applicable requirements."
+  },
+  {
+    "id": 279,
+    "proposito_descripcion_en": "The governing document detailing CONABIOS's mission, functions, structure, and procedures. Comprehensively regulates the process of submitting, evaluating, approving, monitoring, and closing research protocols involving human subjects in the country. Defines the responsibilities of investigators, sponsors, and Research Ethics Committees (CEIs), as well as time frames and documentary requirements."
+  },
+  {
+    "id": 280,
+    "proposito_descripcion_en": "The fundamental legal framework for the health sector in the Dominican Republic. Establishes the population's health rights and duties, defines the National Health System's structure, and lays the foundation for regulating biomedical research, requiring it to adhere to scientific and bioethical principles. Also regulates key aspects such as patient data confidentiality and medicines' sanitary registration."
+  },
+  {
+    "id": 281,
+    "proposito_descripcion_en": "The regulation detailing Ley 42-01's provisions on pharmaceutical products. Governs medicines' entire life cycle, including manufacturing, sanitary registration, import, distribution, marketing, labeling, and pharmacovigilance. Contains specific articles (e.g., Art. 116) governing the import authorization of products intended for clinical research."
+  },
+  {
+    "id": 282,
+    "proposito_descripcion_en": "Formally establishes CONABIOS's structure, powers, and authority as a decentralized body under the Ministerio de Salud Pública. This decree consolidates CONABIOS's authority as the official entity responsible for evaluating, approving, rejecting, and monitoring all biomedical research involving human subjects within national territory, ensuring compliance with ethical and scientific standards."
+  },
+  {
+    "id": 283,
+    "proposito_descripcion_en": "Establishes the guidelines for detecting, assessing, understanding, and preventing adverse drug reactions. Defines the National Pharmacovigilance System's structure, the responsibilities of the various parties involved (healthcare professionals, registration holders, authorities), and the time frames for reporting suspected adverse reactions and submitting Periodic Safety Reports (IPS)."
+  },
+  {
+    "id": 284,
+    "proposito_descripcion_en": "Brings into force the technical regulation setting out the specific guidelines and requirements for the sanitary registration of innovative and non-innovative (biosimilar) biotechnology medicines. Defines the criteria for demonstrating quality, safety, and efficacy, including the need to adhere to international guidelines such as those of the ICH, FDA, and EMA."
+  },
+  {
+    "id": 285,
+    "proposito_descripcion_en": "Approves and formalizes the \"Guía de Inspección de Buenas Prácticas de Manufactura para la Industria Farmacéutica Nacional\" [GMP Inspection Guide for the National Pharmaceutical Industry]. Establishes the technical and quality standards DIGEMAPS uses to inspect and certify that manufacturing laboratories comply with GMP, based on WHO reports."
+  },
+  {
+    "id": 286,
+    "proposito_descripcion_en": "The official, mandatory document that must be completed to begin a research protocol's evaluation process. Gathers all essential administrative, technical, and ethical information on the study, investigators, sponsor, and participants."
+  },
+  {
+    "id": 287,
+    "proposito_descripcion_en": "Instrument for reporting suspected adverse reactions. Reporting is done through the regional Noti-FACEDRA portal, an online platform that centralizes reports for Central American and Dominican Republic authorities, facilitating the process for healthcare professionals and the public."
+  },
+  {
+    "id": 288,
+    "proposito_descripcion_en": "This document, managed through the Ventanilla Única de Comercio Exterior (Single Window for Foreign Trade, VUCERD), details the requirements, responsibilities, and workflow for obtaining DIGEMAPS's import authorization for clinical trial products. An essential guide for the study's logistics."
+  },
+  {
+    "id": 289,
+    "proposito_descripcion_en": "Establishes the technical criteria and quality standards DIGEMAPS uses to conduct GMP inspections of pharmaceutical product manufacturers, ensuring production processes guarantee the quality, safety, and efficacy of medicines."
+  },
+  {
+    "id": 290,
+    "proposito_descripcion_en": "The main portal for all information related to research's ethical evaluation. Contains regulations, forms, announcements, and the public database of protocol status."
+  },
+  {
+    "id": 291,
+    "proposito_descripcion_en": "The products regulatory authority. Its website contains information on sanitary registration, pharmacovigilance, imports, and technical regulations applicable to investigational products."
+  },
+  {
+    "id": 302,
+    "proposito_descripcion_en": "The main regulation governing the ethics of research involving human subjects."
+  },
+  {
+    "id": 303,
+    "proposito_descripcion_en": "Internalizes Resolución MERCOSUR 129/96 on GCP."
+  },
+  {
+    "id": 304,
+    "proposito_descripcion_en": "Regulates the processing of personal data in research."
+  },
+  {
+    "id": 305,
+    "proposito_descripcion_en": "Rules for transplantation and research involving cells and tissues."
+  },
+  {
+    "id": 306,
+    "proposito_descripcion_en": "Technical GCP standard applicable in Uruguay."
+  },
+  {
+    "id": 307,
+    "proposito_descripcion_en": "Official form for requesting clinical trial evaluation by the DES."
+  },
+  {
+    "id": 308,
+    "proposito_descripcion_en": "Step-by-step guide for the registration and authorization process."
+  },
+  {
+    "id": 309,
+    "proposito_descripcion_en": "Official system for registering and authorizing projects."
+  },
+  {
+    "id": 310,
+    "proposito_descripcion_en": "Information on areas of authority, including research projects."
+  },
+  {
+    "id": 311,
+    "proposito_descripcion_en": "Institutional and contact information for the CNEI."
+  },
+  {
+    "id": 312,
+    "proposito_descripcion_en": "Regulations and procedures for research involving human subjects."
+  },
+  {
+    "id": 313,
+    "proposito_descripcion_en": "MSP's official page on Decreto 158/019."
+  },
+  {
+    "id": 357,
+    "proposito_descripcion_en": "Approves the standards and criteria for accrediting Research Ethics Committees (CEIs) in Uruguay, under the oversight of the CNEI."
+  },
+  {
+    "id": 382,
+    "proposito_descripcion_en": "Aims to approve the regulation establishing the requirements and procedures for registering, producing, importing, exporting, and marketing medicines for human use in Uruguay."
+  },
+  {
+    "id": 292,
+    "proposito_descripcion_en": "The framework law regulating national pharmaceutical policy, sanitary registration, and pharmacovigilance, and establishing the basis for authorizing and conducting clinical trials in its Title VI, making the Declaration of Helsinki a legally binding standard."
+  },
+  {
+    "id": 293,
+    "proposito_descripcion_en": "Details the JRPF's powers and the requirements for product registration. Fundamental for clinical trials, as it establishes the JRPF's authority to approve protocols (Group A), the preclinical/clinical information requirements (Group E), and regulates importing products for research (Group H)."
+  },
+  {
+    "id": 294,
+    "proposito_descripcion_en": "The specific, central regulation governing the conduct of clinical trials in Venezuela. Establishes the detailed requirements for applying for, conducting, and overseeing studies. Its existence is confirmed through circulars that amend it."
+  },
+  {
+    "id": 295,
+    "proposito_descripcion_en": "Establishes the ethical principles and standards for research involving human subjects, including the requirements for establishing bioethics commissions, informed consent, and the protection of vulnerable populations."
+  },
+  {
+    "id": 296,
+    "proposito_descripcion_en": "Defines the technical requirements for designing and conducting studies seeking to demonstrate bioequivalence or characterize a pharmaceutical product's bioavailability."
+  },
+  {
+    "id": 297,
+    "proposito_descripcion_en": "Regulates special access pathways to medicines, including those in the research phase for serious conditions with no therapeutic alternative, such as the \"Early Access Medicine\" and the \"Compassionate Use Medicine.\""
+  },
+  {
+    "id": 299,
+    "proposito_descripcion_en": "\"Registro Sanitario\" [Sanitary Registration] section of the INHRR portal."
+  },
+  {
+    "id": 301,
+    "proposito_descripcion_en": "Although not a regulation in force, this document, which was open for public consultation, is the clearest reference on the direction the regulatory authority seeks to take to align Venezuela's regulatory framework with international GCP standards."
+  },
+  {
+    "id": 376,
+    "proposito_descripcion_en": "Details the steps and guidelines for requesting the sanitary registration of \"Essential\" category pharmaceutical specialties in the SIVERC system. Also establishes the requirements and documentation needed to process that registration before the Venezuelan health authority."
+  },
+  {
+    "id": 377,
+    "proposito_descripcion_en": "Guide for correctly completing Form F-RCDM-011, the Application for Authorization of Clinical Protocols for pharmaceutical specialties."
+  },
+  {
+    "id": 378,
+    "proposito_descripcion_en": "Announces that, effective 06/09/2025, applications for the sanitary registration of national pharmaceutical products in Venezuela must be submitted exclusively through the SIVERC system, version 2.0."
+  },
+  {
+    "id": 379,
+    "proposito_descripcion_en": "Establishes the time frames for user registration and the definitive migration to the SIVERC system, version 2.0."
+  },
+  {
+    "id": 380,
+    "proposito_descripcion_en": "Establishes a special regime for computer crimes."
+  },
+  {
+    "id": 381,
+    "proposito_descripcion_en": "Regulates the donation and transplantation of human organs, tissues, and cells for therapeutic, research, or teaching purposes within national territory."
+  },
+  {
+    "id": 250,
+    "proposito_descripcion_en": "The framework law establishing the legal structure for regulating food, drugs, cosmetics, and medical devices in Trinidad and Tobago."
+  },
+  {
+    "id": 251,
+    "proposito_descripcion_en": "The regulations issued under the authority of the Food and Drugs Act. Contain the operational details and technical requirements. For clinical trials, the most important sections are those of the Second Schedule, Division 3, and Division 8."
+  },
+  {
+    "id": 252,
+    "proposito_descripcion_en": "This law establishes individuals' rights to the privacy of their personal information and the obligations of organizations that collect and process such data."
+  },
+  {
+    "id": 253,
+    "proposito_descripcion_en": "The online form through which all new drug registration and supplement applications are submitted."
+  },
+  {
+    "id": 254,
+    "proposito_descripcion_en": "Although no longer used for submission, the PDF files of the former Forms A, B, C, and D remain useful as a reference for understanding the structure and type of information to prepare when completing the electronic form."
+  },
+  {
+    "id": 255,
+    "proposito_descripcion_en": "The most important guidance document for the submission process. Describes step by step how a local Agent must use the electronic platform (Google Forms) to submit an NDS or a supplement."
+  },
+  {
+    "id": 256,
+    "proposito_descripcion_en": "Details the technical content to be included in each section of the NDS dossier. Provides a checklist of the chemical, pharmaceutical (including pharmacodynamic and pharmacokinetic), toxicological, and clinical data required for evaluation."
+  },
+  {
+    "id": 383,
+    "proposito_descripcion_en": "Information on the regional network created by CARPHA, bringing together research ethics committees from Caribbean member states."
+  },
+  {
+    "id": 184,
+    "proposito_descripcion_en": "The fundamental law establishing the legal framework for regulating food, drugs, cosmetics, and medical devices in Jamaica."
+  },
+  {
+    "id": 185,
+    "proposito_descripcion_en": "Details the specific procedures for regulating drugs."
+  },
+  {
+    "id": 186,
+    "proposito_descripcion_en": "This document, issued by the Ministry of Health, establishes the ethical framework for all research involving human subjects in Jamaica."
+  },
+  {
+    "id": 187,
+    "proposito_descripcion_en": "Protects individuals' personal data privacy and regulates how organizations (Data Controllers) must collect, process, store, use, and transfer such data."
+  },
+  {
+    "id": 188,
+    "proposito_descripcion_en": "The official form for reporting suspected Adverse Drug Reactions (ADRs) to the National Pharmacovigilance Centre, which is the MOHW's Standards and Regulation Division."
+  },
+  {
+    "id": 189,
+    "proposito_descripcion_en": "The MOHW, through its Standards and Regulation Division, publishes lists of requirements and guidelines for registering various products, including new drugs. These documents detail the technical information (chemistry, manufacturing, controls, preclinical and clinical data) to be included in the license application dossier, which is the basis for authorizing an investigational product."
+  },
+  {
+    "id": 400,
+    "proposito_descripcion_en": "Develops standards to improve the quality of health services in the country. It also regulates health facilities, pharmaceutical products, and other designated products, promoting the protection of patients' rights."
+  },
+  {
+    "id": 168,
+    "proposito_descripcion_en": "Establishes the country's supreme legal framework. For clinical research, its guarantees of fundamental rights are relevant, including the right to life and health (Article 19), and the protection of the human person. Serves as the legal and ethical basis on which all other sanitary regulations must operate."
+  },
+  {
+    "id": 169,
+    "proposito_descripcion_en": "Defines the structure, missions, and functions of the various directorates within the Ministry of Health. Fundamental because it formally establishes the responsibilities of the DPM/MT (pharmaceutical product regulation) and the DELR (research planning and promotion), outlining the separation of functions."
+  },
+  {
+    "id": 170,
+    "proposito_descripcion_en": "The most important operational document for initiating clinical trials in Haiti. Comprehensively details the submission process, the dossier's contents, requirements for investigators, the informed consent format, and the CNB's review time frames."
+  },
+  {
+    "id": 171,
+    "proposito_descripcion_en": "Serves as the DPM/MT's practical guide for registering pharmaceutical products (branded and generic) and accrediting laboratories. Details the required documentation (including GMP), fees, and forms. The main source for understanding the Marketing Authorization (AMM) process."
+  },
+  {
+    "id": 172,
+    "proposito_descripcion_en": "A more modern regulatory document updating and detailing the requirements for operating pharmaceutical establishments, the processes for recognizing foreign laboratories, and the standards for importing products. Crucial for understanding the requirements the local import partner must meet."
+  },
+  {
+    "id": 173,
+    "proposito_descripcion_en": "Official form to be completed and submitted to the DPM/MT for each form and dose of a branded or generic pharmaceutical product to be registered in the country. An essential component of the sanitary registration dossier."
+  },
+  {
+    "id": 174,
+    "proposito_descripcion_en": "Official point of contact and source of information for the medicines regulatory authority. Contains health alerts, lists of authorized medicines and laboratories, and useful documents."
+  },
+  {
+    "id": 175,
+    "proposito_descripcion_en": "The Ministry of Health's main portal, housing the DPM/MT and other directorates. Provides access to national health policies, statistical reports, and sector news."
+  },
+  {
+    "id": 328,
+    "proposito_descripcion_en": "Defines the national strategic framework, governance pillars, and the National Research Agenda. The guiding document for strengthening the health system through evidence-based data, and regulates transparency in disseminating research results."
+  }
+]

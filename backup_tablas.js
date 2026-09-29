@@ -5,7 +5,14 @@ const supabaseUrl = process.env.SUPABASE_URL || 'https://mugtfugfabhrqcomynrs.su
 const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
 
 async function getAllTables() {
-  return ['faq_rows_corregido', 'resumen_ejecutivo', 'enlaces', 'reportes_usuarios'];
+  return [
+    'faq_rows_corregido',
+    'faq_rows_corregido_en',
+    'resumen_ejecutivo',
+    'enlaces',
+    'enlaces_descripcion_en',
+    'reportes_usuarios'
+  ];
 }
 
 async function fetchAllData(tableName) {

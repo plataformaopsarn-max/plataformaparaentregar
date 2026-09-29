@@ -25,7 +25,7 @@ La plataforma está diseñada bajo una arquitectura moderna de cliente ligero (*
 plataforma-publica/
 ├── index.html                  # Versión en Español: estructura responsiva y meta-etiquetas SEO/Analytics
 ├── main.js                     # Controlador principal en Español (vistas, búsqueda, filtros, comparadores)
-├── en/                         # 🇬🇧 Espejo completo en Inglés
+├── en/                         # 🇺🇸 Espejo completo en Inglés
 │   ├── index.html              # HTML en inglés (título, navegación, footer PAHO/EN, selector ES|EN)
 │   └── main.js                 # Controlador en inglés (categorías, 38 preguntas, conexión a tablas _en)
 ├── config.js                   # Módulo dinámico para abstracción de credenciales y variables de entorno
