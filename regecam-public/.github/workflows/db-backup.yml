@@ -15,20 +15,13 @@ jobs:
     
     steps:
       - name: Checkout repositorio
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT_BACKUP || secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+        run: |
+          git clone --depth 1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" .
 
       - name: Crear Backup mediante API REST Supabase
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://mugtfugfabhrqcomynrs.supabase.co' }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI' }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: node backup_tablas.js
           
       - name: Commit y Push del Backup al Repositorio
@@ -37,4 +30,4 @@ jobs:
           git config --local user.name "GitHub Action Bot"
           git add backups/*.json backup_tablas.js
           git commit -m "Auto-backup: Respaldo de tablas descargado desde API REST [skip ci]" || echo "No hay cambios para commitear"
-          git push origin main || echo "No hay cambios para pushear"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:main || echo "No hay cambios para pushear"

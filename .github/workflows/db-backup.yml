@@ -15,14 +15,8 @@ jobs:
     
     steps:
       - name: Checkout repositorio
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+        run: |
+          git clone --depth 1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" .
 
       - name: Crear Backup mediante API REST Supabase
         env:
@@ -36,4 +30,4 @@ jobs:
           git config --local user.name "GitHub Action Bot"
           git add backups/*.json backup_tablas.js
           git commit -m "Auto-backup: Respaldo de tablas descargado desde API REST [skip ci]" || echo "No hay cambios para commitear"
-          git push || echo "No hay cambios para pushear"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:main || echo "No hay cambios para pushear"
