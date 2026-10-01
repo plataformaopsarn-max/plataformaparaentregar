@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
-    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_v1.2',
+    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_v1.3',
     TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
 
     data: {
@@ -48,8 +48,8 @@ const DataCacheManager = {
             ]);
 
             this.data = {
-                faq: faqRes.data || [],
-                summary: summaryRes.data || [],
+                faq: (faqRes.data || []).sort((a, b) => (a.pais || '').localeCompare(b.pais || '', 'es', { sensitivity: 'base' })),
+                summary: (summaryRes.data || []).sort((a, b) => (a.pais || '').localeCompare(b.pais || '', 'es', { sensitivity: 'base' })),
                 links: linksRes.data || []
             };
 
@@ -676,7 +676,7 @@ const app = {
             <!-- LEYENDA REPORTAR ERROR O SUGERENCIA -->
             <div class="mt-8 pt-4 border-t border-slate-200/60 text-center">
                 <p class="text-xs text-slate-500 font-medium flex items-center justify-center gap-1 flex-wrap">
-                    <span>Por comentarios, sugerencias o reportes de actualizaciones normativas, puede contactarnos a través del siguiente</span>
+                    <span>Por reportes de actualizaciones normativas, puede contactarnos a través del siguiente</span>
                     <button onclick="app.setView('report')" class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors inline-flex items-center gap-1">
                         <span>formulario</span>
                         <i data-lucide="message-square-plus" class="w-3.5 h-3.5"></i>
@@ -1261,12 +1261,13 @@ const app = {
             return;
         }
 
-        // Ordenar data según el orden de selección
-        const ordered = selected.map(name => data.find(r => r.pais === name)).filter(Boolean);
+        // Ordenar países seleccionados alfabéticamente (A-Z)
+        const sortedSelected = [...selected].sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+        const ordered = sortedSelected.map(name => data.find(r => r.pais === name)).filter(Boolean);
         const colCount = ordered.length;
 
         analytics.track('compare_by_countries', {
-            countries: selected.join(' | '),
+            countries: sortedSelected.join(' | '),
             count: colCount
         });
 
@@ -1319,7 +1320,7 @@ const app = {
             <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm no-print">
                 <div>
                     <h3 class="font-bold text-slate-800 text-base">Comparativa de ${colCount} países</h3>
-                    <p class="text-xs text-slate-500">${selected.join(' vs ')}</p>
+                    <p class="text-xs text-slate-500">${sortedSelected.join(' vs ')}</p>
                 </div>
                 <button onclick="app.printComparison('countries')" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-teal-700 shadow-sm transition-all cursor-pointer">
                     <i data-lucide="printer" class="w-4 h-4"></i> Generar informe PDF
@@ -1328,7 +1329,7 @@ const app = {
 
             <div class="print-only mb-6 border-b-2 border-black pb-4">
                 <h1 class="text-2xl font-black text-black uppercase">Informe comparativo por países</h1>
-                <p class="text-base font-bold text-black mt-1">Países comparados: ${selected.join(', ')}</p>
+                <p class="text-base font-bold text-black mt-1">Países comparados: ${sortedSelected.join(', ')}</p>
                 <div class="text-xs text-black mt-2">REGIA — Regulaciones para la Investigación en las Américas (OPS/OMS) | Fecha de generación: ${new Date().toLocaleDateString()}</div>
             </div>
 
@@ -1391,6 +1392,11 @@ const app = {
             if (hasBoolean) selectQuery += `, ${dbKey}_booleano`;
             const res = await supabase.from('faq_rows_corregido').select(selectQuery).order('pais');
             data = res.data || [];
+        }
+
+        // Ordenar países alfabéticamente (A-Z)
+        if (data && Array.isArray(data)) {
+            data.sort((a, b) => (a.pais || '').localeCompare(b.pais || '', 'es', { sensitivity: 'base' }));
         }
 
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Comparar`;
@@ -1821,37 +1827,11 @@ const app = {
             console.error("Failed to set title:", titleError);
         }
 
-        // Medir el tiempo de ejecución de window.print()
-        // Si el sandbox bloquea la impresión por falta de 'allow-modals',
-        // la llamada retorna de inmediato (generalmente < 10ms).
-        // Si funciona, bloquea la ejecución hasta que se cierre el diálogo (normalmente > 100ms).
-        const start = Date.now();
         try {
             console.log("Invoking window.print()...");
             window.print();
         } catch (printError) {
             console.error("Failed to invoke window.print():", printError);
-        }
-        const delta = Date.now() - start;
-        console.log(`window.print() execution took ${delta}ms`);
-
-        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-        
-        // Si se ejecutó en menos de 50ms y estamos embebidos, probablemente el sandbox lo bloqueó.
-        // Aplicamos el fallback de redirección.
-        if (delta < 50 && isEmbedded) {
-            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
-            const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
-            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
-            
-            try {
-                // Redirigir la ventana padre completa
-                window.top.location.href = redirectUrl;
-            } catch (err) {
-                console.error("Failed to redirect window.top:", err);
-                // Si la redirección falla (por ejemplo por políticas de seguridad estrictas), intentamos abrir en pestaña nueva
-                window.open(redirectUrl, '_blank');
-            }
         }
 
         setTimeout(() => {
@@ -1861,24 +1841,12 @@ const app = {
             } catch (restoreError) {
                 console.error("Failed to restore title:", restoreError);
             }
-        }, 1000);
+        }, 3000);
     },
 
-    // Manejador del modo auto-impresión (workaround para sandbox)
+    // Manejador de impresión de comparativas
     printComparison: function (mode) {
         console.log("printComparison called for mode:", mode);
-
-        let paramStr = '';
-        if (mode === 'requirement') {
-            const select = document.getElementById('compare-select');
-            const qId = select ? select.value : '';
-            if (!qId) return;
-            paramStr = `compareMode=requirement&q=${encodeURIComponent(qId)}`;
-        } else if (mode === 'countries') {
-            const selected = this.state.selectedCountriesForCompare;
-            if (!selected || selected.length < 2) return;
-            paramStr = `compareMode=countries&c=${encodeURIComponent(selected.join(','))}`;
-        }
 
         // Si es comparación por países, forzar orientación horizontal (landscape) para evitar recortes
         if (mode === 'countries') {
@@ -1897,28 +1865,11 @@ const app = {
             document.title = `Informe_Comparativo_${modeLabel}`;
         } catch (e) {}
 
-        const start = Date.now();
         try {
             console.log("Invoking window.print()...");
             window.print();
         } catch (printError) {
             console.error("Failed to invoke window.print():", printError);
-        }
-        const delta = Date.now() - start;
-
-        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-        
-        if (delta < 50 && isEmbedded) {
-            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
-            const currentUrl = window.location.href.split('?')[0];
-            const redirectUrl = `${currentUrl}?view=compare&${paramStr}&print=true`;
-            
-            try {
-                window.top.location.href = redirectUrl;
-            } catch (err) {
-                console.error("Failed to redirect window.top:", err);
-                window.open(redirectUrl, '_blank');
-            }
         }
 
         setTimeout(() => {
@@ -1927,7 +1878,7 @@ const app = {
                 const landscapeStyle = document.getElementById('dynamic-print-orientation');
                 if (landscapeStyle) landscapeStyle.remove();
             } catch (e) {}
-        }, 1500);
+        }, 3000);
     },
 
     handleAutoPrint: function (countryName, referrerUrl, isLandscape = false) {
@@ -1958,7 +1909,7 @@ const app = {
                     </span>
                     <span class="text-sm font-semibold">Modo de Impresión: Generando PDF para ${countryName}...</span>
                 </div>
-                <button onclick="window.location.href='https://www.paho.org/es'" 
+                <button onclick="window.history.length > 1 ? window.history.back() : window.location.href='https://www.paho.org/es/regia'" 
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
                         style="cursor: pointer;">
                     &larr; Volver a la plataforma

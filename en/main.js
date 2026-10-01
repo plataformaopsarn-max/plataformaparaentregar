@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
-    CACHE_KEY: 'plataforma_regulatoria_cache_en_v1.2',
+    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_en_v1.3',
     TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
 
     data: {
@@ -79,8 +79,8 @@ const DataCacheManager = {
             });
 
             this.data = {
-                faq: mergedFaq,
-                summary: summary,
+                faq: mergedFaq.sort((a, b) => (a.pais || '').localeCompare(b.pais || '', 'es', { sensitivity: 'base' })),
+                summary: summary.sort((a, b) => (a.pais || '').localeCompare(b.pais || '', 'es', { sensitivity: 'base' })),
                 links: mergedLinks
             };
 
@@ -707,7 +707,7 @@ const app = {
             <!-- LEYENDA REPORTAR ERROR O SUGERENCIA -->
             <div class="mt-8 pt-4 border-t border-slate-200/60 text-center">
                 <p class="text-xs text-slate-500 font-medium flex items-center justify-center gap-1 flex-wrap">
-                    <span>For comments, suggestions, or regulatory update reports, you can contact us through the following</span>
+                    <span>To report regulatory updates, you can contact us through the following</span>
                     <button onclick="app.setView('report')" class="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer transition-colors inline-flex items-center gap-1">
                         <span>form</span>
                         <i data-lucide="message-square-plus" class="w-3.5 h-3.5"></i>
@@ -1125,7 +1125,11 @@ const app = {
         const mode = this.state.compareMode;
         const selected = this.state.selectedCountriesForCompare;
 
-        const countryPickerHtml = COUNTRIES_LIST.map(c => {
+        const sortedCountriesForPicker = [...COUNTRIES_LIST].sort((a, b) => 
+            (a.displayName || a.name).localeCompare(b.displayName || b.name, 'en', { sensitivity: 'base' })
+        );
+
+        const countryPickerHtml = sortedCountriesForPicker.map(c => {
             const isSelected = selected.includes(c.name);
             return `<button onclick="app.selectCompareCountry('${c.name}')" class="flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all ${
                 isSelected
@@ -1133,7 +1137,7 @@ const app = {
                     : 'bg-white border-slate-200 text-slate-700 hover:border-teal-400 hover:text-teal-700'
             }">
                 <span class="fi fi-${c.flagCode} rounded-sm shadow-sm"></span>
-                ${c.name}
+                ${c.displayName || c.name}
                 ${isSelected ? `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>` : ''}
             </button>`;
         }).join('');
@@ -1292,12 +1296,19 @@ const app = {
             return;
         }
 
-        // Ordenar data según el orden de selección
-        const ordered = selected.map(name => data.find(r => r.pais === name)).filter(Boolean);
+        // Sort selected countries alphabetically by English display name
+        const sortedSelected = [...selected].sort((a, b) => {
+            const nameA = COUNTRIES_LIST.find(c => c.name === a)?.displayName || a;
+            const nameB = COUNTRIES_LIST.find(c => c.name === b)?.displayName || b;
+            return nameA.localeCompare(nameB, 'en', { sensitivity: 'base' });
+        });
+        const ordered = sortedSelected.map(name => data.find(r => r.pais === name)).filter(Boolean);
         const colCount = ordered.length;
 
+        const displaySelected = sortedSelected.map(name => COUNTRIES_LIST.find(c => c.name === name)?.displayName || name);
+
         analytics.track('compare_by_countries', {
-            countries: selected.join(' | '),
+            countries: displaySelected.join(' | '),
             count: colCount
         });
 
@@ -1307,7 +1318,7 @@ const app = {
             return `<th class="text-center p-4 bg-slate-100 border-b border-slate-300 min-w-[180px]">
                 <div class="flex flex-col items-center gap-2">
                     <span class="fi fi-${cd?.flagCode} rounded shadow-sm" style="font-size:1.8em;"></span>
-                    <span class="font-black text-black text-sm">${row.pais}</span>
+                    <span class="font-black text-black text-sm">${cd?.displayName || row.pais}</span>
                 </div>
             </th>`;
         }).join('');
@@ -1350,7 +1361,7 @@ const app = {
             <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm no-print">
                 <div>
                     <h3 class="font-bold text-slate-800 text-base">Comparison of ${colCount} countries</h3>
-                    <p class="text-xs text-slate-500">${selected.join(' vs ')}</p>
+                    <p class="text-xs text-slate-500">${displaySelected.join(' vs ')}</p>
                 </div>
                 <button onclick="app.printComparison('countries')" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-teal-700 shadow-sm transition-all cursor-pointer">
                     <i data-lucide="printer" class="w-4 h-4"></i> Generate PDF report
@@ -1359,7 +1370,7 @@ const app = {
 
             <div class="print-only mb-6 border-b-2 border-black pb-4">
                 <h1 class="text-2xl font-black text-black uppercase">Comparative report by country</h1>
-                <p class="text-base font-bold text-black mt-1">Compared countries: ${selected.join(', ')}</p>
+                <p class="text-base font-bold text-black mt-1">Compared countries: ${displaySelected.join(', ')}</p>
                 <div class="text-xs text-black mt-2">REGIA — Regulations for Research in the Americas (PAHO/WHO) | Generated on: ${new Date().toLocaleDateString()}</div>
             </div>
 
@@ -1369,7 +1380,7 @@ const app = {
                         <thead>
                             <tr>
                                 <th class="text-left p-4 bg-slate-100 border-b border-slate-300 sticky left-0 z-10 w-56">
-                                    <span class="text-xs font-black text-black uppercase tracking-wide">Requisito</span>
+                                    <span class="text-xs font-black text-black uppercase tracking-wide">Requirement</span>
                                 </th>
                                 ${flagsHeader}
                             </tr>
@@ -1424,6 +1435,15 @@ const app = {
             data = res.data || [];
         }
 
+        // Sort countries alphabetically (A-Z) by English display name
+        if (data && Array.isArray(data)) {
+            data.sort((a, b) => {
+                const nameA = COUNTRIES_LIST.find(c => c.name === a.pais)?.displayName || a.pais || '';
+                const nameB = COUNTRIES_LIST.find(c => c.name === b.pais)?.displayName || b.pais || '';
+                return nameA.localeCompare(nameB, 'en', { sensitivity: 'base' });
+            });
+        }
+
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Compare`;
         btn.disabled = false;
 
@@ -1441,7 +1461,7 @@ const app = {
                     <div class="flex justify-between items-start mb-4 border-b pb-3">
                         <h3 class="font-bold text-lg text-blue-800 flex items-center gap-2">
                             <span class="fi fi-${flagCode} rounded shadow-sm"></span>
-                            ${item.pais}
+                            ${countryData?.displayName || item.pais}
                         </h3>
                         ${booleanVal !== undefined ? `
                             <span class="px-2 py-1 rounded text-xs font-bold ${booleanVal ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
@@ -1602,8 +1622,12 @@ const app = {
             }
         }
 
-        // Ordenar alfabéticamente (A-Z) en español
-        countryNames.sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+        // Sort alphabetically (A-Z) by English display name
+        countryNames.sort((a, b) => {
+            const nameA = COUNTRIES_LIST.find(c => c.name === a)?.displayName || a;
+            const nameB = COUNTRIES_LIST.find(c => c.name === b)?.displayName || b;
+            return nameA.localeCompare(nameB, 'en', { sensitivity: 'base' });
+        });
 
         analytics.filterExecuted(this.state.filterCriteria, countryNames.length);
 
@@ -1852,37 +1876,11 @@ const app = {
             console.error("Failed to set title:", titleError);
         }
 
-        // Medir el tiempo de ejecución de window.print()
-        // Si el sandbox bloquea la impresión por falta de 'allow-modals',
-        // la llamada retorna de inmediato (generalmente < 10ms).
-        // Si funciona, bloquea la ejecución hasta que se cierre el diálogo (normalmente > 100ms).
-        const start = Date.now();
         try {
             console.log("Invoking window.print()...");
             window.print();
         } catch (printError) {
             console.error("Failed to invoke window.print():", printError);
-        }
-        const delta = Date.now() - start;
-        console.log(`window.print() execution took ${delta}ms`);
-
-        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-        
-        // Si se ejecutó en menos de 50ms y estamos embebidos, probablemente el sandbox lo bloqueó.
-        // Aplicamos el fallback de redirección.
-        if (delta < 50 && isEmbedded) {
-            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
-            const currentUrl = window.location.href.split('?')[0]; // URL limpia sin parámetros anteriores
-            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
-            
-            try {
-                // Redirigir la ventana padre completa
-                window.top.location.href = redirectUrl;
-            } catch (err) {
-                console.error("Failed to redirect window.top:", err);
-                // Si la redirección falla (por ejemplo por políticas de seguridad estrictas), intentamos abrir en pestaña nueva
-                window.open(redirectUrl, '_blank');
-            }
         }
 
         setTimeout(() => {
@@ -1892,26 +1890,14 @@ const app = {
             } catch (restoreError) {
                 console.error("Failed to restore title:", restoreError);
             }
-        }, 1000);
+        }, 3000);
     },
 
-    // Manejador del modo auto-impresión (workaround para sandbox)
+    // Comparison print handler
     printComparison: function (mode) {
         console.log("printComparison called for mode:", mode);
 
-        let paramStr = '';
-        if (mode === 'requirement') {
-            const select = document.getElementById('compare-select');
-            const qId = select ? select.value : '';
-            if (!qId) return;
-            paramStr = `compareMode=requirement&q=${encodeURIComponent(qId)}`;
-        } else if (mode === 'countries') {
-            const selected = this.state.selectedCountriesForCompare;
-            if (!selected || selected.length < 2) return;
-            paramStr = `compareMode=countries&c=${encodeURIComponent(selected.join(','))}`;
-        }
-
-        // Si es comparación por países, forzar orientación horizontal (landscape) para evitar recortes
+        // If country comparison, force landscape orientation to prevent cutoffs
         if (mode === 'countries') {
             let landscapeStyle = document.getElementById('dynamic-print-orientation');
             if (!landscapeStyle) {
@@ -1924,32 +1910,15 @@ const app = {
 
         const originalTitle = document.title;
         try {
-            const modeLabel = mode === 'requirement' ? 'Requisito' : 'Paises';
+            const modeLabel = mode === 'requirement' ? 'Requirement' : 'Countries';
             document.title = `Comparative_Report_${modeLabel}`;
         } catch (e) {}
 
-        const start = Date.now();
         try {
             console.log("Invoking window.print()...");
             window.print();
         } catch (printError) {
             console.error("Failed to invoke window.print():", printError);
-        }
-        const delta = Date.now() - start;
-
-        const isEmbedded = window.self !== window.top || new URLSearchParams(window.location.search).has('embed');
-        
-        if (delta < 50 && isEmbedded) {
-            console.warn("Print was likely blocked by sandbox. Triggering redirection fallback...");
-            const currentUrl = window.location.href.split('?')[0];
-            const redirectUrl = `${currentUrl}?view=compare&${paramStr}&print=true`;
-            
-            try {
-                window.top.location.href = redirectUrl;
-            } catch (err) {
-                console.error("Failed to redirect window.top:", err);
-                window.open(redirectUrl, '_blank');
-            }
         }
 
         setTimeout(() => {
@@ -1958,7 +1927,7 @@ const app = {
                 const landscapeStyle = document.getElementById('dynamic-print-orientation');
                 if (landscapeStyle) landscapeStyle.remove();
             } catch (e) {}
-        }, 1500);
+        }, 3000);
     },
 
     handleAutoPrint: function (countryName, referrerUrl, isLandscape = false) {
@@ -1966,7 +1935,7 @@ const app = {
         
         const forceLandscape = isLandscape || (countryName && countryName.includes('Country Comparison'));
 
-        // 1. Ocultar el header, nav y footer propios de la plataforma en pantalla para dejar la vista limpia
+        // 1. Hide header, nav, and platform footer for clean view
         const style = document.createElement('style');
         style.id = 'print-mode-styles';
         style.textContent = `
@@ -1976,7 +1945,7 @@ const app = {
         `;
         document.head.appendChild(style);
         
-        // 2. Inyectar banner de retorno al tope del body (oculto al imprimir)
+        // 2. Inject return banner at top of body (hidden when printing)
         if (!document.getElementById('print-mode-banner')) {
             const banner = document.createElement('div');
             banner.id = 'print-mode-banner';
@@ -1989,7 +1958,7 @@ const app = {
                     </span>
                     <span class="text-sm font-semibold">Print Mode: Generating PDF for ${countryName}...</span>
                 </div>
-                <button onclick="window.location.href='https://www.paho.org/es'" 
+                <button onclick="window.history.length > 1 ? window.history.back() : window.location.href='https://www.paho.org/en/regia'" 
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
                         style="cursor: pointer;">
                     &larr; Back to platform
