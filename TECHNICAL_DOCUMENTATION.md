@@ -1,5 +1,6 @@
 # Documento de Especificación Técnica para Desarrolladores
-## Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (OPS/OMS)
+## REGIA — Regulaciones para la Investigación en las Américas (OPS/OMS)
+### Plataforma de Información Regulatoria sobre Ensayos Clínicos
 
 Este documento contiene las especificaciones técnicas internas de la arquitectura del software, patrones de diseño, diccionario del modelo de datos, flujo de control de estados y mecanismos de integración en embebidos (Iframe).
 
@@ -77,6 +78,15 @@ Almacena los comentarios, sugerencias y actualizaciones enviadas por los usuario
 * `documento_adjunto_url` (text): URL del PDF adjunto almacenado en Supabase Storage (`bucket: reportes`).
 * `procesado` (boolean, default: false): Estado de atención por el equipo de coordinación.
 
+### F. Seguridad y Políticas de Acceso (Row Level Security - RLS)
+Todas las tablas de la base de datos cuentan con RLS activado:
+1. **`reportes_usuarios`**:
+   - `INSERT`: Habilitado para roles `anon` y `authenticated` con verificación `WITH CHECK (true)` (cualquier usuario puede enviar un formulario).
+   - `SELECT`: **Exclusivo para el rol `authenticated`**. Los usuarios no autenticados (`anon`) reciben `[]` (cero filas), protegiendo correos y datos personales de los remitentes.
+2. **Tablas de Lectura Pública (`faq_rows_corregido`, `faq_rows_corregido_en`, `enlaces`, `enlaces_descripcion_en`, `resumen_ejecutivo`)**:
+   - `SELECT`: Habilitado para roles `anon` y `authenticated` con `USING (true)`.
+   - `INSERT / UPDATE / DELETE`: Denegado para `anon` (error `42501 - violates row-level security policy`). Las actualizaciones de contenido solo se pueden realizar mediante tokens autenticados del CMS o claves administrativas (`service_role`).
+
 ---
 
 ## 3. Integración Embebida (Iframe) y Auto-Resizing Protocol
@@ -105,6 +115,11 @@ La plataforma está optimizada para ser embebida mediante un `<iframe>` en porta
    }, '*');
    ```
 
+3. **Aislamiento de Impresión Móvil (`isMobileDevice && isEmbedded`)**:
+   - En navegadores móviles (iOS Safari, Android Chrome), invocar `window.print()` dentro de un iframe embebido provoca que el navegador intente imprimir la ventana contenedora externa completa de la OPS.
+   - Para resolver este problema, la función `printReport()` detecta el entorno móvil y abre una ventana emergente limpia e independiente (`window.open(redirectUrl, '_blank')`) cargando el reporte en modo aislado.
+   - En modo aislado, se inyecta un encabezado institucional con dos botones de acción directa: **[ 🖨️ Imprimir / Guardar PDF ]** y **[ ✕ Volver ]**.
+
 ### Script Escuchador Estándar para el Sitio Contenedor (Padre):
 ```html
 <script>
@@ -123,7 +138,50 @@ La plataforma está optimizada para ser embebida mediante un `<iframe>` en porta
 
 ---
 
-## 4. Guía de Despliegue en Cloudflare Pages / Workers
+## 4. Telemetría y Analítica (Google Analytics 4 en Iframes)
+
+Medición configurada bajo la propiedad **`G-L4BZ8GDMZ5`**:
+
+1. **Gestión de Cookies Cross-Origin (`SameSite=None;Secure`)**:
+   Al residir la aplicación en un dominio diferente al portal oficial de la OPS (`plataforma.regia.ar` embebida en `paho.org`), las cookies de analítica requieren la directiva `SameSite=None;Secure` para evitar su bloqueo por navegadores con ITP o Privacy Sandbox:
+   ```javascript
+   gtag('config', 'G-L4BZ8GDMZ5', {
+       cookie_flags: 'SameSite=None;Secure'
+   });
+   ```
+2. **Mapeo de Rutas Virtuales en SPA (`analytics.pageView`)**:
+   Dado que las transiciones de vista son manejadas dinámicamente en el cliente, el controlador despacha eventos virtuales `page_view` para registrar analíticas detalladas en GA4:
+   - `analytics.pageView('/', 'REGIA - Inicio')` / `analytics.pageView('/en/', 'REGIA - Home')`
+   - `analytics.pageView('/country/' + country, 'REGIA - ' + country)`
+   - `analytics.pageView('/compare', 'REGIA - Comparador Normativo')`
+   - `analytics.pageView('/filter', 'REGIA - Buscador de Criterios')`
+   - `analytics.pageView('/reportes', 'REGIA - Reporte Normativo')`
+
+---
+
+## 5. Automatización de Backups y Mantenimiento de BD (`db-backup.yml`)
+
+El repositorio incluye un flujo automatizado de integración continua en `.github/workflows/db-backup.yml`:
+
+1. **Ejecución Programada (Cron)**: Se dispara diariamente a las 03:00 UTC (`cron: '0 3 * * *'`) y también bajo demanda (`workflow_dispatch`).
+2. **Volcado JSON Seguro**: Ejecuta `node backup_tablas.js`, el cual consulta todas las tablas de Supabase y genera archivos JSON versionados dentro del directorio `backups/`.
+3. **Keep-Alive de Instancia Supabase**: Las consultas periódicas realizadas por este workflow interactúan con la API REST de Supabase, evitando que la base de datos sea pausada automáticamente por inactividad.
+4. **Compatibilidad Institucional con Políticas de GitHub**: El workflow utiliza comandos nativos del runner sin depender de dependencias externas no autorizadas en organizaciones corporativas con restricciones de Marketplace.
+
+---
+
+## 6. Compilación de Estilos (Tailwind CSS)
+
+Para maximizar la puntuación en Google Lighthouse y eliminar peticiones bloqueantes:
+- Se prescindió del script CDN de desarrollo en favor de un paquete estático minificado (`styles.min.css`, 34 KB).
+- Comando para regenerar el paquete CSS tras modificaciones en el marcado:
+  ```bash
+  npx tailwindcss -o styles.min.css --minify
+  ```
+
+---
+
+## 7. Guía de Despliegue en Cloudflare Pages / Hosting Estático
 
 1. **Crear Proyecto en Cloudflare Pages**:
    - Conectar la cuenta de GitHub de la OPS.
