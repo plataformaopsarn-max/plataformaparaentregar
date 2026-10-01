@@ -1,9 +1,5 @@
 [
   {
-    "id": 1,
-    "proposito_descripcion_en": "Establishes the comprehensive regulatory framework for Good Clinical Practice (GCP) and the evaluation and oversight of clinical pharmacology studies conducted for marketing-authorization purposes. Adopts the ICH E6(R3) Guideline and repeals the previous regulation (Disp. 6677/10), consolidating all requirements into a single regulatory instrument."
-  },
-  {
     "id": 2,
     "proposito_descripcion_en": "Approves the \"Guide for Research in Human Health\" (Guía para Investigaciones en Salud Humana), establishing the general ethical and operational framework for all health research in the country. Created the National Registry of Health Research (Registro Nacional de Investigaciones en Salud, RENIS)."
   },
@@ -158,6 +154,10 @@
   {
     "id": 76,
     "proposito_descripcion_en": "Sets out complementary, specific Good Manufacturing Practice (GMP) requirements for Investigational Medicinal Products."
+  },
+  {
+    "id": 1,
+    "proposito_descripcion_en": "Establishes the comprehensive regulatory framework for Good Clinical Practice (GCP) and the evaluation and oversight of clinical pharmacology studies conducted for marketing-authorization purposes. Adopts the ICH E6(R3) Guideline and repeals the previous regulation (Disp. 6677/10), consolidating all requirements into a single regulatory instrument."
   },
   {
     "id": 77,
