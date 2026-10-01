@@ -1020,7 +1020,7 @@ const app = {
                 <!-- CABECERA EXCLUSIVA PARA IMPRESIÓN -->
                 <div class="hidden print:block mb-10 text-center border-b-2 border-slate-300 pb-8">
                     <div class="flex justify-center mb-6">
-                        <img src="logos-header.png" alt="PAHO | WHO | Regional Bioethics Program" class="h-14 sm:h-16 w-auto object-contain">
+                        <img src="../logos-header.png" alt="PAHO | WHO | Regional Bioethics Program" class="h-14 sm:h-16 w-auto object-contain">
                     </div>
                     <div class="flex justify-center items-center gap-6 mb-4">
                         <span class="fi fi-${flagCode} text-5xl shadow-md rounded-sm" style="width: 1.5em; height: 1.125em;"></span>
