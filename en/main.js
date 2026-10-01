@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
-    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY) || 'plataforma_regulatoria_cache_en_v1.3',
+    CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY_EN) || 'regia_cache_en_v1.4',
     TTL: (window.APP_CONFIG && window.APP_CONFIG.CACHE_TTL_MS) || (24 * 60 * 60 * 1000),
 
     data: {
@@ -856,14 +856,25 @@ const app = {
                 summary = cachedDetail.summary;
                 links = cachedDetail.links;
             } else {
-                const [faqRes, summaryRes, linksRes] = await Promise.all([
+                const [faqEsRes, faqEnRes, summaryRes, linksRes, linksDescEnRes] = await Promise.all([
                     supabase.from('faq_rows_corregido').select('*').eq('pais', countryName).limit(1).single(),
+                    supabase.from('faq_rows_corregido_en').select('*').eq('pais', countryName).limit(1).single(),
                     supabase.from('resumen_ejecutivo').select('*').eq('pais', countryName).single(),
-                    supabase.from('enlaces').select('*').eq('pais', countryName).order('question_code')
+                    supabase.from('enlaces').select('*').eq('pais', countryName).order('question_code'),
+                    supabase.from('enlaces_descripcion_en').select('*')
                 ]);
-                faq = faqRes.data;
+                const esRow = faqEsRes.data || {};
+                const enRow = faqEnRes.data || {};
+                faq = { ...esRow, ...enRow };
                 summary = summaryRes.data;
-                links = linksRes.data || [];
+                const descEnMap = new Map();
+                (linksDescEnRes.data || []).forEach(item => {
+                    if (item.id != null) descEnMap.set(item.id, item.proposito_descripcion_en);
+                });
+                links = (linksRes.data || []).map(link => ({
+                    ...link,
+                    proposito_descripcion_en: descEnMap.get(link.id) || null
+                }));
             }
 
             if (!faq || !summary) {
@@ -1281,11 +1292,18 @@ const app = {
         let data = DataCacheManager.getCountriesComparison(selected);
 
         if (!data || data.length === 0) {
-            const res = await supabase
-                .from('faq_rows_corregido')
-                .select('*')
-                .in('pais', selected);
-            data = res.data || [];
+            const [esRes, enRes] = await Promise.all([
+                supabase.from('faq_rows_corregido').select('*').in('pais', selected),
+                supabase.from('faq_rows_corregido_en').select('*').in('pais', selected)
+            ]);
+            const esData = esRes.data || [];
+            const enData = enRes.data || [];
+            const enMap = new Map();
+            enData.forEach(r => { if (r.pais) enMap.set(r.pais, r); });
+            data = esData.map(esRow => {
+                const enRow = enMap.get(esRow.pais);
+                return enRow ? { ...esRow, ...enRow } : esRow;
+            });
         }
 
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Compare countries`;
@@ -1431,8 +1449,18 @@ const app = {
         if (!data || data.length === 0) {
             let selectQuery = `pais, ${dbKey}_directa, ${dbKey}_ampliada`;
             if (hasBoolean) selectQuery += `, ${dbKey}_booleano`;
-            const res = await supabase.from('faq_rows_corregido').select(selectQuery).order('pais');
-            data = res.data || [];
+            const [esRes, enRes] = await Promise.all([
+                supabase.from('faq_rows_corregido').select(selectQuery).order('pais'),
+                supabase.from('faq_rows_corregido_en').select(selectQuery).order('pais')
+            ]);
+            const esData = esRes.data || [];
+            const enData = enRes.data || [];
+            const enMap = new Map();
+            enData.forEach(r => { if (r.pais) enMap.set(r.pais, r); });
+            data = esData.map(esRow => {
+                const enRow = enMap.get(esRow.pais);
+                return enRow ? { ...esRow, ...enRow } : esRow;
+            });
         }
 
         // Sort countries alphabetically (A-Z) by English display name
