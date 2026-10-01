@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const supabaseUrl = process.env.SUPABASE_URL || 'https://mugtfugfabhrqcomynrs.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z3RmdWdmYWJocnFjb215bnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTk0ODcsImV4cCI6MjA4NjIzNTQ4N30.SNJHTTOHlJ2e7TbvwigkTSWNUk3zPF7cRNZYP74vWAI';
 
 async function getAllTables() {
   return [
@@ -32,8 +32,8 @@ async function fetchAllData(tableName) {
       });
       
       if (!res.ok) {
-        console.error(`Error HTTP ${res.status} al descargar ${tableName}:`, await res.text());
-        break;
+        console.warn(`[Aviso] HTTP ${res.status} al consultar ${tableName}: ${await res.text()}`);
+        return null;
       }
 
       const data = await res.json();
@@ -47,7 +47,7 @@ async function fetchAllData(tableName) {
       }
     } catch (err) {
       console.error(`Error al descargar ${tableName}:`, err.message);
-      break;
+      return null;
     }
   }
 
@@ -69,10 +69,13 @@ async function backupDatabase() {
     console.log(`[Backup] Descargando datos de la tabla: ${table}...`);
     const data = await fetchAllData(table);
     
-    // Save to JSON
-    const filePath = path.join(backupDir, `${table}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    console.log(`[+] Guardado ${data.length} registros en backups/${table}.json`);
+    if (data !== null) {
+      const filePath = path.join(backupDir, `${table}.json`);
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      console.log(`[+] Guardado ${data.length} registros en backups/${table}.json`);
+    } else {
+      console.log(`[-] Omitiendo escritura de backups/${table}.json por política de permisos o error.`);
+    }
   }
 
   console.log('Backup completado con éxito.');
