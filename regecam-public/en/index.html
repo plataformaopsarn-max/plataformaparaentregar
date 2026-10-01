@@ -13,7 +13,9 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-L4BZ8GDMZ5');
+        gtag('config', 'G-L4BZ8GDMZ5', {
+            cookie_flags: 'SameSite=None;Secure'
+        });
     </script>
 
     <!-- 1. Estilos: Tailwind CSS (Producción - Compilado y Minificado) -->

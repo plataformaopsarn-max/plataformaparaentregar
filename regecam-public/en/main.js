@@ -257,6 +257,17 @@ const analytics = {
         }
     },
 
+    // Virtual pageview for SPA navigation
+    pageView: function (path, title) {
+        if (typeof gtag === 'function') {
+            gtag('event', 'page_view', {
+                page_path: path,
+                page_title: title,
+                page_location: window.location.origin + path
+            });
+        }
+    },
+
     // País consultado
     countryView: function (countryName, source = 'map') {
         this.track('country_view', {
@@ -452,6 +463,13 @@ const app = {
         if (viewName === 'home') {
             this.state.searchTerm = '';
             this.state.filteredCountries = null;
+            analytics.pageView('/en/', 'REGIA - Home');
+        } else if (viewName === 'compare') {
+            analytics.pageView('/en/compare', 'REGIA - Regulatory Comparison');
+        } else if (viewName === 'filter') {
+            analytics.pageView('/en/filter', 'REGIA - Criteria Search');
+        } else if (viewName === 'report') {
+            analytics.pageView('/en/report', 'REGIA - Regulatory Report');
         }
         this.render();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -482,6 +500,7 @@ const app = {
     selectCountry: function (countryName, source = 'map') {
         this.state.selectedCountry = countryName;
         analytics.countryView(countryName, source);
+        analytics.pageView('/en/country/' + encodeURIComponent(countryName.toLowerCase()), 'REGIA - ' + countryName);
         this.setView('country');
     },
 
