@@ -382,7 +382,7 @@ const app = {
         const qParam = params.get('q');
         const cParam = params.get('c');
         const isPrintMode = params.get('print') === 'true';
-        const referrerParam = params.get('referrer') || 'https://www.paho.org/es';
+        const referrerParam = params.get('referrer') || 'https://www.paho.org/en/regia';
 
         if (viewParam) {
             this.state.view = viewParam;
@@ -1861,10 +1861,30 @@ const app = {
 
     printReport: function (countryName) {
         console.log("printReport called for country:", countryName);
+
+        const isEmbedded = (window.self !== window.top) || new URLSearchParams(window.location.search).has('embed');
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                               (navigator.maxTouchPoints > 1 && /Macintosh/i.test(navigator.userAgent));
+
+        // On mobile devices inside an iframe (such as the PAHO portal),
+        // window.print() prints the entire host document (PAHO) due to mobile WebKit/Blink limitations.
+        // Opening an isolated clean tab ensures ONLY the report is printed without navigating away
+        // from https://www.paho.org/en/regia in the user's primary tab.
+        if (isMobileDevice && isEmbedded) {
+            console.log("Mobile embedded print requested for:", countryName);
+            try {
+                analytics.pdfGenerated(countryName);
+            } catch (ae) {}
+            const currentUrl = window.location.href.split('?')[0];
+            const redirectUrl = `${currentUrl}?country=${encodeURIComponent(countryName)}&print=true`;
+            window.open(redirectUrl, '_blank');
+            return;
+        }
+
         const originalTitle = document.title;
         try {
             if (countryName) {
-                document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+                document.title = `Report_${countryName.replace(/[^\w\d-_]/g, '_')}`;
                 console.log("Temporarily changed document title to:", document.title);
                 try {
                     analytics.pdfGenerated(countryName);
@@ -1896,6 +1916,31 @@ const app = {
     // Comparison print handler
     printComparison: function (mode) {
         console.log("printComparison called for mode:", mode);
+
+        const isEmbedded = (window.self !== window.top) || new URLSearchParams(window.location.search).has('embed');
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                               (navigator.maxTouchPoints > 1 && /Macintosh/i.test(navigator.userAgent));
+
+        if (isMobileDevice && isEmbedded) {
+            console.log("Mobile embedded comparison print requested for mode:", mode);
+            let paramStr = '';
+            if (mode === 'requirement') {
+                const select = document.getElementById('compare-select');
+                const qId = select ? select.value : '';
+                if (!qId) return;
+                paramStr = `view=compare&compareMode=requirement&q=${encodeURIComponent(qId)}`;
+            } else if (mode === 'countries') {
+                const selected = this.state.selectedCountriesForCompare;
+                if (!selected || selected.length < 2) return;
+                paramStr = `view=compare&compareMode=countries&c=${encodeURIComponent(selected.join(','))}`;
+            }
+            if (paramStr) {
+                const currentUrl = window.location.href.split('?')[0];
+                const redirectUrl = `${currentUrl}?${paramStr}&print=true`;
+                window.open(redirectUrl, '_blank');
+                return;
+            }
+        }
 
         // If country comparison, force landscape orientation to prevent cutoffs
         if (mode === 'countries') {
@@ -1939,57 +1984,80 @@ const app = {
         const style = document.createElement('style');
         style.id = 'print-mode-styles';
         style.textContent = `
-            header, footer, nav { display: none !important; }
-            main { padding-top: 2rem !important; }
+            header, footer, nav, #main-nav-bar { display: none !important; }
+            main { padding-top: 1.5rem !important; }
             ${forceLandscape ? '@page { size: landscape; margin: 1cm; }' : ''}
         `;
         document.head.appendChild(style);
         
-        // 2. Inject return banner at top of body (hidden when printing)
+        // 2. Inject control banner at top of body (hidden when printing)
         if (!document.getElementById('print-mode-banner')) {
             const banner = document.createElement('div');
             banner.id = 'print-mode-banner';
-            banner.className = 'no-print bg-slate-900 text-white px-4 py-3 flex justify-between items-center sticky top-0 z-50 shadow-md';
+            banner.className = 'no-print bg-slate-900 text-white px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3 sticky top-0 z-50 shadow-lg border-b border-slate-700';
             banner.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-                    </span>
-                    <span class="text-sm font-semibold">Print Mode: Generating PDF for ${countryName}...</span>
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                    <div class="flex items-center gap-2.5">
+                        <span class="relative flex h-3 w-3 shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                        </span>
+                        <span class="text-xs sm:text-sm font-semibold truncate max-w-[260px] sm:max-w-none">Report for Print / PDF: ${countryName}</span>
+                    </div>
                 </div>
-                <button onclick="window.history.length > 1 ? window.history.back() : window.location.href='https://www.paho.org/en/regia'" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow pointer-events-auto"
-                        style="cursor: pointer;">
-                    &larr; Back to platform
-                </button>
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                    <button onclick="window.print()" 
+                            class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        <span>Print / Save as PDF</span>
+                    </button>
+                    <button onclick="if(window.opener){window.close();}else if(window.history.length>1){window.history.back();}else{window.location.href='https://www.paho.org/en/regia';}" 
+                            class="flex-1 sm:flex-none bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                        <span>✕ Back</span>
+                    </button>
+                </div>
             `;
             document.body.insertBefore(banner, document.body.firstChild);
+            if (window.lucide) {
+                try { lucide.createIcons(); } catch(e) {}
+            }
         }
 
-        // 3. Cambiar temporalmente el título del documento para el nombre del PDF
+        // Listener to auto-close tab on finish/cancel if opened via window.open
+        if (!window.__hasAfterPrintListener) {
+            window.__hasAfterPrintListener = true;
+            window.addEventListener('afterprint', () => {
+                try {
+                    if (window.opener) {
+                        setTimeout(() => window.close(), 500);
+                    }
+                } catch(e) {}
+            });
+        }
+
+        // 3. Temporarily change document title for PDF name
         const originalTitle = document.title;
         try {
-            document.title = `Informe_${countryName.replace(/\s+/g, '_')}`;
+            document.title = `Report_${countryName.replace(/[^\w\d-_]/g, '_')}`;
         } catch (e) {
             console.error("Failed to set print title:", e);
         }
 
-        // 4. Disparar impresión nativa después de que se cargue el DOM y Lucide icons
+        // 4. Try automatic print if browser permits
         setTimeout(() => {
             try {
                 window.print();
             } catch (err) {
-                console.error("Auto print failed:", err);
+                console.warn("Auto print failed or blocked by browser:", err);
             }
             
-            // Restaurar título del documento después de abrir el diálogo
+            // Restore document title after print dialog
             setTimeout(() => {
                 try {
                     document.title = originalTitle;
                 } catch (e) {}
             }, 1000);
-        }, 1000);
+        }, 800);
     },
 
     setupGlobalEvents: function () {
