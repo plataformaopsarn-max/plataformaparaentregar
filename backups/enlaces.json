@@ -150,6 +150,26 @@
     "peso": 3
   },
   {
+    "id": 279,
+    "pais": "República Dominicana",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Manual de Normas y Procedimientos Operativos del Consejo Nacional de Bioética en Salud (CONABIOS)",
+    "proposito_descripcion": "Es el documento rector que establece en detalle la misión, funciones, estructura y procedimientos del CONABIOS. Regula de manera exhaustiva el proceso de sometimiento, evaluación, aprobación, monitoreo y cierre de los protocolos de investigación con seres humanos en el país. Define las responsabilidades de los investigadores, los patrocinadores y los Comités de Ética en Investigación (CEI), así como los plazos y requisitos documentales.",
+    "enlace": "https://conabios.gob.do/wp-content/uploads/2025/02/1.Manual-de-Normas-y-Procedimientos-Operativos-V2-13-02.pdf",
+    "peso": 5
+  },
+  {
+    "id": 282,
+    "pais": "República Dominicana",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Decreto No. 351-25",
+    "proposito_descripcion": "Establece formalmente la estructura, competencias y atribuciones del CONABIOS como un órgano desconcentrado adscrito al Ministerio de Salud Pública. Este decreto consolida la autoridad del CONABIOS como la entidad oficial encargada de evaluar, aprobar, rechazar y monitorear toda investigación biomédica con seres humanos en el territorio nacional, garantizando el cumplimiento de los parámetros éticos y científicos.",
+    "enlace": "https://conabios.gob.do/wp-content/uploads/2025/06/Decreto-351-25.pdf",
+    "peso": 4
+  },
+  {
     "id": 32,
     "pais": "Colombia",
     "fecha_de_relevamiento": "11/10/2025",
@@ -337,6 +357,36 @@
     "titulo": "Guía para la Presentación de Nuevas solicitudes de Importación de Suministros y Exportación de Muestras Biológicas para protocolos de Investigación (ASS-RSA-GU036)",
     "proposito_descripcion": "Lineamientos para solicitudes de importación de suministros y exportación de muestras biológicas",
     "enlace": "https://www.invima.gov.co/sites/default/files/medicamentos-productos-biologicos/ASSRSAGU036.pdf",
+    "peso": 3
+  },
+  {
+    "id": 281,
+    "pais": "República Dominicana",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Decreto No. 246-06 (Reglamento para el Control Sanitario de los Medicamentos y Productos Afines)",
+    "proposito_descripcion": "Es el reglamento que detalla las disposiciones de la Ley 42-01 en lo que respecta a productos farmacéuticos. Regula todo el ciclo de vida de los medicamentos, incluyendo su fabricación, registro sanitario, importación, distribución, comercialización, etiquetado y farmacovigilancia. Contiene artículos específicos (ej. Art. 116) que rigen la autorización de importación de productos destinados a investigación clínica.",
+    "enlace": "https://digemaps.gob.do/wpfd_file/decreto-num-246-06/",
+    "peso": 4
+  },
+  {
+    "id": 456,
+    "pais": "República Dominicana",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Ley No. 172-13",
+    "proposito_descripcion": "Regula la protección de los datos personales asentados en archivos, registros públicos y bancos de datos, públicos o privados. Establece el consentimiento del titular y reglas especiales para los datos relativos a la salud, que se aplican a la información de los participantes en ensayos clínicos.",
+    "enlace": "https://invi.gob.do/documents/Ley%20172%20-13%20Sobre%20protecci%C3%B3n%20de%20Datos%20personales.pdf",
+    "peso": 3
+  },
+  {
+    "id": 457,
+    "pais": "República Dominicana",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Registro de Comités de Ética de Investigación Certificados (CONABIOS)",
+    "proposito_descripcion": "Listado público en línea de los Comités de Ética de Investigación certificados por el CONABIOS, con el nombre del comité, la institución, el presidente, el código identificador y la fecha de certificación.",
+    "enlace": "https://cei.conabios.gob.do/certificados_comite",
     "peso": 3
   },
   {
@@ -582,21 +632,51 @@
   {
     "id": 98,
     "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
+    "fecha_de_relevamiento": "octubre 2026",
     "question_code": 7.2,
     "titulo": "Hoja inscripción de protocolo de investigación biomédica (CONIS-FORM-34)",
     "proposito_descripcion": "Solicitud formal para el registro de estudios biomédicos ante el CONIS",
-    "enlace": "https://conis.ministeriodesalud.go.cr/gestores_en_salud/conis/requisitos/CONIS_FORM_34_Solicitud_registro_estudio_biomedico_v4_2_14042025.doc",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/biblioteca-de-archivos/documentos-conis/servicios/requisitos-acreditaciones/requisitos-de-inscripcion-de-investigaciones-biomedicas/88-01-conis-form-34-hoja-inscripcion-de-protocolo-de-investigacion-biomedica/file",
     "peso": 3
   },
   {
     "id": 99,
     "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
+    "fecha_de_relevamiento": "octubre 2026",
     "question_code": 7.2,
     "titulo": "Solicitud de Acreditación Persona Investigadora Principal Intervencional (CONIS-FORM-04)",
     "proposito_descripcion": "Documento para la solicitud de acreditación de investigadores principales en estudios clínicos intervencionales",
-    "enlace": "https://conis.ministeriodesalud.go.cr/gestores_en_salud/conis/procedimientos_form_guias/conis_form_04_solicitud_acreditacion_persona_investigadora_principal_intervencional_v6_21052021.docx",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/biblioteca-de-archivos/documentos-conis/servicios/requisitos-acreditaciones/formularios-de-acreditaciones-y-reacreditaciones/61-03-formulario-acreditacion-en-calidad-de-investigador-principal-intervencional/file",
+    "peso": 3
+  },
+  {
+    "id": 101,
+    "pais": "Costa Rica",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formatos de Declaración Jurada",
+    "proposito_descripcion": "Formularios oficiales para declaraciones juradas requeridas en diversos trámites",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/servicios/requisitos-de-acreditaciones",
+    "peso": 3
+  },
+  {
+    "id": 102,
+    "pais": "Costa Rica",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Requisitos de Biobancos Humanos",
+    "proposito_descripcion": "Formulario específico para autorización de biobancos humanos",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/biblioteca-de-archivos/documentos-conis/servicios/requisitos-acreditaciones/requisitos-de-inscripcion-de-investigaciones-biomedicas/86-07-requisitos-de-biobancos-humanos/file",
+    "peso": 3
+  },
+  {
+    "id": 103,
+    "pais": "Costa Rica",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Procedimiento de inscripción de protocolos intervencionales y observacionales",
+    "proposito_descripcion": "Guía oficial para el proceso de inscripción ante CONIS",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/biblioteca-de-archivos/documentos-conis/servicios/requisitos-acreditaciones/procedimientos/74-05-procedimiento-inscripcion-de-protocolos-intervencionales-y-observacional-2025/file",
     "peso": 3
   },
   {
@@ -607,46 +687,6 @@
     "titulo": "Hoja de cotejo de requisitos de registro (CONIS-FORM-34.1)",
     "proposito_descripcion": "Lista de verificación para documentación de registro de protocolos",
     "enlace": "https://forms.ulatina.ac.cr/investigacion/documentos/conis_form_34_1_hoja_cot_requi_reg_est_biom.doc",
-    "peso": 3
-  },
-  {
-    "id": 101,
-    "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
-    "question_code": 7.2,
-    "titulo": "Formatos de Declaración Jurada",
-    "proposito_descripcion": "Formularios oficiales para declaraciones juradas requeridas en diversos trámites",
-    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/10-tramites/20-formatos-de-declaracion-jurada",
-    "peso": 3
-  },
-  {
-    "id": 102,
-    "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
-    "question_code": 7.2,
-    "titulo": "Requisitos de Biobancos Humanos",
-    "proposito_descripcion": "Formulario específico para autorización de biobancos humanos",
-    "enlace": "https://conis.ministeriodesalud.go.cr/gestores_en_salud/conis/guias/formulario_biobancos.docx",
-    "peso": 3
-  },
-  {
-    "id": 103,
-    "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
-    "question_code": 7.3,
-    "titulo": "Procedimiento de inscripción de protocolos intervencionales y observacionales",
-    "proposito_descripcion": "Guía oficial para el proceso de inscripción ante CONIS",
-    "enlace": "https://conis.ministeriodesalud.go.cr/gestores_en_salud/conis/requisitos/procedimiento_inscripcion_de_protocolos_intevencionales_observacional_14042025.pdf",
-    "peso": 3
-  },
-  {
-    "id": 104,
-    "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
-    "question_code": 7.3,
-    "titulo": "Requisitos de Acreditaciones CONIS",
-    "proposito_descripcion": "Documentación completa para acreditación de investigadores, CEC, OIC y OAC",
-    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/servicios/requisitos-acreditaciones",
     "peso": 3
   },
   {
@@ -680,13 +720,23 @@
     "peso": 3
   },
   {
+    "id": 104,
+    "pais": "Costa Rica",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Requisitos de Acreditaciones CONIS",
+    "proposito_descripcion": "Documentación completa para acreditación de investigadores, CEC, OIC y OAC",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/servicios/requisitos-de-acreditaciones",
+    "peso": 3
+  },
+  {
     "id": 108,
     "pais": "Costa Rica",
-    "fecha_de_relevamiento": "15/10/2025",
+    "fecha_de_relevamiento": "octubre 2026",
     "question_code": 7.3,
     "titulo": "Preguntas Frecuentes CONIS",
     "proposito_descripcion": "Resolución de dudas comunes sobre procedimientos y requisitos",
-    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/preguntas-frecuentes-lft",
+    "enlace": "https://conis.ministeriodesalud.go.cr/index.php/contactenos/preguntas-frecuentes",
     "peso": 3
   },
   {
@@ -1200,6 +1250,16 @@
     "peso": 3
   },
   {
+    "id": 208,
+    "pais": "México",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formato COFEPRIS-04-010: Solicitud de Autorización de Protocolo de Investigación en Seres Humanos",
+    "proposito_descripcion": "Instrumento oficial y obligatorio para solicitar la autorización inicial de un protocolo de investigación con seres humanos ante COFEPRIS, en cualquiera de sus modalidades (medicamentos, bioequivalencia, nuevos recursos, etc.).",
+    "enlace": "https://www.gob.mx/cofepris/documentos/manuales-guias-y-formatos-de-ensayos-clinicos",
+    "peso": 3
+  },
+  {
     "id": 210,
     "pais": "México",
     "fecha_de_relevamiento": "15/10/2025",
@@ -1237,16 +1297,6 @@
     "titulo": "Manual del Usuario DIGIPRIS - Investigación y Ensayos Clínicos",
     "proposito_descripcion": "Manual de referencia técnica para que los usuarios naveguen y utilicen correctamente la plataforma DIGIPRIS, explicando sus funcionalidades para la gestión de trámites autogestivos.",
     "enlace": "https://www.gob.mx/cofepris/acciones-y-programas/digipris-investigacion-y-ensayos-clinicos",
-    "peso": 3
-  },
-  {
-    "id": 208,
-    "pais": "México",
-    "fecha_de_relevamiento": "15/10/2025",
-    "question_code": 7.2,
-    "titulo": "Formato COFEPRIS-04-010: Solicitud de Autorización de Protocolo de Investigación en Seres Humanos",
-    "proposito_descripcion": "Instrumento oficial y obligatorio para solicitar la autorización inicial de un protocolo de investigación con seres humanos ante COFEPRIS, en cualquiera de sus modalidades (medicamentos, bioequivalencia, nuevos recursos, etc.).",
-    "enlace": "https://www.gob.mx/cofepris/acciones-y-programas/ensayos-clinicos-protocolos-de-investigacion-en-seres-humanos",
     "peso": 3
   },
   {
@@ -2420,6 +2470,16 @@
     "peso": 3
   },
   {
+    "id": 174,
+    "pais": "Haití",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Sitio Web Oficial de la Direction de la Pharmacie, du Médicament et de la Médecine Traditionnelle (DPM/MT)",
+    "proposito_descripcion": "Punto de contacto oficial y fuente de información de la autoridad reguladora de medicamentos. Contiene alertas sanitarias, listas de medicamentos y laboratorios autorizados, y documentos útiles.",
+    "enlace": "https://mspp.gouv.ht/newsite/_direction/pageService.php?IDDir=29",
+    "peso": 3
+  },
+  {
     "id": 447,
     "pais": "Colombia",
     "fecha_de_relevamiento": "junio 2026",
@@ -2447,16 +2507,6 @@
     "titulo": "Sitio Web Oficial del Ministère de la Santé Publique et de la Population (MSPP)",
     "proposito_descripcion": "Portal principal del Ministerio de Salud, que alberga a la DPM/MT y otras direcciones. Ofrece acceso a políticas de salud nacionales, informes estadísticos y noticias del sector.",
     "enlace": "https://www.mspp.gouv.ht/",
-    "peso": 3
-  },
-  {
-    "id": 174,
-    "pais": "Haití",
-    "fecha_de_relevamiento": "junio 2026",
-    "question_code": 7.3,
-    "titulo": "Sitio Web Oficial de la Direction de la Pharmacie, du Médicament et de la Médecine Traditionnelle (DPM/MT)",
-    "proposito_descripcion": "Punto de contacto oficial y fuente de información de la autoridad reguladora de medicamentos. Contiene alertas sanitarias, listas de medicamentos y laboratorios autorizados, y documentos útiles.",
-    "enlace": "https://mspp.gouv.ht/newsite/_direction/index.php?IDDir=29",
     "peso": 3
   },
   {
@@ -2502,21 +2552,21 @@
   {
     "id": 216,
     "pais": "México",
-    "fecha_de_relevamiento": "15/10/2025",
+    "fecha_de_relevamiento": "octubre 2026",
     "question_code": 7.3,
     "titulo": "COFEPRIS - Página de Ensayos Clínicos",
     "proposito_descripcion": "Sitio web con información de interés para las investigaciones alcanzadas por el COFEPRIS",
-    "enlace": "https://www.gob.mx/cofepris/acciones-y-programas/ensayos-clinicos-protocolos-de-investigacion-en-seres-humanos",
+    "enlace": "https://www.gob.mx/cofepris/acciones-y-programas/ensayos-clinicos-protocolos-de-investigacion-en-seres-humanos-397098",
     "peso": 3
   },
   {
     "id": 209,
     "pais": "México",
-    "fecha_de_relevamiento": "15/10/2025",
+    "fecha_de_relevamiento": "octubre 2026",
     "question_code": 7.2,
     "titulo": "Formato COFEPRIS-09-012: Solicitud de Modificación o Enmienda a la Autorización de Protocolo de Investigación",
     "proposito_descripcion": "Instrumento oficial y obligatorio para solicitar la autorización de cualquier modificación o enmienda a un protocolo de investigación previamente autorizado por COFEPRIS.",
-    "enlace": "https://www.gob.mx/cofepris/acciones-y-programas/ensayos-clinicos-protocolos-de-investigacion-en-seres-humanos",
+    "enlace": "https://www.gob.mx/cofepris/documentos/manuales-guias-y-formatos-de-ensayos-clinicos",
     "peso": 3
   },
   {
@@ -3320,16 +3370,6 @@
     "peso": 4
   },
   {
-    "id": 279,
-    "pais": "República Dominicana",
-    "fecha_de_relevamiento": "17/10/2025",
-    "question_code": 7.1,
-    "titulo": "Manual de Normas y Procedimientos Operativos del Consejo Nacional de Bioética en Salud (CONABIOS)",
-    "proposito_descripcion": "Es el documento rector que establece en detalle la misión, funciones, estructura y procedimientos del CONABIOS. Regula de manera exhaustiva el proceso de sometimiento, evaluación, aprobación, monitoreo y cierre de los protocolos de investigación con seres humanos en el país. Define las responsabilidades de los investigadores, los patrocinadores y los Comités de Ética en Investigación (CEI), así como los plazos y requisitos documentales.",
-    "enlace": "https://conabios.gob.do/wp-content/uploads/2022/07/Manual-de-Normas-y-Procedimientos-Operativos-del-Consejo-Nacional-de-Bioetica-en-Salud-CONABIOS-15-%C3%97-23-cm-23-%C3%97-33-cm-33-%C3%97-33-cm-25-%C3%97-33-cm-1.pdf",
-    "peso": 5
-  },
-  {
     "id": 280,
     "pais": "República Dominicana",
     "fecha_de_relevamiento": "17/10/2025",
@@ -3337,26 +3377,6 @@
     "titulo": "Ley General de Salud No. 42-01",
     "proposito_descripcion": "Constituye el marco legal fundamental para el sector salud en la República Dominicana. Establece los derechos y deberes de la población en materia de salud, define la estructura del Sistema Nacional de Salud y sienta las bases para la regulación de la investigación biomédica, exigiendo que esta se adhiera a principios científicos y bioéticos. También regula aspectos clave como la confidencialidad de los datos del paciente y el registro sanitario de medicamentos.",
     "enlace": "https://caid.gob.do/transparencia/wp-content/uploads/Ley-num.-42-01-General-de-Salud-del-8-de-marzo-del-2001.pdf",
-    "peso": 4
-  },
-  {
-    "id": 281,
-    "pais": "República Dominicana",
-    "fecha_de_relevamiento": "17/10/2025",
-    "question_code": 7.1,
-    "titulo": "Decreto No. 246-06 (Reglamento para el Control Sanitario de los Medicamentos y Productos Afines)",
-    "proposito_descripcion": "Es el reglamento que detalla las disposiciones de la Ley 42-01 en lo que respecta a productos farmacéuticos. Regula todo el ciclo de vida de los medicamentos, incluyendo su fabricación, registro sanitario, importación, distribución, comercialización, etiquetado y farmacovigilancia. Contiene artículos específicos (ej. Art. 116) que rigen la autorización de importación de productos destinados a investigación clínica.",
-    "enlace": "https://cbm.export.com.gt/sites/default/files/normativas/Decreto%20246%202006%20Reglamento%20para%20Cosmeticos%2C%20Medicamentos%2C%20Productos%20de%20Cuidado%20Personal.pdf",
-    "peso": 4
-  },
-  {
-    "id": 282,
-    "pais": "República Dominicana",
-    "fecha_de_relevamiento": "17/10/2025",
-    "question_code": 7.1,
-    "titulo": "Decreto No. 351",
-    "proposito_descripcion": "Establece formalmente la estructura, competencias y atribuciones del CONABIOS como un órgano desconcentrado adscrito al Ministerio de Salud Pública. Este decreto consolida la autoridad del CONABIOS como la entidad oficial encargada de evaluar, aprobar, rechazar y monitorear toda investigación biomédica con seres humanos en el territorio nacional, garantizando el cumplimiento de los parámetros éticos y científicos.",
-    "enlace": "https://conabios.gob.do/wp-content/uploads/2025/06/Decreto-351-25.pdf",
     "peso": 4
   },
   {
