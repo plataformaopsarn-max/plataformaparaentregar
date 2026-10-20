@@ -40,6 +40,12 @@
                                 Registro inmutable de modificaciones normativas, usuarios intervinientes y cambios de versión.
                             </p>
                         </div>
+                        <div class="flex items-center gap-2">
+                            <button id="btn-refresh-audit" class="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition">
+                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                                <span>Refrescar</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
@@ -56,7 +62,7 @@
                                             <th class="p-4">Usuario</th>
                                             <th class="p-4">País</th>
                                             <th class="p-4">Idioma</th>
-                                            <th class="p-4">Campo</th>
+                                            <th class="p-4">Campo / Pregunta</th>
                                             <th class="p-4">Resumen del Cambio</th>
                                             <th class="p-4 text-right">Detalle</th>
                                         </tr>
@@ -74,13 +80,13 @@
                                                             ${log.idioma || 'es'}
                                                         </span>
                                                     </td>
-                                                    <td class="p-4 font-mono text-[11px] text-slate-600">${log.campo || '-'}</td>
+                                                    <td class="p-4 font-medium text-[11px] text-slate-700 max-w-xs truncate" title="${(log.campo || '').replace(/"/g, '&quot;')}">${log.campo || '-'}</td>
                                                     <td class="p-4 text-slate-500 max-w-xs truncate" title="${(log.valor_nuevo || '').replace(/"/g, '&quot;')}">
                                                         ${log.valor_nuevo ? log.valor_nuevo.substring(0, 80) + '...' : '(Vacío)'}
                                                     </td>
                                                     <td class="p-4 text-right">
                                                         <span class="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 group-hover:text-blue-800">
-                                                            <span>Ver</span>
+                                                            <span>Ver Diff</span>
                                                             <i data-lucide="eye" class="w-3.5 h-3.5"></i>
                                                         </span>
                                                     </td>
@@ -151,11 +157,15 @@
 
                     const dateStr = item.created_at ? new Date(item.created_at).toLocaleString('es-AR') : '';
                     if (metaElem) metaElem.textContent = `${item.usuario_nombre || 'Usuario'} · ${item.pais || '-'} · ${item.campo || '-'} · ${dateStr}`;
-                    if (oldElem) oldElem.textContent = item.valor_anterior || '(Vacío o no registrado)';
+                    if (oldElem) oldElem.textContent = item.valor_anterior || '(Sin versión anterior registrada / primera carga)';
                     if (newElem) newElem.textContent = item.valor_nuevo || '(Vacío)';
 
                     modal?.classList.remove('hidden');
                 });
+            });
+
+            container.querySelector('#btn-refresh-audit')?.addEventListener('click', () => {
+                this.render(container);
             });
 
             container.querySelector('#btn-close-audit-modal')?.addEventListener('click', () => modal?.classList.add('hidden'));

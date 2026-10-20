@@ -3,6 +3,7 @@
     let currentCountry = 'Argentina';
     let currentSection = 1;
     let countryData = { es: {}, en: {}, resumen: {} };
+    let pendingDesyncs = [];
     let dirtyFields = new Set();
 
     const AdminEditor = {
@@ -18,7 +19,12 @@
             `;
 
             try {
-                countryData = await window.AdminAPI.getCountryDetail(currentCountry);
+                const [data, desyncs] = await Promise.all([
+                    window.AdminAPI.getCountryDetail(currentCountry),
+                    window.AdminAPI.getPendingDesyncsForCountry(currentCountry)
+                ]);
+                countryData = data;
+                pendingDesyncs = desyncs || [];
                 dirtyFields.clear();
                 this.renderContent(container);
             } catch (err) {
@@ -124,6 +130,10 @@
             const enFuente = countryData.en[`${colPrefix}_fuente`] || '';
             const enBool = countryData.en[`${colPrefix}_booleano`];
 
+            // Check if this question is flagged as pending desync
+            const hasPendingEN = pendingDesyncs.some(d => d.campo === colPrefix && d.idioma_destino === 'en' && d.estado === 'pendiente');
+            const hasPendingES = pendingDesyncs.some(d => d.campo === colPrefix && d.idioma_destino === 'es' && d.estado === 'pendiente');
+
             return `
                 <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden" id="card-${colPrefix}">
                     <!-- Question Header con Acciones Bidireccionales -->
@@ -173,15 +183,21 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
                         <!-- Columna Español -->
                         <div class="p-5 space-y-4 bg-white" id="col-es-${colPrefix}">
-                            <!-- Alerta de novedad detectada desde Inglés (oculta por defecto) -->
-                            <div id="alert-es-${colPrefix}" class="hidden p-2.5 bg-indigo-50 border border-indigo-200 rounded-lg text-xs text-indigo-900 flex items-center justify-between">
+                            <!-- Alerta de sincronización requerida en Español -->
+                            <div id="alert-es-${colPrefix}" class="${hasPendingES ? '' : 'hidden'} p-3 bg-amber-50 border border-amber-300 rounded-xl text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs animate-in fade-in">
                                 <div class="flex items-center gap-2">
-                                    <i data-lucide="bell" class="w-4 h-4 text-indigo-600 shrink-0"></i>
-                                    <span>Se detectó un cambio en la <strong>versión en inglés</strong>.</span>
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                                    <span>Se modificó la versión en <strong>Inglés</strong>. La versión en <strong>Español</strong> requiere actualización.</span>
                                 </div>
-                                <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="en-to-es" class="px-2 py-1 bg-indigo-600 text-white rounded text-[11px] font-bold hover:bg-indigo-700 transition">
-                                    Actualizar Español con IA
-                                </button>
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="en-to-es" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
+                                        <i data-lucide="sparkles" class="w-3 h-3"></i>
+                                        <span>Traducir con IA</span>
+                                    </button>
+                                    <button data-action="dismiss-sync-alert" data-prefix="${colPrefix}" data-target-lang="es" class="px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition" title="Marcar como sincronizado o descartar">
+                                        <span>✕ Descartar</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="flex items-center justify-between">
@@ -265,15 +281,21 @@
 
                         <!-- Columna Inglés -->
                         <div class="p-5 space-y-4 bg-slate-50/40" id="col-en-${colPrefix}">
-                            <!-- Alerta de novedad detectada desde Español (oculta por defecto) -->
-                            <div id="alert-en-${colPrefix}" class="hidden p-2.5 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 flex items-center justify-between">
+                            <!-- Alerta de sincronización requerida en Inglés -->
+                            <div id="alert-en-${colPrefix}" class="${hasPendingEN ? '' : 'hidden'} p-3 bg-amber-50 border border-amber-300 rounded-xl text-xs text-amber-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs animate-in fade-in">
                                 <div class="flex items-center gap-2">
-                                    <i data-lucide="bell" class="w-4 h-4 text-blue-600 shrink-0"></i>
-                                    <span>Se detectó un cambio en la <strong>versión en español</strong>.</span>
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                                    <span>Se modificó la versión en <strong>Español</strong>. La versión en <strong>Inglés</strong> requiere actualización.</span>
                                 </div>
-                                <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="es-to-en" class="px-2 py-1 bg-blue-600 text-white rounded text-[11px] font-bold hover:bg-blue-700 transition">
-                                    Actualizar Inglés con IA
-                                </button>
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="es-to-en" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
+                                        <i data-lucide="sparkles" class="w-3 h-3"></i>
+                                        <span>Traducir con IA</span>
+                                    </button>
+                                    <button data-action="dismiss-sync-alert" data-prefix="${colPrefix}" data-target-lang="en" class="px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-semibold transition" title="Marcar como sincronizado o descartar">
+                                        <span>✕ Descartar</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="flex items-center justify-between">
@@ -396,27 +418,28 @@
                 });
             });
 
-            // Track dirty changes in fields & trigger cross-language alert
+            // Track dirty changes in fields locally
             container.querySelectorAll('.input-editor-field').forEach(input => {
                 input.addEventListener('input', () => {
                     const field = input.getAttribute('data-field');
                     const lang = input.getAttribute('data-lang');
-                    const qKey = input.getAttribute('data-qkey');
-                    const colPrefix = `q_${qKey.replace('.', '_')}`;
-
                     dirtyFields.add(`${lang}:${field}`);
-
-                    // Display alert on opposite language column
-                    const oppositeAlertId = lang === 'es' ? `#alert-en-${colPrefix}` : `#alert-es-${colPrefix}`;
-                    const oppositeAlert = container.querySelector(oppositeAlertId);
-                    if (oppositeAlert) {
-                        oppositeAlert.classList.remove('hidden');
-                    }
 
                     const ind = container.querySelector('#editor-save-indicator');
                     if (ind) {
                         ind.innerHTML = `<span class="text-amber-500 font-bold">● Cambios pendientes de guardar</span>`;
                     }
+                });
+            });
+
+            // Dismiss Sync Alert button
+            container.querySelectorAll('[data-action="dismiss-sync-alert"]').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const colPrefix = btn.getAttribute('data-prefix');
+                    const targetLang = btn.getAttribute('data-target-lang');
+                    const card = container.querySelector(`#card-${colPrefix}`);
+                    if (card) await this.dismissSyncAlert(card, colPrefix, targetLang);
                 });
             });
 
@@ -440,73 +463,165 @@
             });
         },
 
+        async dismissSyncAlert(card, colPrefix, targetLang) {
+            const alertId = targetLang === 'es' ? `#alert-es-${colPrefix}` : `#alert-en-${colPrefix}`;
+            const alertEl = card.querySelector(alertId);
+            if (alertEl) alertEl.classList.add('hidden');
+
+            try {
+                await window.AdminAPI.dismissDesyncAlert(currentCountry, colPrefix, targetLang);
+                pendingDesyncs = pendingDesyncs.filter(d => !(d.campo === colPrefix && d.idioma_destino === targetLang));
+
+                if (window.AdminApp) {
+                    window.AdminApp.refreshPendingCounter();
+                    window.AdminApp.showToast('Alerta descartada. Modificación marcada como resuelta.', 'info');
+                }
+            } catch (err) {
+                console.error('[AdminEditor] dismissSyncAlert error:', err);
+            }
+        },
+
         async saveGroup(container, lang, colPrefix, btn) {
+            const card = container.querySelector(`#card-${colPrefix}`);
+            if (!card) return;
+
+            const qKey = colPrefix.replace('q_', '').replace('_', '.');
+            const questionTitle = window.QUESTIONS?.[qKey] || `Pregunta ${qKey}`;
+
+            const directaInput = card.querySelector(`[data-field="${colPrefix}_directa"][data-lang="${lang}"]`);
+            const ampliadaInput = card.querySelector(`[data-field="${colPrefix}_ampliada"][data-lang="${lang}"]`);
+            const fuenteInput = card.querySelector(`[data-field="${colPrefix}_fuente"][data-lang="${lang}"]`);
+            const boolInput = card.querySelector(`[data-field="${colPrefix}_booleano"][data-lang="${lang}"]`);
+
+            const directaVal = directaInput ? directaInput.value.trim() : '';
+            const ampliadaVal = ampliadaInput ? ampliadaInput.value.trim() : '';
+            const fuenteVal = fuenteInput ? fuenteInput.value.trim() : '';
+            const boolVal = boolInput && boolInput.value !== '' ? (boolInput.value === 'true') : null;
+
+            // Existing values in memory
+            const sourceMemory = lang === 'en' ? countryData.en : countryData.es;
+            const oldDirecta = (sourceMemory[`${colPrefix}_directa`] || '').trim();
+            const oldAmpliada = (sourceMemory[`${colPrefix}_ampliada`] || '').trim();
+            const oldFuente = (sourceMemory[`${colPrefix}_fuente`] || '').trim();
+            const oldBool = sourceMemory[`${colPrefix}_booleano`];
+
+            // Verify if there are ANY actual changes
+            const changedDirecta = (directaVal !== oldDirecta);
+            const changedAmpliada = (ampliadaVal !== oldAmpliada);
+            const changedFuente = (fuenteVal !== oldFuente);
+            const changedBool = (boolInput && boolVal !== oldBool);
+
+            const hasChanged = changedDirecta || changedAmpliada || changedFuente || changedBool;
+
+            if (!hasChanged) {
+                if (window.AdminApp) {
+                    window.AdminApp.showToast('ℹ️ No se detectaron modificaciones en esta pregunta.', 'info');
+                }
+                return;
+            }
+
             const originalHtml = btn.innerHTML;
             btn.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i><span>Guardando...</span>`;
             btn.disabled = true;
 
             try {
                 const user = window.AdminAuth.getCurrentUser();
-                const card = container.querySelector(`#card-${colPrefix}`);
-                if (!card) return;
 
-                const directaInput = card.querySelector(`[data-field="${colPrefix}_directa"][data-lang="${lang}"]`);
-                const ampliadaInput = card.querySelector(`[data-field="${colPrefix}_ampliada"][data-lang="${lang}"]`);
-                const fuenteInput = card.querySelector(`[data-field="${colPrefix}_fuente"][data-lang="${lang}"]`);
-                const boolInput = card.querySelector(`[data-field="${colPrefix}_booleano"][data-lang="${lang}"]`);
+                // Format before/after diff for the single consolidated audit log
+                const oldParts = [];
+                const newParts = [];
 
-                const directaVal = directaInput ? directaInput.value : '';
-                const ampliadaVal = ampliadaInput ? ampliadaInput.value : '';
-                const fuenteVal = fuenteInput ? fuenteInput.value : '';
-                const boolVal = boolInput && boolInput.value !== '' ? (boolInput.value === 'true') : null;
+                if (changedDirecta) {
+                    oldParts.push(`[Respuesta Directa]:\n${oldDirecta || '(Sin valor previo)'}`);
+                    newParts.push(`[Respuesta Directa]:\n${directaVal || '(Vacío)'}`);
+                }
+                if (changedAmpliada) {
+                    oldParts.push(`[Respuesta Ampliada]:\n${oldAmpliada || '(Sin valor previo)'}`);
+                    newParts.push(`[Respuesta Ampliada]:\n${ampliadaVal || '(Vacío)'}`);
+                }
+                if (changedFuente) {
+                    oldParts.push(`[Fuente Normativa]:\n${oldFuente || '(Sin valor previo)'}`);
+                    newParts.push(`[Fuente Normativa]:\n${fuenteVal || '(Vacío)'}`);
+                }
+                if (changedBool) {
+                    oldParts.push(`[Aplica]: ${oldBool === true ? 'Sí' : (oldBool === false ? 'No' : 'Sin definir')}`);
+                    newParts.push(`[Aplica]: ${boolVal === true ? 'Sí' : (boolVal === false ? 'No' : 'Sin definir')}`);
+                }
 
-                // Save each field
-                await Promise.all([
-                    window.AdminAPI.saveFaqField({
+                const oldValueFormatted = oldParts.join('\n\n');
+                const newValueFormatted = newParts.join('\n\n');
+
+                const updateFields = {
+                    [`${colPrefix}_directa`]: directaVal,
+                    [`${colPrefix}_ampliada`]: ampliadaVal,
+                    [`${colPrefix}_fuente`]: fuenteVal
+                };
+                if (boolInput) updateFields[`${colPrefix}_booleano`] = boolVal;
+
+                // 1. Save in Supabase & log 1 consolidated audit entry
+                await window.AdminAPI.saveFaqQuestionGroup({
+                    pais: currentCountry,
+                    lang,
+                    colPrefix,
+                    questionLabel: `Pregunta ${qKey}: ${questionTitle}`,
+                    updateFields,
+                    oldValueFormatted,
+                    newValueFormatted,
+                    user
+                });
+
+                // 2. Update memory model
+                sourceMemory[`${colPrefix}_directa`] = directaVal;
+                sourceMemory[`${colPrefix}_ampliada`] = ampliadaVal;
+                sourceMemory[`${colPrefix}_fuente`] = fuenteVal;
+                if (boolInput) sourceMemory[`${colPrefix}_booleano`] = boolVal;
+
+                // 3. Trigger desynchronization alert in the opposite language
+                const oppositeLang = lang === 'es' ? 'en' : 'es';
+                const oppositeMemory = oppositeLang === 'en' ? countryData.en : countryData.es;
+                const oppositeDirecta = oppositeMemory[`${colPrefix}_directa`] || '';
+                const oppositeAmpliada = oppositeMemory[`${colPrefix}_ampliada`] || '';
+
+                // Show alert banner on opposite language column
+                const oppositeAlertId = lang === 'es' ? `#alert-en-${colPrefix}` : `#alert-es-${colPrefix}`;
+                const oppositeAlert = card.querySelector(oppositeAlertId);
+                if (oppositeAlert) {
+                    oppositeAlert.classList.remove('hidden');
+                }
+
+                // Register desync in translation_queue
+                const sourceTextCombined = `[Respuesta Directa]\n${directaVal}\n\n[Respuesta Ampliada]\n${ampliadaVal}${fuenteVal ? `\n\n[Fuente]\n${fuenteVal}` : ''}`;
+                const targetTextCombined = oppositeAmpliada ? `[Respuesta Directa]\n${oppositeDirecta}\n\n[Respuesta Ampliada]\n${oppositeAmpliada}` : '';
+
+                await window.AdminAPI.registerTranslationDesync({
+                    pais: currentCountry,
+                    colPrefix,
+                    questionLabel: `Pregunta ${qKey}: ${questionTitle}`,
+                    sourceLang: lang,
+                    targetLang: oppositeLang,
+                    sourceText: sourceTextCombined,
+                    currentTargetText: targetTextCombined
+                });
+
+                // Update local pendingDesyncs list
+                if (!pendingDesyncs.some(d => d.campo === colPrefix && d.idioma_destino === oppositeLang && d.estado === 'pendiente')) {
+                    pendingDesyncs.push({
                         pais: currentCountry,
-                        lang,
-                        field: `${colPrefix}_directa`,
-                        value: directaVal,
-                        user
-                    }),
-                    window.AdminAPI.saveFaqField({
-                        pais: currentCountry,
-                        lang,
-                        field: `${colPrefix}_ampliada`,
-                        value: ampliadaVal,
-                        user
-                    }),
-                    window.AdminAPI.saveFaqField({
-                        pais: currentCountry,
-                        lang,
-                        field: `${colPrefix}_fuente`,
-                        value: fuenteVal,
-                        user
-                    }),
-                    boolInput ? window.AdminAPI.saveFaqField({
-                        pais: currentCountry,
-                        lang,
-                        field: `${colPrefix}_booleano`,
-                        value: boolVal,
-                        user
-                    }) : Promise.resolve()
-                ]);
+                        campo: colPrefix,
+                        idioma_destino: oppositeLang,
+                        estado: 'pendiente'
+                    });
+                }
 
-                // Update local model
-                const targetObj = lang === 'en' ? countryData.en : countryData.es;
-                targetObj[`${colPrefix}_directa`] = directaVal;
-                targetObj[`${colPrefix}_ampliada`] = ampliadaVal;
-                targetObj[`${colPrefix}_fuente`] = fuenteVal;
-                if (boolInput) targetObj[`${colPrefix}_booleano`] = boolVal;
-
-                // Toast notification
+                // 4. Update top navbar pending badge
                 if (window.AdminApp) {
-                    window.AdminApp.showToast(`✅ Cambios guardados para ${lang.toUpperCase()} en ${currentCountry}`, 'success');
+                    window.AdminApp.refreshPendingCounter();
+                    window.AdminApp.showToast(`✅ Guardado en ${lang.toUpperCase()}. Se registró en la Cola de Traducción para ${oppositeLang.toUpperCase()}.`, 'success');
                 }
 
                 const ind = container.querySelector('#editor-save-indicator');
                 if (ind) {
-                    ind.innerHTML = `<span class="text-emerald-600 font-medium">● Cambios sincronizados</span>`;
+                    ind.innerHTML = `<span class="text-emerald-600 font-medium">● Cambios guardados</span>`;
                 }
 
             } catch (err) {
@@ -695,6 +810,11 @@
                     // Trigger save of target language group
                     const saveBtn = card.querySelector(`[data-action="save-field-group"][data-lang="${targetLang}"]`);
                     if (saveBtn) await this.saveGroup(container, targetLang, colPrefix, saveBtn);
+
+                    // Dismiss any pending queue item for this target language since it's now synchronized
+                    await window.AdminAPI.dismissDesyncAlert(currentCountry, colPrefix, targetLang);
+                    pendingDesyncs = pendingDesyncs.filter(d => !(d.campo === colPrefix && d.idioma_destino === targetLang));
+                    if (window.AdminApp) window.AdminApp.refreshPendingCounter();
                 });
 
             } catch (err) {

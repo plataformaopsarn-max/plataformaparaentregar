@@ -139,14 +139,58 @@
             };
         },
 
-        // Save field in Supabase (and log edit + sync status)
+        // Save an entire FAQ question group (ES or EN) with consolidated audit log
+        async saveFaqQuestionGroup({ pais, lang, colPrefix, questionLabel, updateFields, oldValueFormatted, newValueFormatted, user }) {
+            const client = getClient();
+            const table = lang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
+
+            if (!client) throw new Error('Cliente no conectado a Supabase');
+
+            // 1. Update table row in a single query
+            const { error } = await client
+                .from(table)
+                .update(updateFields)
+                .eq('pais', pais);
+
+            if (error) {
+                // If row doesn't exist in EN table yet, create it
+                if (lang === 'en') {
+                    const { error: insertError } = await client
+                        .from(table)
+                        .insert({ pais, ...updateFields });
+                    if (insertError) throw insertError;
+                } else {
+                    throw error;
+                }
+            }
+
+            // 2. Audit log: EXACTLY ONE entry for this question with full diff
+            await this.logEdit({
+                pais,
+                tabla: table,
+                campo: questionLabel || colPrefix,
+                idioma: lang,
+                valor_anterior: oldValueFormatted || '',
+                valor_nuevo: newValueFormatted || '',
+                usuario_id: user?.id || null,
+                usuario_nombre: user?.nombre || user?.email || 'Usuario'
+            });
+
+            // 3. Mark the opposite language as pending synchronization
+            const oppositeLang = lang === 'es' ? 'en' : 'es';
+            const oppositeTable = oppositeLang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
+            await this.updateSyncStatus(pais, oppositeTable, colPrefix, false);
+
+            return { ok: true };
+        },
+
+        // Save single field (backwards compatibility)
         async saveFaqField({ pais, lang, field, value, oldValue, user }) {
             const client = getClient();
             const table = lang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
 
             if (!client) throw new Error('Cliente no conectado');
 
-            // 1. Update table row
             const updatePayload = { [field]: value };
             const { error } = await client
                 .from(table)
@@ -154,7 +198,6 @@
                 .eq('pais', pais);
 
             if (error) {
-                // If row doesn't exist in EN table yet, create it
                 if (lang === 'en') {
                     const { error: insertError } = await client
                         .from(table)
@@ -165,19 +208,19 @@
                 }
             }
 
-            // 2. Audit log
-            await this.logEdit({
-                pais,
-                tabla: table,
-                campo: field,
-                idioma: lang,
-                valor_anterior: oldValue || '',
-                valor_nuevo: value || '',
-                usuario_id: user?.id || null,
-                usuario_nombre: user?.nombre || user?.email || 'Usuario'
-            });
+            if (oldValue !== undefined && oldValue !== value) {
+                await this.logEdit({
+                    pais,
+                    tabla: table,
+                    campo: field,
+                    idioma: lang,
+                    valor_anterior: oldValue || '',
+                    valor_nuevo: value || '',
+                    usuario_id: user?.id || null,
+                    usuario_nombre: user?.nombre || user?.email || 'Usuario'
+                });
+            }
 
-            // 3. Mark as pending sync in the opposite language if text changed
             const oppositeLang = lang === 'es' ? 'en' : 'es';
             await this.updateSyncStatus(pais, table, field, false);
 
@@ -275,7 +318,128 @@
             return items;
         },
 
-        // Translation Queue: Add
+        // Get pending desync items specifically for a country
+        async getPendingDesyncsForCountry(pais) {
+            const client = getClient();
+            let items = [];
+
+            if (client) {
+                try {
+                    const { data, error } = await client
+                        .from('translation_queue')
+                        .select('*')
+                        .eq('pais', pais)
+                        .eq('estado', 'pendiente');
+                    if (!error && data) items = data;
+                } catch (_) {}
+            }
+
+            if (items.length === 0) {
+                const localQueue = Storage.get(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, []);
+                items = localQueue.filter(i => i.pais === pais && i.estado === 'pendiente');
+            }
+
+            return items;
+        },
+
+        // Register a question desync when one language is modified
+        async registerTranslationDesync({ pais, colPrefix, questionLabel, sourceLang, targetLang, sourceText, currentTargetText }) {
+            const client = getClient();
+            const targetTable = targetLang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
+            const now = new Date().toISOString();
+
+            const itemData = {
+                pais,
+                tabla: targetTable,
+                campo: colPrefix,
+                idioma_origen: sourceLang,
+                idioma_destino: targetLang,
+                texto_origen: sourceText || '',
+                texto_anterior: currentTargetText || '',
+                traduccion_sugerida: '',
+                estado: 'pendiente',
+                created_at: now
+            };
+
+            // Check if already exists in DB as 'pendiente'
+            if (client) {
+                try {
+                    const { data: existing } = await client
+                        .from('translation_queue')
+                        .select('id')
+                        .eq('pais', pais)
+                        .eq('campo', colPrefix)
+                        .eq('idioma_destino', targetLang)
+                        .eq('estado', 'pendiente')
+                        .maybeSingle();
+
+                    if (existing && existing.id) {
+                        await client.from('translation_queue').update({
+                            texto_origen: sourceText || '',
+                            texto_anterior: currentTargetText || '',
+                            created_at: now
+                        }).eq('id', existing.id);
+                        return { id: existing.id, ...itemData };
+                    } else {
+                        const { data: inserted } = await client.from('translation_queue').insert([itemData]).select();
+                        if (inserted && inserted[0]) return inserted[0];
+                    }
+                } catch (e) {
+                    console.warn('[AdminAPI] Translation queue DB upsert notice:', e);
+                }
+            }
+
+            // Fallback / sync local storage
+            const localQueue = Storage.get(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, []);
+            const existingIdx = localQueue.findIndex(q => q.pais === pais && q.campo === colPrefix && q.idioma_destino === targetLang && q.estado === 'pendiente');
+            if (existingIdx >= 0) {
+                localQueue[existingIdx].texto_origen = sourceText || '';
+                localQueue[existingIdx].texto_anterior = currentTargetText || '';
+                localQueue[existingIdx].created_at = now;
+            } else {
+                localQueue.unshift({ id: Date.now(), ...itemData });
+            }
+            Storage.set(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, localQueue);
+
+            // Update sync status to out of sync
+            await this.updateSyncStatus(pais, targetTable, colPrefix, false);
+
+            return itemData;
+        },
+
+        // Dismiss desync alert (editor explicitly discarded or resolved it)
+        async dismissDesyncAlert(pais, colPrefix, targetLang) {
+            const client = getClient();
+            const targetTable = targetLang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
+            const now = new Date().toISOString();
+
+            if (client) {
+                try {
+                    await client.from('translation_queue').update({
+                        estado: 'descartado',
+                        revisado_at: now
+                    })
+                    .eq('pais', pais)
+                    .eq('campo', colPrefix)
+                    .eq('estado', 'pendiente');
+                } catch (_) {}
+            }
+
+            const localQueue = Storage.get(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, []);
+            localQueue.forEach(q => {
+                if (q.pais === pais && q.campo === colPrefix && q.estado === 'pendiente') {
+                    q.estado = 'descartado';
+                    q.revisado_at = now;
+                }
+            });
+            Storage.set(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, localQueue);
+
+            // Mark as synchronized
+            await this.updateSyncStatus(pais, targetTable, colPrefix, true);
+            return { ok: true };
+        },
+
+        // Translation Queue: Add manual/arbitrary item
         async addToTranslationQueue(item) {
             const client = getClient();
             const queueItem = {
@@ -317,16 +481,35 @@
             if (!targetItem) throw new Error('Item no encontrado en cola');
 
             const finalText = textoAprobado !== undefined ? textoAprobado : targetItem.traduccion_sugerida;
+            const targetTable = targetItem.idioma_destino === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
 
             // If approved, write into the target table
             if (estado === 'aprobado' || estado === 'editado') {
-                const targetTable = targetItem.idioma_destino === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
                 if (client) {
                     try {
-                        await client
-                            .from(targetTable)
-                            .update({ [targetItem.campo]: finalText })
-                            .eq('pais', targetItem.pais);
+                        const updateObj = {};
+                        if (targetItem.campo.includes('_directa') || targetItem.campo.includes('_ampliada') || targetItem.campo.includes('_fuente')) {
+                            updateObj[targetItem.campo] = finalText;
+                        } else {
+                            // If field is just question code like q_1_1, parse sections if present, or set ampliada
+                            if (finalText.includes('[Respuesta Directa]') || finalText.includes('[Respuesta Ampliada]')) {
+                                const directMatch = finalText.match(/\[Respuesta Directa\]\s*\n([\s\S]*?)(?=\n\s*\[|$)/i);
+                                const ampMatch = finalText.match(/\[Respuesta Ampliada\]\s*\n([\s\S]*?)(?=\n\s*\[|$)/i);
+                                const fuenteMatch = finalText.match(/\[Fuente(?: Normativa)?\]\s*\n([\s\S]*?)(?=\n\s*\[|$)/i);
+                                if (directMatch) updateObj[`${targetItem.campo}_directa`] = directMatch[1].trim();
+                                if (ampMatch) updateObj[`${targetItem.campo}_ampliada`] = ampMatch[1].trim();
+                                if (fuenteMatch) updateObj[`${targetItem.campo}_fuente`] = fuenteMatch[1].trim();
+                            } else {
+                                updateObj[`${targetItem.campo}_ampliada`] = finalText;
+                            }
+                        }
+
+                        if (Object.keys(updateObj).length > 0) {
+                            await client
+                                .from(targetTable)
+                                .update(updateObj)
+                                .eq('pais', targetItem.pais);
+                        }
                     } catch (err) {
                         console.error('[AdminAPI] Error applying approved translation to DB:', err);
                     }
@@ -351,6 +534,11 @@
                 localQueue[targetIndex].traduccion_sugerida = finalText;
                 localQueue[targetIndex].revisado_at = now;
                 Storage.set(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, localQueue);
+            }
+
+            // If approved or discarded, update sync status to true
+            if (estado === 'aprobado' || estado === 'editado' || estado === 'descartado') {
+                await this.updateSyncStatus(targetItem.pais, targetTable, targetItem.campo, true);
             }
 
             return { ok: true };

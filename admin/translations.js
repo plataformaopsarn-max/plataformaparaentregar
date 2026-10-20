@@ -138,9 +138,14 @@
 
                 // Human readable field
                 let fieldLabel = item.campo || '';
+                let qKey = '';
+                let sectionNum = 1;
                 if (fieldLabel.startsWith('q_')) {
                     const parts = fieldLabel.replace('q_', '').split('_');
-                    fieldLabel = `Pregunta ${parts[0]}.${parts[1]} (${parts.slice(2).join(' ')})`;
+                    qKey = `${parts[0]}.${parts[1]}`;
+                    sectionNum = parseInt(parts[0], 10) || 1;
+                    const questionTitle = window.QUESTIONS?.[qKey] || '';
+                    fieldLabel = questionTitle ? `Pregunta ${qKey}: ${questionTitle}` : `Pregunta ${qKey}`;
                 }
 
                 return `
@@ -192,23 +197,46 @@
                                     id="queue-text-${item.id}" 
                                     rows="6" 
                                     ${!isPending ? 'readonly' : ''}
+                                    placeholder="Ingrese o genere la traducción correspondiente..."
                                     class="w-full p-3 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${!isPending ? 'bg-slate-50' : 'bg-white'}"
                                 >${item.traduccion_sugerida || ''}</textarea>
                             </div>
                         </div>
 
                         <!-- Actions Bar -->
-                        ${isPending ? `
-                            <div class="p-4 bg-slate-50/70 border-t border-slate-200/80 flex items-center justify-between gap-3">
+                        <div class="p-4 bg-slate-50/70 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
+                            <div class="flex items-center gap-2">
                                 <button 
-                                    data-action="discard-queue-item" 
-                                    data-id="${item.id}"
-                                    class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition"
+                                    data-action="open-in-editor"
+                                    data-country="${item.pais}"
+                                    data-section="${sectionNum}"
+                                    class="px-3 py-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition flex items-center gap-1.5"
+                                    title="Abrir este país y sección en el Editor Bilingüe"
                                 >
-                                    Descartar
+                                    <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                                    <span>Abrir en Editor</span>
                                 </button>
+                                ${isPending ? `
+                                    <button 
+                                        data-action="discard-queue-item" 
+                                        data-id="${item.id}"
+                                        class="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition"
+                                    >
+                                        Descartar
+                                    </button>
+                                ` : ''}
+                            </div>
 
+                            ${isPending ? `
                                 <div class="flex items-center gap-2">
+                                    <button 
+                                        data-action="translate-queue-ai" 
+                                        data-id="${item.id}"
+                                        class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition shadow-xs flex items-center gap-1.5"
+                                    >
+                                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                        <span>Generar con IA</span>
+                                    </button>
                                     <button 
                                         data-action="approve-queue-item" 
                                         data-id="${item.id}"
@@ -218,8 +246,8 @@
                                         <span>Aprobar y Publicar en Base</span>
                                     </button>
                                 </div>
-                            </div>
-                        ` : ''}
+                            ` : ''}
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -245,6 +273,58 @@
                 this.render(container);
             });
 
+            // Action: Open in Editor
+            container.querySelectorAll('[data-action="open-in-editor"]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const country = btn.getAttribute('data-country');
+                    const section = parseInt(btn.getAttribute('data-section'), 10) || 1;
+                    if (window.AdminApp) {
+                        window.AdminApp.navigate('editor', { country, section });
+                    }
+                });
+            });
+
+            // Action: Generate translation with Gemini
+            container.querySelectorAll('[data-action="translate-queue-ai"]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.getAttribute('data-id');
+                    const item = queueItems.find(q => String(q.id) === String(id));
+                    if (!item) return;
+
+                    const originalBtnHtml = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i><span>Traduciendo...</span>`;
+                    if (window.lucide) window.lucide.createIcons();
+
+                    try {
+                        const res = await window.AdminAPI.translateWithGemini({
+                            text: item.texto_origen,
+                            sourceLang: item.idioma_origen,
+                            targetLang: item.idioma_destino,
+                            existingTargetText: item.texto_anterior,
+                            context: `Traducción regulatoria de ${item.campo} para ${item.pais}`
+                        });
+
+                        const textInput = container.querySelector(`#queue-text-${id}`);
+                        if (textInput) textInput.value = res.translatedText;
+                        item.traduccion_sugerida = res.translatedText;
+
+                        if (window.AdminApp) {
+                            window.AdminApp.showToast('✨ Traducción generada con Gemini. Revise y haga clic en Aprobar.', 'success');
+                        }
+                    } catch (err) {
+                        console.error('[AdminTranslations] Gemini error:', err);
+                        if (window.AdminApp) {
+                            window.AdminApp.showToast(`Error al traducir: ${err.message || err}`, 'error');
+                        }
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = originalBtnHtml;
+                        if (window.lucide) window.lucide.createIcons();
+                    }
+                });
+            });
+
             // Action: Approve
             container.querySelectorAll('[data-action="approve-queue-item"]').forEach(btn => {
                 btn.addEventListener('click', async () => {
@@ -266,6 +346,7 @@
 
                         if (window.AdminApp) {
                             window.AdminApp.showToast('✅ Traducción aprobada y publicada exitosamente', 'success');
+                            window.AdminApp.refreshPendingCounter();
                         }
                         this.render(container);
                     } catch (err) {
@@ -293,6 +374,7 @@
 
                         if (window.AdminApp) {
                             window.AdminApp.showToast('Sugerencia descartada', 'info');
+                            window.AdminApp.refreshPendingCounter();
                         }
                         this.render(container);
                     } catch (err) {
