@@ -234,7 +234,7 @@
                 tabla,
                 campo,
                 sincronizado,
-                updated_at: now
+                es_updated_at: now
             };
 
             if (client) {
