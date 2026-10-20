@@ -10,3 +10,6 @@ Thumbs.db
 # Node.js (no aplica a este proyecto estático)
 node_modules/
 dist/
+
+# Repositorio clonado de entrega pública
+regecam-public/
