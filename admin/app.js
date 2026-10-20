@@ -270,12 +270,64 @@
             const modal = document.getElementById('admin-settings-modal');
             if (!modal) return;
 
-            const apiKey = window.AdminAPI.getGeminiKey();
+            const isDefault = window.AdminAPI.isUsingDefaultKey();
+            const customKey = window.AdminAPI.getUserCustomGeminiKey();
             const keyInput = modal.querySelector('#settings-gemini-key');
-            if (keyInput) keyInput.value = apiKey;
+            const statusBadge = modal.querySelector('#gemini-key-status-badge');
+            const resetBtn = modal.querySelector('#btn-reset-default-key');
+            const toggleBtn = modal.querySelector('#btn-toggle-key-visibility');
+
+            function updateUI() {
+                const currentlyUsingDefault = window.AdminAPI.isUsingDefaultKey();
+                const currentCustomKey = window.AdminAPI.getUserCustomGeminiKey();
+
+                if (keyInput) {
+                    keyInput.value = currentCustomKey;
+                    keyInput.type = 'password';
+                }
+                if (toggleBtn) toggleBtn.textContent = 'Mostrar';
+
+                if (statusBadge) {
+                    if (currentlyUsingDefault) {
+                        statusBadge.className = 'text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-800 border border-blue-200';
+                        statusBadge.textContent = 'Clave oficial activa';
+                    } else {
+                        statusBadge.className = 'text-[10px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+                        statusBadge.textContent = 'Clave personalizada activa';
+                    }
+                }
+
+                if (resetBtn) {
+                    if (!currentlyUsingDefault) {
+                        resetBtn.classList.remove('hidden');
+                    } else {
+                        resetBtn.classList.add('hidden');
+                    }
+                }
+            }
+
+            updateUI();
 
             modal.classList.remove('hidden');
             if (window.lucide) window.lucide.createIcons();
+
+            // Toggle visibility
+            toggleBtn?.onclick = () => {
+                if (keyInput.type === 'password') {
+                    keyInput.type = 'text';
+                    toggleBtn.textContent = 'Ocultar';
+                } else {
+                    keyInput.type = 'password';
+                    toggleBtn.textContent = 'Mostrar';
+                }
+            };
+
+            // Reset default key
+            resetBtn?.onclick = () => {
+                window.AdminAPI.setGeminiKey('');
+                updateUI();
+                this.showToast('Se restableció la clave oficial por defecto', 'info');
+            };
 
             // Close
             modal.querySelector('#btn-close-settings')?.addEventListener('click', () => modal.classList.add('hidden'));
@@ -284,9 +336,14 @@
             // Save settings
             modal.querySelector('#form-settings')?.addEventListener('submit', (e) => {
                 e.preventDefault();
-                const newKey = modal.querySelector('#settings-gemini-key')?.value;
-                window.AdminAPI.setGeminiKey(newKey || '');
-                this.showToast('Configuración guardada correctamente', 'success');
+                const newKey = keyInput?.value?.trim() || '';
+                window.AdminAPI.setGeminiKey(newKey);
+                if (newKey) {
+                    this.showToast('Clave personalizada guardada para este navegador', 'success');
+                } else {
+                    this.showToast('Configuración guardada (usando clave oficial por defecto)', 'success');
+                }
+                updateUI();
                 modal.classList.add('hidden');
             });
 

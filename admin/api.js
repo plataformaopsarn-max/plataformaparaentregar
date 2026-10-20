@@ -638,20 +638,36 @@
 
         // --- GEMINI TRANSLATION MOTOR ---
         getGeminiKey() {
-            return localStorage.getItem(window.ADMIN_CONFIG.STORAGE_KEYS.GEMINI_API_KEY) || '';
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
+            const userKey = localStorage.getItem(storageKey);
+            if (userKey && userKey.trim()) {
+                return userKey.trim();
+            }
+            return window.ADMIN_CONFIG?.DEFAULT_GEMINI_KEY || window.ENV_GEMINI_API_KEY || '';
+        },
+
+        getUserCustomGeminiKey() {
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
+            return localStorage.getItem(storageKey) || '';
+        },
+
+        isUsingDefaultKey() {
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
+            const userKey = localStorage.getItem(storageKey);
+            return !userKey || !userKey.trim();
         },
 
         setGeminiKey(key) {
-            localStorage.setItem(window.ADMIN_CONFIG.STORAGE_KEYS.GEMINI_API_KEY, key.trim());
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
+            if (!key || !key.trim()) {
+                localStorage.removeItem(storageKey);
+            } else {
+                localStorage.setItem(storageKey, key.trim());
+            }
         },
 
         async translateWithGemini({ text, sourceLang = 'es', targetLang = 'en', existingTargetText = '', context = '' }) {
-            let apiKey = this.getGeminiKey();
-            if (!apiKey) {
-                // Check if window or environment has a key
-                apiKey = window.ENV_GEMINI_API_KEY || '';
-            }
-
+            const apiKey = this.getGeminiKey();
             if (!apiKey) {
                 throw new Error('MISSING_API_KEY');
             }
@@ -690,7 +706,8 @@ ${text}
 Return JSON only.`;
 
             const candidateModels = [
-                window.ADMIN_CONFIG.GEMINI_MODEL || 'gemini-flash-latest',
+                window.ADMIN_CONFIG?.GEMINI_MODEL || 'gemini-3.8-flash',
+                'gemini-3.8-flash',
                 'gemini-flash-latest',
                 'gemini-3.6-flash',
                 'gemini-3.5-flash',
