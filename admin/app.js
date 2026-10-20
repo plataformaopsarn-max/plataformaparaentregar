@@ -282,22 +282,26 @@
             if (window.lucide) window.lucide.createIcons();
 
             // Toggle visibility
-            toggleBtn?.onclick = () => {
-                if (keyInput.type === 'password') {
-                    keyInput.type = 'text';
-                    toggleBtn.textContent = 'Ocultar';
-                } else {
-                    keyInput.type = 'password';
-                    toggleBtn.textContent = 'Mostrar';
-                }
-            };
+            if (toggleBtn) {
+                toggleBtn.onclick = () => {
+                    if (keyInput.type === 'password') {
+                        keyInput.type = 'text';
+                        toggleBtn.textContent = 'Ocultar';
+                    } else {
+                        keyInput.type = 'password';
+                        toggleBtn.textContent = 'Mostrar';
+                    }
+                };
+            }
 
             // Reset default key
-            resetBtn?.onclick = () => {
-                window.AdminAPI.setGeminiKey('');
-                updateUI();
-                this.showToast('Se restableció la clave oficial por defecto', 'info');
-            };
+            if (resetBtn) {
+                resetBtn.onclick = () => {
+                    window.AdminAPI.setGeminiKey('');
+                    updateUI();
+                    this.showToast('Se restableció la clave oficial por defecto', 'info');
+                };
+            }
 
             // Close
             modal.querySelector('#btn-close-settings')?.addEventListener('click', () => modal.classList.add('hidden'));

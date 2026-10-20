@@ -6,6 +6,7 @@
     const AdminAuth = {
         init() {
             // Restore from localStorage if present
+            try {
                 const storageKey = window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER;
                 const saved = localStorage.getItem(storageKey) || localStorage.getItem('reglac_admin_user_v1');
                 if (saved) {
