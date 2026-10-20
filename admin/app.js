@@ -1,0 +1,337 @@
+// admin/app.js — Orquestador Principal de la SPA Administrativa (OPS/OMS)
+(function() {
+    const AdminApp = {
+        state: {
+            currentView: 'dashboard',
+            params: {},
+            pendingCount: 0
+        },
+
+        init() {
+            // Initialize Auth
+            window.AdminAuth.init();
+            window.AdminAuth.onAuthChange((user) => {
+                this.updateHeaderUser();
+                if (!user) {
+                    this.renderLogin();
+                } else {
+                    this.navigate(this.state.currentView || 'dashboard', this.state.params);
+                }
+            });
+
+            // Bind global header navigation
+            this.bindGlobalEvents();
+
+            // Check initial auth state
+            if (!window.AdminAuth.isAuthenticated()) {
+                this.renderLogin();
+            } else {
+                this.navigate('dashboard');
+            }
+
+            // Periodic badge check for pending translations
+            this.refreshPendingCounter();
+            setInterval(() => this.refreshPendingCounter(), 30000);
+        },
+
+        async refreshPendingCounter() {
+            if (!window.AdminAuth.isAuthenticated()) return;
+            try {
+                const queue = await window.AdminAPI.getTranslationQueue('pendiente');
+                this.state.pendingCount = queue.length;
+                const badge = document.getElementById('nav-pending-badge');
+                if (badge) {
+                    if (this.state.pendingCount > 0) {
+                        badge.textContent = this.state.pendingCount;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }
+            } catch (_) {}
+        },
+
+        navigate(view, params = {}) {
+            this.state.currentView = view;
+            this.state.params = params;
+
+            // Highlight active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const targetView = link.getAttribute('data-view');
+                if (targetView === view) {
+                    link.className = 'nav-link px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 text-blue-700 flex items-center gap-1.5 transition';
+                } else {
+                    link.className = 'nav-link px-3 py-2 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5 transition';
+                }
+            });
+
+            const mainContainer = document.getElementById('admin-main-container');
+            if (!mainContainer) return;
+
+            // Route view
+            switch (view) {
+                case 'dashboard':
+                    window.AdminDashboard.render(mainContainer);
+                    break;
+                case 'editor':
+                    window.AdminEditor.render(mainContainer, params);
+                    break;
+                case 'translations':
+                    window.AdminTranslations.render(mainContainer);
+                    break;
+                case 'resources':
+                    window.AdminResources.render(mainContainer, params);
+                    break;
+                case 'audit':
+                    window.AdminAudit.render(mainContainer);
+                    break;
+                default:
+                    window.AdminDashboard.render(mainContainer);
+            }
+
+            this.refreshPendingCounter();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        renderLogin() {
+            const mainContainer = document.getElementById('admin-main-container');
+            const nav = document.getElementById('admin-main-nav');
+            if (nav) nav.classList.add('hidden');
+
+            if (!mainContainer) return;
+
+            mainContainer.innerHTML = `
+                <div class="min-h-[80vh] flex items-center justify-center p-4">
+                    <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xl space-y-6">
+                        <div class="text-center space-y-2">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md shadow-blue-500/20">
+                                <i data-lucide="shield-check" class="w-8 h-8"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-slate-800">Panel de Administración</h2>
+                            <p class="text-xs text-slate-500 max-w-xs mx-auto">
+                                Plataforma de Información Regulatoria sobre Ensayos Clínicos en América Latina y el Caribe (OPS/OMS)
+                            </p>
+                        </div>
+
+                        <!-- Formulario de Login -->
+                        <form id="login-form" class="space-y-4 text-xs">
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Correo Electrónico</label>
+                                <input 
+                                    type="email" 
+                                    id="login-email" 
+                                    required 
+                                    placeholder="usuario@paho.org"
+                                    class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                >
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Contraseña</label>
+                                <input 
+                                    type="password" 
+                                    id="login-password" 
+                                    required 
+                                    placeholder="••••••••"
+                                    class="w-full p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                >
+                            </div>
+
+                            <button 
+                                type="submit" 
+                                id="btn-submit-login"
+                                class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md shadow-blue-600/20 flex items-center justify-center gap-2"
+                            >
+                                <i data-lucide="log-in" class="w-4 h-4"></i>
+                                <span>Iniciar Sesión</span>
+                            </button>
+                        </form>
+
+                        <div class="relative flex py-1 items-center">
+                            <div class="flex-grow border-t border-slate-200"></div>
+                            <span class="flex-shrink mx-3 text-[11px] text-slate-400 uppercase tracking-wider font-semibold">O Modo de Prueba Local</span>
+                            <div class="flex-grow border-t border-slate-200"></div>
+                        </div>
+
+                        <!-- Acceso rápido para demostración / evaluación local -->
+                        <div class="space-y-2">
+                            <button 
+                                id="btn-demo-admin"
+                                class="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold flex items-center justify-between transition"
+                            >
+                                <span class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                                    <span>Ingresar como Administrador OPS</span>
+                                </span>
+                                <span class="text-[10px] text-slate-400 font-mono">admin@paho.org</span>
+                            </button>
+
+                            <button 
+                                id="btn-demo-editor"
+                                class="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold flex items-center justify-between transition"
+                            >
+                                <span class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+                                    <span>Ingresar como Editor Regulatorio</span>
+                                </span>
+                                <span class="text-[10px] text-slate-400 font-mono">editor@paho.org</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (window.lucide) window.lucide.createIcons();
+
+            // Bind login form
+            const form = mainContainer.querySelector('#login-form');
+            form?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = mainContainer.querySelector('#login-email')?.value;
+                const password = mainContainer.querySelector('#login-password')?.value;
+                const btn = mainContainer.querySelector('#btn-submit-login');
+
+                btn.disabled = true;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Verificando...</span>`;
+
+                try {
+                    await window.AdminAuth.login(email, password);
+                    this.showToast('Bienvenido a RegLAC Admin', 'success');
+                } catch (err) {
+                    alert('Error de autenticación: ' + (err.message || err));
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>Iniciar Sesión</span>`;
+                }
+            });
+
+            // Demo logins
+            mainContainer.querySelector('#btn-demo-admin')?.addEventListener('click', () => {
+                window.AdminAuth.loginAsDemo('administrador');
+                this.showToast('Sesión iniciada como Administrador', 'success');
+            });
+
+            mainContainer.querySelector('#btn-demo-editor')?.addEventListener('click', () => {
+                window.AdminAuth.loginAsDemo('editor');
+                this.showToast('Sesión iniciada como Editor', 'info');
+            });
+        },
+
+        updateHeaderUser() {
+            const nav = document.getElementById('admin-main-nav');
+            const user = window.AdminAuth.getCurrentUser();
+
+            if (!user) {
+                if (nav) nav.classList.add('hidden');
+                return;
+            }
+
+            if (nav) nav.classList.remove('hidden');
+
+            const userNameEl = document.getElementById('user-display-name');
+            const userRoleEl = document.getElementById('user-display-role');
+
+            if (userNameEl) userNameEl.textContent = user.nombre || user.email;
+            if (userRoleEl) {
+                const isAdmin = user.rol === 'administrador';
+                userRoleEl.textContent = isAdmin ? 'Administrador' : 'Editor';
+                userRoleEl.className = `px-2 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-wider ${
+                    isAdmin ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'
+                }`;
+            }
+
+            if (window.lucide) window.lucide.createIcons();
+        },
+
+        bindGlobalEvents() {
+            // Navigation Links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const view = link.getAttribute('data-view');
+                    this.navigate(view);
+                });
+            });
+
+            // Logout Button
+            document.getElementById('btn-logout')?.addEventListener('click', async () => {
+                if (confirm('¿Desea cerrar la sesión del panel administrativo?')) {
+                    await window.AdminAuth.logout();
+                    this.renderLogin();
+                }
+            });
+
+            // Settings modal triggers
+            document.getElementById('btn-header-settings')?.addEventListener('click', () => {
+                this.showSettingsModal();
+            });
+        },
+
+        showSettingsModal() {
+            const modal = document.getElementById('admin-settings-modal');
+            if (!modal) return;
+
+            const apiKey = window.AdminAPI.getGeminiKey();
+            const keyInput = modal.querySelector('#settings-gemini-key');
+            if (keyInput) keyInput.value = apiKey;
+
+            modal.classList.remove('hidden');
+            if (window.lucide) window.lucide.createIcons();
+
+            // Close
+            modal.querySelector('#btn-close-settings')?.addEventListener('click', () => modal.classList.add('hidden'));
+            modal.querySelector('#btn-cancel-settings')?.addEventListener('click', () => modal.classList.add('hidden'));
+
+            // Save settings
+            modal.querySelector('#form-settings')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newKey = modal.querySelector('#settings-gemini-key')?.value;
+                window.AdminAPI.setGeminiKey(newKey || '');
+                this.showToast('Configuración guardada correctamente', 'success');
+                modal.classList.add('hidden');
+            });
+
+            // Copy SQL Migration
+            modal.querySelector('#btn-copy-migration')?.addEventListener('click', () => {
+                const sqlText = `-- Ejecutar en Supabase SQL Editor:
+-- migration.sql disponible en la carpeta /admin/migration.sql`;
+                navigator.clipboard.writeText(sqlText);
+                this.showToast('Instrucciones copiadas al portapapeles', 'info');
+            });
+        },
+
+        showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            const bgClass = 
+                type === 'success' ? 'bg-emerald-600 text-white' :
+                type === 'error' ? 'bg-red-600 text-white' :
+                type === 'warning' ? 'bg-amber-600 text-white' :
+                'bg-slate-800 text-white';
+
+            toast.className = `flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-xs font-medium ${bgClass} transition-all transform translate-y-2 opacity-0 duration-200`;
+            toast.innerHTML = `
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 200);
+            }, 3500);
+        }
+    };
+
+    window.AdminApp = AdminApp;
+
+    // Start on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        AdminApp.init();
+    });
+})();
