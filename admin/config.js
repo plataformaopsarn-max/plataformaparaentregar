@@ -1,4 +1,4 @@
-// admin/config.js — Configuración para el Panel de Administración RegLAC (OPS/OMS)
+// admin/config.js — Configuración para el Panel de Administración REGIA (OPS/OMS)
 (function() {
     const parentConfig = (typeof window !== 'undefined' && window.APP_CONFIG) || {};
 
@@ -15,11 +15,11 @@
         
         // Storage keys
         STORAGE_KEYS: {
-            AUTH_USER: 'reglac_admin_user_v1',
-            TRANSLATION_QUEUE: 'reglac_admin_queue_v1',
-            SYNC_STATUS: 'reglac_admin_sync_status_v1',
-            AUDIT_LOG: 'reglac_admin_audit_log_v1',
-            GEMINI_API_KEY: 'reglac_admin_gemini_key'
+            AUTH_USER: 'regia_admin_user_v1',
+            TRANSLATION_QUEUE: 'regia_admin_queue_v1',
+            SYNC_STATUS: 'regia_admin_sync_status_v1',
+            AUDIT_LOG: 'regia_admin_audit_log_v1',
+            GEMINI_API_KEY: 'regia_admin_gemini_key'
         }
     };
 

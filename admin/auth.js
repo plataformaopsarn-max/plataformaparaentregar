@@ -6,15 +6,18 @@
     const AdminAuth = {
         init() {
             // Restore from localStorage if present
-            try {
-                const saved = localStorage.getItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER);
+                const storageKey = window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER;
+                const saved = localStorage.getItem(storageKey) || localStorage.getItem('reglac_admin_user_v1');
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     // Discard demo accounts if any were stored previously
                     if (parsed && !parsed.isDemo) {
                         currentUser = parsed;
+                        localStorage.setItem(storageKey, JSON.stringify(parsed));
+                        localStorage.removeItem('reglac_admin_user_v1');
                     } else {
-                        localStorage.removeItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER);
+                        localStorage.removeItem(storageKey);
+                        localStorage.removeItem('reglac_admin_user_v1');
                     }
                 }
             } catch (e) {

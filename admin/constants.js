@@ -1,4 +1,4 @@
-// admin/constants.js — Constantes Compartidas de RegLAC para el Panel Administrativo
+// admin/constants.js — Constantes Compartidas de REGIA para el Panel Administrativo
 (function() {
     window.COUNTRIES_LIST = [
         { id: 'AR', name: 'Argentina', displayName: 'Argentina', flagCode: 'ar', region: 'South America' },

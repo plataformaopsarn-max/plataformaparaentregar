@@ -425,7 +425,7 @@ const admin = {
                 <div class="space-y-8 animate-in fade-in duration-300">
                     <!-- Tarjeta de Bienvenida -->
                     <div class="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-2xl p-8 text-white shadow-lg">
-                        <h3 class="text-2xl font-bold mb-2">¡Hola! Bienvenido al Panel de Control de RegLAC</h3>
+                        <h3 class="text-2xl font-bold mb-2">¡Hola! Bienvenido al Panel de Control de REGIA</h3>
                         <p class="text-blue-100 text-sm max-w-2xl leading-relaxed">
                             Desde aquí puedes gestionar los requisitos regulatorios, resúmenes institucionales y enlaces de interés de todos los países de la región. Selecciona una tabla en la barra lateral para ver los detalles.
                         </p>

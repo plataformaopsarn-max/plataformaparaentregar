@@ -101,15 +101,18 @@
             if (!mainContainer) return;
 
             mainContainer.innerHTML = `
-                <div class="min-h-[80vh] flex items-center justify-center p-4">
+                <div class="min-h-[85vh] flex items-center justify-center p-4">
                     <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xl space-y-6">
-                        <div class="text-center space-y-2">
-                            <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-md shadow-blue-500/20">
-                                <i data-lucide="shield-check" class="w-8 h-8"></i>
+                        <div class="text-center space-y-3">
+                            <div class="flex justify-center pb-1">
+                                <img src="regia-logo.png" alt="REGIA - Regulaciones para la Investigación en las Américas" class="h-16 sm:h-20 w-auto object-contain">
                             </div>
-                            <h2 class="text-2xl font-bold text-slate-800">Panel de Administración</h2>
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-semibold border border-blue-100">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600"></i>
+                                <span>Panel de Administración</span>
+                            </div>
                             <p class="text-xs text-slate-500 max-w-xs mx-auto">
-                                Plataforma de Información Regulatoria sobre Ensayos Clínicos en América Latina y el Caribe (OPS/OMS)
+                                Plataforma de Información Regulatoria sobre Ensayos Clínicos en las Américas (OPS/OMS)
                             </p>
                         </div>
 
@@ -169,7 +172,7 @@
 
                 try {
                     await window.AdminAuth.login(email, password);
-                    this.showToast('Bienvenido a RegLAC Admin', 'success');
+                    this.showToast('Bienvenido a REGIA Admin', 'success');
                 } catch (err) {
                     if (errorBox) {
                         errorBox.textContent = 'Credenciales no válidas o error de autenticación: ' + (err.message || err);

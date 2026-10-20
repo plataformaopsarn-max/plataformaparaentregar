@@ -44,7 +44,7 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-6 rounded-2xl shadow-sm">
                         <div>
                             <div class="flex items-center gap-2 mb-1">
-                                <span class="px-2 py-0.5 text-xs font-semibold uppercase tracking-wider bg-blue-500/40 rounded-md">RegLAC Admin</span>
+                                <span class="px-2 py-0.5 text-xs font-semibold uppercase tracking-wider bg-blue-500/40 rounded-md">REGIA Admin</span>
                                 <span class="text-xs text-blue-200">OPS/OMS</span>
                             </div>
                             <h1 class="text-2xl font-bold">Gestión de Contenidos y Traducciones</h1>

@@ -638,8 +638,8 @@
 
         // --- GEMINI TRANSLATION MOTOR ---
         getGeminiKey() {
-            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
-            const userKey = localStorage.getItem(storageKey);
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'regia_admin_gemini_key';
+            const userKey = localStorage.getItem(storageKey) || localStorage.getItem('reglac_admin_gemini_key');
             if (userKey && userKey.trim()) {
                 return userKey.trim();
             }
@@ -647,18 +647,19 @@
         },
 
         getUserCustomGeminiKey() {
-            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
-            return localStorage.getItem(storageKey) || '';
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'regia_admin_gemini_key';
+            return localStorage.getItem(storageKey) || localStorage.getItem('reglac_admin_gemini_key') || '';
         },
 
         isUsingDefaultKey() {
-            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
-            const userKey = localStorage.getItem(storageKey);
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'regia_admin_gemini_key';
+            const userKey = localStorage.getItem(storageKey) || localStorage.getItem('reglac_admin_gemini_key');
             return !userKey || !userKey.trim();
         },
 
         setGeminiKey(key) {
-            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'reglac_admin_gemini_key';
+            const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'regia_admin_gemini_key';
+            localStorage.removeItem('reglac_admin_gemini_key');
             if (!key || !key.trim()) {
                 localStorage.removeItem(storageKey);
             } else {
