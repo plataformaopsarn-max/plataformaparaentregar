@@ -147,36 +147,7 @@
                             </button>
                         </form>
 
-                        <div class="relative flex py-1 items-center">
-                            <div class="flex-grow border-t border-slate-200"></div>
-                            <span class="flex-shrink mx-3 text-[11px] text-slate-400 uppercase tracking-wider font-semibold">O Modo de Prueba Local</span>
-                            <div class="flex-grow border-t border-slate-200"></div>
-                        </div>
-
-                        <!-- Acceso rápido para demostración / evaluación local -->
-                        <div class="space-y-2">
-                            <button 
-                                id="btn-demo-admin"
-                                class="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold flex items-center justify-between transition"
-                            >
-                                <span class="flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                                    <span>Ingresar como Administrador OPS</span>
-                                </span>
-                                <span class="text-[10px] text-slate-400 font-mono">admin@paho.org</span>
-                            </button>
-
-                            <button 
-                                id="btn-demo-editor"
-                                class="w-full py-2.5 px-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-semibold flex items-center justify-between transition"
-                            >
-                                <span class="flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-amber-600"></span>
-                                    <span>Ingresar como Editor Regulatorio</span>
-                                </span>
-                                <span class="text-[10px] text-slate-400 font-mono">editor@paho.org</span>
-                            </button>
-                        </div>
+                        <div id="login-error-msg" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
                     </div>
                 </div>
             `;
@@ -190,6 +161,8 @@
                 const email = mainContainer.querySelector('#login-email')?.value;
                 const password = mainContainer.querySelector('#login-password')?.value;
                 const btn = mainContainer.querySelector('#btn-submit-login');
+                const errorBox = mainContainer.querySelector('#login-error-msg');
+                if (errorBox) errorBox.classList.add('hidden');
 
                 btn.disabled = true;
                 btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Verificando...</span>`;
@@ -198,21 +171,15 @@
                     await window.AdminAuth.login(email, password);
                     this.showToast('Bienvenido a RegLAC Admin', 'success');
                 } catch (err) {
-                    alert('Error de autenticación: ' + (err.message || err));
+                    if (errorBox) {
+                        errorBox.textContent = 'Credenciales no válidas o error de autenticación: ' + (err.message || err);
+                        errorBox.classList.remove('hidden');
+                    } else {
+                        this.showToast('Error de autenticación: ' + (err.message || err), 'error');
+                    }
                     btn.disabled = false;
                     btn.innerHTML = `<span>Iniciar Sesión</span>`;
                 }
-            });
-
-            // Demo logins
-            mainContainer.querySelector('#btn-demo-admin')?.addEventListener('click', () => {
-                window.AdminAuth.loginAsDemo('administrador');
-                this.showToast('Sesión iniciada como Administrador', 'success');
-            });
-
-            mainContainer.querySelector('#btn-demo-editor')?.addEventListener('click', () => {
-                window.AdminAuth.loginAsDemo('editor');
-                this.showToast('Sesión iniciada como Editor', 'info');
             });
         },
 

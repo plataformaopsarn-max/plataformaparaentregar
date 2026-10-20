@@ -15,9 +15,8 @@
             try {
                 const overview = await window.AdminAPI.getCountriesOverview();
                 const queue = await window.AdminAPI.getTranslationQueue('pendiente');
-                const customTables = await window.AdminAPI.checkCustomTables();
 
-                this.renderContent(container, overview, queue, customTables);
+                this.renderContent(container, overview, queue);
             } catch (err) {
                 console.error('[AdminDashboard] Error:', err);
                 container.innerHTML = `
@@ -29,7 +28,7 @@
             }
         },
 
-        renderContent(container, overview, pendingQueue, customTables) {
+        renderContent(container, overview, pendingQueue) {
             const countries = window.COUNTRIES_LIST || [];
             const enPaisSet = new Set(overview.countriesEN || []);
             const pendingCounts = overview.pendingCounts || {};
@@ -38,8 +37,6 @@
             const syncedCount = countries.filter(c => enPaisSet.has(c.name) && !pendingCounts[c.name]).length;
             const partialCount = countries.filter(c => pendingCounts[c.name] > 0).length;
             const esOnlyCount = countries.filter(c => !enPaisSet.has(c.name)).length;
-
-            const hasAllTables = customTables.admin_profiles && customTables.translation_queue && customTables.content_sync_status;
 
             container.innerHTML = `
                 <div class="space-y-6">
@@ -66,16 +63,6 @@
                             </button>
                         </div>
                     </div>
-
-                    ${!hasAllTables ? `
-                    <!-- Aviso de modo local / migración pendiente -->
-                    <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
-                        <i data-lucide="info" class="w-5 h-5 text-amber-600 mt-0.5 shrink-0"></i>
-                        <div class="text-xs text-amber-800 leading-relaxed flex-1">
-                            <strong>Nota operativa:</strong> Las tablas administrativas avanzadas (cola de traducción persistente) funcionan en modo local hasta que ejecutes el script <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">migration.sql</code> en el SQL Editor de tu proyecto Supabase. Las tablas principales de datos (<code class="bg-amber-100 px-1 py-0.5 rounded font-mono">faq_rows_corregido</code>, <code class="bg-amber-100 px-1 py-0.5 rounded font-mono">faq_rows_corregido_en</code>, <code class="bg-amber-100 px-1 py-0.5 rounded font-mono">enlaces</code>) están 100% conectadas en la nube.
-                        </div>
-                    </div>
-                    ` : ''}
 
                     <!-- KPIs -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -3,30 +3,19 @@
     let currentUser = null;
     let authListeners = [];
 
-    const DEMO_USERS = {
-        'admin@paho.org': {
-            id: 'demo-admin-uuid',
-            email: 'admin@paho.org',
-            nombre: 'Administrador OPS',
-            rol: 'administrador',
-            isDemo: true
-        },
-        'editor@paho.org': {
-            id: 'demo-editor-uuid',
-            email: 'editor@paho.org',
-            nombre: 'Editor Regulatorio',
-            rol: 'editor',
-            isDemo: true
-        }
-    };
-
     const AdminAuth = {
         init() {
             // Restore from localStorage if present
             try {
                 const saved = localStorage.getItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER);
                 if (saved) {
-                    currentUser = JSON.parse(saved);
+                    const parsed = JSON.parse(saved);
+                    // Discard demo accounts if any were stored previously
+                    if (parsed && !parsed.isDemo) {
+                        currentUser = parsed;
+                    } else {
+                        localStorage.removeItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER);
+                    }
                 }
             } catch (e) {
                 console.warn('[AdminAuth] Error reading saved user', e);
@@ -34,7 +23,7 @@
 
             // Also check Supabase session if available
             const client = window.AdminAPI?.getClient();
-            if (client && !currentUser?.isDemo) {
+            if (client) {
                 client.auth.getSession().then(({ data: { session } }) => {
                     if (session?.user) {
                         this.resolveUserProfile(session.user);
@@ -44,7 +33,7 @@
                 client.auth.onAuthStateChange((event, session) => {
                     if (session?.user) {
                         this.resolveUserProfile(session.user);
-                    } else if (!currentUser?.isDemo) {
+                    } else {
                         currentUser = null;
                         localStorage.removeItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER);
                         this.notifyListeners();
@@ -85,16 +74,7 @@
         async login(email, password) {
             const cleanEmail = (email || '').trim().toLowerCase();
 
-            // 1. Check Demo accounts first for seamless local development
-            if (DEMO_USERS[cleanEmail]) {
-                const user = DEMO_USERS[cleanEmail];
-                currentUser = user;
-                localStorage.setItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER, JSON.stringify(user));
-                this.notifyListeners();
-                return { ok: true, user };
-            }
-
-            // 2. Authenticate with Supabase Auth
+            // Authenticate with Supabase Auth
             const client = window.AdminAPI?.getClient();
             if (!client) {
                 throw new Error('Supabase no está conectado');
@@ -113,19 +93,9 @@
             return { ok: true, user: profile };
         },
 
-        // Fast demo login for UI testing
-        loginAsDemo(role = 'administrador') {
-            const email = role === 'administrador' ? 'admin@paho.org' : 'editor@paho.org';
-            const user = DEMO_USERS[email];
-            currentUser = user;
-            localStorage.setItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER, JSON.stringify(user));
-            this.notifyListeners();
-            return user;
-        },
-
         async logout() {
             const client = window.AdminAPI?.getClient();
-            if (client && !currentUser?.isDemo) {
+            if (client) {
                 try {
                     await client.auth.signOut();
                 } catch (_) {}
