@@ -236,6 +236,15 @@
                             >
                                 <i data-lucide="link" class="w-3.5 h-3.5"></i>
                             </button>
+
+                            <button 
+                                data-action="audit-country" 
+                                data-country="${c.name}"
+                                title="Ver historial de auditoría de este país"
+                                class="px-2.5 py-2 bg-white hover:bg-blue-50 text-slate-600 hover:text-blue-700 border border-slate-200 font-medium rounded-lg transition"
+                            >
+                                <i data-lucide="history" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
                     </div>
                 `;
@@ -300,6 +309,13 @@
                 if (resBtn) {
                     const country = resBtn.getAttribute('data-country');
                     if (window.AdminApp) window.AdminApp.navigate('resources', { country });
+                    return;
+                }
+
+                const auditBtn = e.target.closest('[data-action="audit-country"]');
+                if (auditBtn) {
+                    const country = auditBtn.getAttribute('data-country');
+                    if (window.AdminApp) window.AdminApp.navigate('audit', { country });
                     return;
                 }
             });

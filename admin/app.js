@@ -83,7 +83,7 @@
                     window.AdminResources.render(mainContainer, params);
                     break;
                 case 'audit':
-                    window.AdminAudit.render(mainContainer);
+                    window.AdminAudit.render(mainContainer, params);
                     break;
                 default:
                     window.AdminDashboard.render(mainContainer);

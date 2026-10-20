@@ -105,9 +105,39 @@
                         `).join('')}
                     </div>
 
+                    <!-- Filtro y búsqueda rápida de preguntas en esta sección -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
+                        <div class="relative flex-1 max-w-md">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input 
+                                type="text" 
+                                id="editor-quick-search" 
+                                placeholder="Filtrar preguntas por palabra clave o número (ej. '1.2', 'ANMAT', 'ética')..." 
+                                class="w-full text-xs pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                            >
+                            <button id="btn-clear-editor-search" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-slate-500">
+                            <span id="editor-match-count" class="font-medium">${categoryQuestions.length} preguntas en esta sección</span>
+                        </div>
+                    </div>
+
                     <!-- Side-by-Side Questions Area -->
-                    <div class="space-y-8">
+                    <div class="space-y-8" id="editor-questions-list">
                         ${categoryQuestions.map(qKey => this.renderQuestionCard(qKey, questions[qKey], noBoolean)).join('')}
+                    </div>
+
+                    <!-- Floating Sticky Save Bar (aparece cuando hay cambios sin guardar) -->
+                    <div id="sticky-save-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-slate-900/95 text-white backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center gap-4 transition-all duration-300 transform translate-y-24 opacity-0 pointer-events-none">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                            <span id="sticky-save-text" class="text-xs font-semibold text-slate-100">Modificaciones sin guardar</span>
+                        </div>
+                        <div class="h-4 w-px bg-slate-700"></div>
+                        <button id="btn-save-all-section" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition shadow-sm">
+                            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                            <span>Guardar Todo</span>
+                        </button>
                     </div>
                 </div>
             `;
@@ -418,18 +448,121 @@
                 });
             });
 
+            // Quick question search filter
+            const searchInput = container.querySelector('#editor-quick-search');
+            const clearSearchBtn = container.querySelector('#btn-clear-editor-search');
+            const matchCountElem = container.querySelector('#editor-match-count');
+            const questionCards = container.querySelectorAll('#editor-questions-list > [id^="card-q_"]');
+
+            searchInput?.addEventListener('input', (e) => {
+                const query = (e.target.value || '').trim().toLowerCase();
+                if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !query);
+
+                let visibleCount = 0;
+                questionCards.forEach(card => {
+                    if (!query) {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        const text = card.textContent.toLowerCase();
+                        const isMatch = text.includes(query);
+                        card.classList.toggle('hidden', !isMatch);
+                        if (isMatch) visibleCount++;
+                    }
+                });
+
+                if (matchCountElem) {
+                    matchCountElem.textContent = query
+                        ? `${visibleCount} de ${questionCards.length} preguntas encontradas`
+                        : `${questionCards.length} preguntas en esta sección`;
+                }
+            });
+
+            clearSearchBtn?.addEventListener('click', () => {
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                    searchInput.focus();
+                }
+            });
+
+            // Helper to update sticky save bar
+            const updateStickySaveBar = () => {
+                const stickyBar = container.querySelector('#sticky-save-bar');
+                const saveText = container.querySelector('#sticky-save-text');
+                const ind = container.querySelector('#editor-save-indicator');
+
+                if (dirtyFields.size > 0) {
+                    if (stickyBar) {
+                        stickyBar.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+                        stickyBar.classList.add('translate-y-0', 'opacity-100');
+                    }
+                    if (saveText) {
+                        saveText.textContent = `${dirtyFields.size} cambio${dirtyFields.size !== 1 ? 's' : ''} pendiente${dirtyFields.size !== 1 ? 's' : ''} en ${currentCountry}`;
+                    }
+                    if (ind) {
+                        ind.innerHTML = `<span class="text-amber-500 font-bold">● ${dirtyFields.size} cambio${dirtyFields.size !== 1 ? 's' : ''} sin guardar</span>`;
+                    }
+                } else {
+                    if (stickyBar) {
+                        stickyBar.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                        stickyBar.classList.remove('translate-y-0', 'opacity-100');
+                    }
+                    if (ind) {
+                        ind.innerHTML = `<span class="text-emerald-600 font-medium">● Cambios guardados</span>`;
+                    }
+                }
+            };
+            this.updateStickySaveBar = updateStickySaveBar;
+
             // Track dirty changes in fields locally
             container.querySelectorAll('.input-editor-field').forEach(input => {
                 input.addEventListener('input', () => {
                     const field = input.getAttribute('data-field');
                     const lang = input.getAttribute('data-lang');
                     dirtyFields.add(`${lang}:${field}`);
-
-                    const ind = container.querySelector('#editor-save-indicator');
-                    if (ind) {
-                        ind.innerHTML = `<span class="text-amber-500 font-bold">● Cambios pendientes de guardar</span>`;
-                    }
+                    updateStickySaveBar();
                 });
+            });
+
+            // Save All in Section Button
+            container.querySelector('#btn-save-all-section')?.addEventListener('click', async (e) => {
+                const btn = e.currentTarget;
+                const originalHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i><span>Guardando todo...</span>`;
+
+                try {
+                    const dirtyGroups = new Set();
+                    dirtyFields.forEach(item => {
+                        const [lang, field] = item.split(':');
+                        const colPrefix = field.split('_').slice(0, 3).join('_');
+                        dirtyGroups.add(`${lang}:${colPrefix}`);
+                    });
+
+                    for (const groupKey of dirtyGroups) {
+                        const [lang, colPrefix] = groupKey.split(':');
+                        const saveBtn = container.querySelector(`[data-action="save-field-group"][data-lang="${lang}"][data-prefix="${colPrefix}"]`);
+                        if (saveBtn) {
+                            await this.saveGroup(container, lang, colPrefix, saveBtn);
+                        }
+                    }
+
+                    dirtyFields.clear();
+                    updateStickySaveBar();
+                    if (window.AdminApp) {
+                        window.AdminApp.showToast(`✅ Se guardaron todas las preguntas modificadas de la sección.`, 'success');
+                    }
+                } catch (err) {
+                    console.error('[AdminEditor] saveAllSection error:', err);
+                    if (window.AdminApp) {
+                        window.AdminApp.showToast(`Error al guardar: ${err.message || err}`, 'error');
+                    }
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    if (window.lucide) window.lucide.createIcons();
+                }
             });
 
             // Dismiss Sync Alert button
@@ -618,6 +751,13 @@
                     window.AdminApp.refreshPendingCounter();
                     window.AdminApp.showToast(`✅ Guardado en ${lang.toUpperCase()}. Se registró en la Cola de Traducción para ${oppositeLang.toUpperCase()}.`, 'success');
                 }
+
+                // Remove dirty markers for this saved field group
+                dirtyFields.delete(`${lang}:${colPrefix}_directa`);
+                dirtyFields.delete(`${lang}:${colPrefix}_ampliada`);
+                dirtyFields.delete(`${lang}:${colPrefix}_fuente`);
+                dirtyFields.delete(`${lang}:${colPrefix}_booleano`);
+                if (this.updateStickySaveBar) this.updateStickySaveBar();
 
                 const ind = container.querySelector('#editor-save-indicator');
                 if (ind) {
