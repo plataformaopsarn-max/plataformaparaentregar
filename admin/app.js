@@ -26,8 +26,22 @@
             if (!window.AdminAuth.isAuthenticated()) {
                 this.renderLogin();
             } else {
-                this.navigate('dashboard');
+                this.updateHeaderUser();
+                const hashView = (window.location.hash || '').replace('#', '').trim();
+                const validViews = ['dashboard', 'translations', 'resources', 'audit', 'users', 'backups', 'editor'];
+                const initialView = validViews.includes(hashView) ? hashView : 'dashboard';
+                this.navigate(initialView);
             }
+
+            // Listen to browser hash changes
+            window.addEventListener('hashchange', () => {
+                if (!window.AdminAuth.isAuthenticated()) return;
+                const view = (window.location.hash || '').replace('#', '').trim();
+                const validViews = ['dashboard', 'translations', 'resources', 'audit', 'users', 'backups', 'editor'];
+                if (validViews.includes(view) && view !== this.state.currentView) {
+                    this.navigate(view);
+                }
+            });
 
             // Periodic badge check for pending translations
             this.refreshPendingCounter();
@@ -76,44 +90,64 @@
             this.state.currentView = view;
             this.state.params = params;
 
-            // Highlight active nav link
+            // Sincronizar hash en la barra de direcciones sin provocar saltos bruscos
+            if (window.location.hash !== '#' + view) {
+                history.replaceState(null, '', '#' + view);
+            }
+
+            // Highlight active nav link without stripping persistent classes like 'hidden'
             document.querySelectorAll('.nav-link').forEach(link => {
                 const targetView = link.getAttribute('data-view');
                 if (targetView === view) {
-                    link.className = 'nav-link px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 text-blue-700 flex items-center gap-1.5 transition';
+                    link.classList.add('bg-blue-50', 'text-blue-700', 'font-semibold');
+                    link.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100', 'font-medium');
                 } else {
-                    link.className = 'nav-link px-3 py-2 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center gap-1.5 transition';
+                    link.classList.remove('bg-blue-50', 'text-blue-700', 'font-semibold');
+                    link.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100', 'font-medium');
                 }
             });
+
+            // Reinforce role-based nav link visibility
+            this.updateNavPermissions();
 
             const mainContainer = document.getElementById('admin-main-container');
             if (!mainContainer) return;
 
             // Route view
-            switch (view) {
-                case 'dashboard':
-                    window.AdminDashboard.render(mainContainer);
-                    break;
-                case 'editor':
-                    window.AdminEditor.render(mainContainer, params);
-                    break;
-                case 'translations':
-                    window.AdminTranslations.render(mainContainer);
-                    break;
-                case 'resources':
-                    window.AdminResources.render(mainContainer, params);
-                    break;
-                case 'audit':
-                    window.AdminAudit.render(mainContainer, params);
-                    break;
-                case 'users':
-                    window.AdminUsers.render(mainContainer, params);
-                    break;
-                case 'backups':
-                    window.AdminBackups.render(mainContainer, params);
-                    break;
-                default:
-                    window.AdminDashboard.render(mainContainer);
+            try {
+                switch (view) {
+                    case 'dashboard':
+                        window.AdminDashboard.render(mainContainer);
+                        break;
+                    case 'editor':
+                        window.AdminEditor.render(mainContainer, params);
+                        break;
+                    case 'translations':
+                        window.AdminTranslations.render(mainContainer);
+                        break;
+                    case 'resources':
+                        window.AdminResources.render(mainContainer, params);
+                        break;
+                    case 'audit':
+                        window.AdminAudit.render(mainContainer, params);
+                        break;
+                    case 'users':
+                        window.AdminUsers.render(mainContainer, params);
+                        break;
+                    case 'backups':
+                        if (window.AdminBackups && typeof window.AdminBackups.render === 'function') {
+                            window.AdminBackups.render(mainContainer, params);
+                        } else {
+                            console.error('[AdminApp] AdminBackups no está disponible');
+                            window.AdminDashboard.render(mainContainer);
+                        }
+                        break;
+                    default:
+                        window.AdminDashboard.render(mainContainer);
+                }
+            } catch (err) {
+                console.error(`[AdminApp] Error rendering view ${view}:`, err);
+                this.showToast(`Error al cargar vista ${view}: ${err.message || err}`, 'error');
             }
 
             this.refreshPendingCounter();
@@ -237,6 +271,41 @@
             });
         },
 
+        updateNavPermissions() {
+            const isAdmin = window.AdminAuth.isAdmin();
+            const canViewAudit = window.AdminAuth.canViewAudit();
+
+            // 1. Auditoría: Visible para Administrador y Lector (demo), NUNCA para Editor
+            const navAuditLink = document.querySelector('.nav-link[data-view="audit"]');
+            if (navAuditLink) {
+                if (canViewAudit) {
+                    navAuditLink.classList.remove('hidden');
+                } else {
+                    navAuditLink.classList.add('hidden');
+                }
+            }
+
+            // 2. Usuarios: Solo Administrador
+            const navUsersLink = document.querySelector('.nav-link[data-view="users"]');
+            if (navUsersLink) {
+                if (isAdmin) {
+                    navUsersLink.classList.remove('hidden');
+                } else {
+                    navUsersLink.classList.add('hidden');
+                }
+            }
+
+            // 3. Copias y Restauración: Solo Administrador
+            const navBackupsLink = document.querySelector('.nav-link[data-view="backups"]');
+            if (navBackupsLink) {
+                if (isAdmin) {
+                    navBackupsLink.classList.remove('hidden');
+                } else {
+                    navBackupsLink.classList.add('hidden');
+                }
+            }
+        },
+
         updateHeaderUser() {
             const nav = document.getElementById('admin-main-nav');
             const user = window.AdminAuth.getCurrentUser();
@@ -258,38 +327,8 @@
                 userRoleEl.className = `px-2 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-wider ${roleInfo.badgeClass}`;
             }
 
-            // Control de visibilidad del link de Auditoría en la barra de navegación:
-            // Al rol editor NUNCA se le muestra la opción de auditoría
-            const navAuditLink = document.querySelector('.nav-link[data-view="audit"]');
-            if (navAuditLink) {
-                if (window.AdminAuth.isEditor() || !window.AdminAuth.canViewAudit()) {
-                    navAuditLink.classList.add('hidden');
-                } else {
-                    navAuditLink.classList.remove('hidden');
-                }
-            }
-
-            // Control de visibilidad del link de Usuarios en la barra de navegación:
-            // Solo visible para administradores
-            const navUsersLink = document.querySelector('.nav-link[data-view="users"]');
-            if (navUsersLink) {
-                if (!window.AdminAuth.isAdmin()) {
-                    navUsersLink.classList.add('hidden');
-                } else {
-                    navUsersLink.classList.remove('hidden');
-                }
-            }
-
-            // Control de visibilidad del link de Copias y Restauración en la barra de navegación:
-            // Solo visible para administradores
-            const navBackupsLink = document.querySelector('.nav-link[data-view="backups"]');
-            if (navBackupsLink) {
-                if (!window.AdminAuth.isAdmin()) {
-                    navBackupsLink.classList.add('hidden');
-                } else {
-                    navBackupsLink.classList.remove('hidden');
-                }
-            }
+            // Control estricto de visibilidad por rol
+            this.updateNavPermissions();
 
             if (window.lucide) window.lucide.createIcons();
         },

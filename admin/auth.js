@@ -13,6 +13,10 @@
                     const parsed = JSON.parse(saved);
                     // Discard demo accounts if any were stored previously
                     if (parsed && !parsed.isDemo) {
+                        const emailLower = (parsed.email || '').toLowerCase().trim();
+                        if (emailLower === 'roitmanadr@paho.org') {
+                            parsed.rol = 'administrador';
+                        }
                         currentUser = parsed;
                         localStorage.setItem(storageKey, JSON.stringify(parsed));
                         localStorage.removeItem('reglac_admin_user_v1');
@@ -23,6 +27,11 @@
                 }
             } catch (e) {
                 console.warn('[AdminAuth] Error reading saved user', e);
+            }
+
+            // Immediately notify listeners of restored session
+            if (currentUser) {
+                this.notifyListeners();
             }
 
             // Also check Supabase session if available
@@ -123,6 +132,9 @@
         },
 
         getCurrentUser() {
+            if (currentUser && (currentUser.email || '').toLowerCase().trim() === 'roitmanadr@paho.org') {
+                currentUser.rol = 'administrador';
+            }
             return currentUser;
         },
 
@@ -131,25 +143,38 @@
         },
 
         isAdmin() {
-            return currentUser?.rol === 'administrador';
+            if (!currentUser) return false;
+            const email = (currentUser.email || '').toLowerCase().trim();
+            if (email === 'roitmanadr@paho.org') return true;
+            const r = (currentUser.rol || '').toLowerCase().trim();
+            return r === 'administrador' || r === 'admin' || r === 'superadmin';
         },
 
         isEditor() {
-            return currentUser?.rol === 'editor';
+            if (!currentUser) return false;
+            if (this.isAdmin()) return false;
+            const r = (currentUser.rol || '').toLowerCase().trim();
+            return r === 'editor' || r === 'content_editor';
         },
 
         isReadOnly() {
-            return currentUser?.rol === 'lector' || currentUser?.rol === 'solo_lectura' || currentUser?.rol === 'viewer';
+            if (!currentUser) return false;
+            if (this.isAdmin()) return false;
+            const r = (currentUser.rol || '').toLowerCase().trim();
+            return r === 'lector' || r === 'solo_lectura' || r === 'viewer' || r === 'read_only' || r === 'readonly';
         },
 
         canEdit() {
-            return currentUser?.rol === 'administrador' || currentUser?.rol === 'editor';
+            if (!currentUser) return false;
+            return this.isAdmin() || this.isEditor();
         },
 
         canViewAudit() {
+            if (!currentUser) return false;
             // El usuario administrador y el perfil de solo lectura (demostración) pueden ver auditoría.
             // Los editores de contenido NO pueden ver auditoría por requerimiento específico.
-            return currentUser?.rol === 'administrador' || this.isReadOnly();
+            if (this.isEditor()) return false;
+            return this.isAdmin() || this.isReadOnly();
         },
 
         async updateOwnPassword(newPassword) {
