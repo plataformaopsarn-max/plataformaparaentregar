@@ -981,15 +981,66 @@ Return JSON only.`;
             return dump;
         },
 
-        async loadBaselineJson(fileName) {
-            const candidateUrls = [
-                `../backups/${fileName}`,
-                `./backups/${fileName}`,
-                `/backups/${fileName}`,
-                `https://raw.githubusercontent.com/PAHO-EIH/Plataforma_Informacion_Regulatoria/main/backups/${fileName}`
+        async getAvailableSnapshots() {
+            // Lista histórica oficial de respaldos en el repositorio de GitHub
+            const defaultSnapshots = [
+                { sha: 'main', shortSha: 'main', date: 'Actual', formattedDate: '📌 Versión más reciente (Main - Actual)', message: 'Última versión disponible en repositorio' },
+                { sha: '448dc548062dc513c031fe528dfe66a4b353869c', shortSha: '448dc54', date: '2026-10-20T09:10:30Z', formattedDate: '📅 20/10/2026 09:10 UTC (Commit 448dc54)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '24cb4d679691f207cc564997f9cf1bf209784bcc', shortSha: '24cb4d6', date: '2026-10-03T09:41:43Z', formattedDate: '📅 03/10/2026 09:41 UTC (Commit 24cb4d6)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: 'f0f5e68f522359af1c9bf43db43fd25919887b7c', shortSha: 'f0f5e68', date: '2026-10-02T10:19:43Z', formattedDate: '📅 02/10/2026 10:19 UTC (Commit f0f5e68)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: 'b48f27671809d15e60680b8f67afb44493b35d88', shortSha: 'b48f276', date: '2026-09-18T08:48:05Z', formattedDate: '📅 18/09/2026 08:48 UTC (Commit b48f276)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '812c01c440c37e83c6e2b33fd708d7732f2f8b6b', shortSha: '812c01c', date: '2026-08-28T15:55:36Z', formattedDate: '📅 28/08/2026 15:55 UTC (Commit 812c01c)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: 'd7bcb4d0a182b7293e3c95c0220e71495427a0fe', shortSha: 'd7bcb4d', date: '2026-08-27T15:00:21Z', formattedDate: '📅 27/08/2026 15:00 UTC (Commit d7bcb4d)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '837de2bad0eba33c420bff73ad49a35e83caf528', shortSha: '837de2b', date: '2026-08-25T04:37:53Z', formattedDate: '📅 25/08/2026 04:37 UTC (Commit 837de2b)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '1b3e2cdc42955c46bdb32dd4cddb9b970054d5a6', shortSha: '1b3e2cd', date: '2026-08-22T04:31:43Z', formattedDate: '📅 22/08/2026 04:31 UTC (Commit 1b3e2cd)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '3827ca469b3b458b2db0811e057aba7802736c0e', shortSha: '3827ca4', date: '2026-08-21T04:36:56Z', formattedDate: '📅 21/08/2026 04:36 UTC (Commit 3827ca4)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '0543050bd3918e6812ab06c2586b5e46b942f1c7', shortSha: '0543050', date: '2026-08-19T04:35:37Z', formattedDate: '📅 19/08/2026 04:35 UTC (Commit 0543050)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
+                { sha: '5e988312a1e4ebf8ba04b256633c21c81a94a8dc', shortSha: '5e98831', date: '2026-08-02T17:32:59Z', formattedDate: '📅 02/08/2026 17:32 UTC (Commit 5e98831)', message: 'Respaldo Inicial de Tablas' }
             ];
 
-            for (const url of candidateUrls) {
+            try {
+                // Consulta en vivo a la API pública de GitHub para traer commits recientes
+                const res = await fetch('https://api.github.com/repos/plataformaopsarn-max/plataformaparaentregar/commits?path=backups&per_page=15', {
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                });
+                if (res.ok) {
+                    const commits = await res.json();
+                    if (Array.isArray(commits) && commits.length > 0) {
+                        const dynamicSnapshots = commits.map(c => {
+                            const dateObj = new Date(c.commit?.committer?.date || c.commit?.author?.date);
+                            const formatted = `${String(dateObj.getUTCDate()).padStart(2, '0')}/${String(dateObj.getUTCMonth() + 1).padStart(2, '0')}/${dateObj.getUTCFullYear()} ${String(dateObj.getUTCHours()).padStart(2, '0')}:${String(dateObj.getUTCMinutes()).padStart(2, '0')} UTC`;
+                            return {
+                                sha: c.sha,
+                                shortSha: c.sha.slice(0, 7),
+                                date: c.commit?.committer?.date,
+                                formattedDate: `📅 ${formatted} (${c.sha.slice(0, 7)})`,
+                                message: (c.commit?.message || '').split('\n')[0]
+                            };
+                        });
+                        return [defaultSnapshots[0], ...dynamicSnapshots];
+                    }
+                }
+            } catch (_) {}
+
+            return defaultSnapshots;
+        },
+
+        async loadBaselineJson(fileName, commitSha = 'main') {
+            const urls = [];
+            const safeSha = commitSha || 'main';
+
+            if (safeSha === 'main') {
+                urls.push(`../backups/${fileName}`);
+                urls.push(`./backups/${fileName}`);
+                urls.push(`/backups/${fileName}`);
+                urls.push(`https://raw.githubusercontent.com/plataformaopsarn-max/plataformaparaentregar/main/backups/${fileName}`);
+                urls.push(`https://raw.githubusercontent.com/PAHO-EIH/Plataforma_Informacion_Regulatoria/main/backups/${fileName}`);
+            } else {
+                urls.push(`https://raw.githubusercontent.com/plataformaopsarn-max/plataformaparaentregar/${safeSha}/backups/${fileName}`);
+                urls.push(`https://raw.githubusercontent.com/PAHO-EIH/Plataforma_Informacion_Regulatoria/${safeSha}/backups/${fileName}`);
+            }
+
+            for (const url of urls) {
                 try {
                     const res = await fetch(url);
                     if (res.ok) {
@@ -997,10 +1048,91 @@ Return JSON only.`;
                     }
                 } catch (_) {}
             }
-            throw new Error(`No se pudo cargar el archivo baseline: ${fileName}`);
+            throw new Error(`No se pudo cargar el archivo ${fileName} para el punto de restauración (${safeSha.slice(0, 7)})`);
         },
 
-        async restoreCountryFromBaseline(pais, targetTable = 'both') {
+        // Inspección Previa y Comparación (Preview & Diff) antes de restaurar
+        async previewCountryBaseline(pais, commitSha = 'main', lang = 'es') {
+            const client = getClient();
+            if (!client) throw new Error('Cliente Supabase no conectado');
+
+            const table = lang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
+            const fileName = lang === 'en' ? 'faq_rows_corregido_en.json' : 'faq_rows_corregido.json';
+
+            // 1. Obtener fila en vivo actual de Supabase
+            const { data: liveData, error } = await client
+                .from(table)
+                .select('*')
+                .ilike('pais', pais)
+                .maybeSingle();
+
+            if (error) throw error;
+            const liveRow = liveData || {};
+
+            // 2. Cargar fila del backup en ese commitSha
+            const backupJson = await this.loadBaselineJson(fileName, commitSha);
+            const backupRow = backupJson.find(r => r.pais && r.pais.toLowerCase() === pais.toLowerCase()) || null;
+
+            if (!backupRow) {
+                throw new Error(`No se encontró el país "${pais}" en el respaldo seleccionado (${commitSha.slice(0, 7)}).`);
+            }
+
+            // 3. Comparar las 38 preguntas
+            const questions = window.QUESTIONS || {};
+            const comparisons = [];
+            let modifiedCount = 0;
+
+            for (const code of Object.keys(questions)) {
+                const qKey = 'q_' + code.replace('.', '_');
+                const liveDirecta = (liveRow[`${qKey}_directa`] || '').trim();
+                const liveAmpliada = (liveRow[`${qKey}_ampliada`] || '').trim();
+                const liveFuente = (liveRow[`${qKey}_fuente`] || '').trim();
+
+                const backupDirecta = (backupRow[`${qKey}_directa`] || '').trim();
+                const backupAmpliada = (backupRow[`${qKey}_ampliada`] || '').trim();
+                const backupFuente = (backupRow[`${qKey}_fuente`] || '').trim();
+
+                const isIdentical = (liveDirecta === backupDirecta) &&
+                                    (liveAmpliada === backupAmpliada) &&
+                                    (liveFuente === backupFuente);
+
+                if (!isIdentical) {
+                    modifiedCount++;
+                }
+
+                comparisons.push({
+                    code,
+                    label: questions[code],
+                    isIdentical,
+                    hasDirectaDiff: liveDirecta !== backupDirecta,
+                    hasAmpliadaDiff: liveAmpliada !== backupAmpliada,
+                    hasFuenteDiff: liveFuente !== backupFuente,
+                    live: {
+                        directa: liveDirecta,
+                        ampliada: liveAmpliada,
+                        fuente: liveFuente
+                    },
+                    backup: {
+                        directa: backupDirecta,
+                        ampliada: backupAmpliada,
+                        fuente: backupFuente
+                    }
+                });
+            }
+
+            return {
+                pais,
+                lang,
+                table,
+                commitSha,
+                totalQuestions: comparisons.length,
+                modifiedCount,
+                identicalCount: comparisons.length - modifiedCount,
+                comparisons
+            };
+        },
+
+        async restoreCountryFromBaseline(pais, targetTable = 'both', commitSha = 'main', snapshotLabel = '') {
             this.checkEditPermission();
             const client = getClient();
             if (!client) throw new Error('Cliente Supabase no conectado');
@@ -1009,7 +1141,7 @@ Return JSON only.`;
 
             // 1. Restaurar Español si aplica
             if (targetTable === 'both' || targetTable === 'faq_rows_corregido') {
-                const dataES = await this.loadBaselineJson('faq_rows_corregido.json');
+                const dataES = await this.loadBaselineJson('faq_rows_corregido.json', commitSha);
                 const rowES = dataES.find(r => r.pais && r.pais.toLowerCase() === pais.toLowerCase());
                 if (rowES) {
                     const { error } = await client.from('faq_rows_corregido').upsert(rowES);
@@ -1020,7 +1152,7 @@ Return JSON only.`;
 
             // 2. Restaurar Inglés si aplica
             if (targetTable === 'both' || targetTable === 'faq_rows_corregido_en') {
-                const dataEN = await this.loadBaselineJson('faq_rows_corregido_en.json');
+                const dataEN = await this.loadBaselineJson('faq_rows_corregido_en.json', commitSha);
                 const rowEN = dataEN.find(r => r.pais && r.pais.toLowerCase() === pais.toLowerCase());
                 if (rowEN) {
                     const { error } = await client.from('faq_rows_corregido_en').upsert(rowEN);
@@ -1031,13 +1163,14 @@ Return JSON only.`;
 
             // 3. Registrar en Auditoría
             const user = window.AdminAuth?.getCurrentUser();
+            const versionDesc = snapshotLabel || (commitSha === 'main' ? 'Baseline Actual (Main)' : `Snapshot ${commitSha.slice(0, 7)}`);
             await this.logEdit({
                 pais: pais,
                 tabla: targetTable === 'both' ? 'faq_rows_corregido (ES+EN)' : targetTable,
-                campo: 'Restauración Granular',
+                campo: `Restauración Granular (${versionDesc})`,
                 idioma: targetTable === 'both' ? 'es/en' : (targetTable.includes('_en') ? 'en' : 'es'),
-                valor_anterior: '(Versión en producción modificada)',
-                valor_nuevo: 'Restaurado desde Baseline Oficial de GitHub',
+                valor_anterior: '(Versión en producción)',
+                valor_nuevo: `Restaurado desde Punto Temporal: ${versionDesc}`,
                 usuario_id: user?.id || null,
                 usuario_nombre: user?.nombre || user?.email || 'Administrador'
             });

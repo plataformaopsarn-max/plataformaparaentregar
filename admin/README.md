@@ -194,13 +194,20 @@ Exclusivo para el rol `administrador`, este módulo provee una solución integra
 * Genera archivos con nombre institucional estampado con fecha y hora (`regia-backup-YYYY-MM-DD-HHmm.json`).
 * Permite también la exportación individual de cualquier tabla seleccionada.
 
-### 2. Reversión Granular por País (Country Rollback)
-* Si un editor introduce un error involuntario o una modificación no deseada en un país específico, el administrador puede revertir **únicamente ese país** a su versión base original de GitHub (`/backups/faq_rows_corregido.json` o `_en.json`).
-* **Aislamiento total**: No sobreescribe ni altera a ninguno de los otros 21 países en producción.
-* Permite seleccionar el idioma de destino (Español o Inglés).
+### 2. Reversión Granular por País (Point-in-Time Country Rollback)
+* Si un editor introduce un error involuntario o una modificación no deseada en un país específico, el administrador puede revertir **únicamente ese país** sin alterar el resto de los 21 países.
+* **Selección de Fecha Histórica del Respaldo**: Permite elegir la versión exacta a restaurar:
+  - La última versión disponible en GitHub (`main`).
+  - O cualquiera de las copias automáticas fechadas en el historial del repositorio (ej. `20/10/2026 09:10 UTC`, `03/10/2026 09:41 UTC`, `02/10/2026 10:19 UTC`, `18/09/2026 08:48 UTC`, etc.).
+* **Motor de Previsualización y Cotejo Previo (Preview & Diff Modal)**:
+  - Botón *"Previsualizar y Comparar"* que abre un modal con el desglose de las 38 preguntas regulatorias.
+  - Muestra un resumen de preguntas idénticas vs modificadas respecto a la base actual de Supabase.
+  - Permite filtrar ("Solo con diferencias" o "Todas") y buscar preguntas por código o texto.
+  - Comparativa *Side-by-Side* detallada: **Base Actual en Vivo (Supabase)** vs **Copia de Seguridad Seleccionada (Fecha / GitHub)** para Respuestas Directas, Ampliadas y Fuentes Normativas con resaltado de diferencias.
+  - Botón directo para autorizar la restauración tras verificar que es la versión deseada.
 
 ### 3. Restauración de Tablas Base desde Repositorio GitHub
-* Permite restaurar de forma completa cualquiera de las tablas oficiales a la versión base limpia almacenada en el repositorio (`/backups/`).
+* Permite restaurar de forma completa cualquiera de las tablas oficiales (`faq_rows_corregido`, `faq_rows_corregido_en`, `enlaces`, `resumen_ejecutivo`) a cualquier punto de restauración fechado.
 * Ideal para sincronizaciones maestras o restitución de entornos de prueba.
 
 ### 4. Restauración desde Archivo Local (`.json`)
