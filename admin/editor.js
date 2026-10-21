@@ -1001,8 +1001,8 @@
                 if (err.message === 'MISSING_API_KEY') {
                     drawer.innerHTML = `
                         <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 flex items-center justify-between">
-                            <span>Se requiere configurar una clave de Google Gemini API para traducciones automáticas.</span>
-                            <button onclick="window.AdminApp.showSettingsModal()" class="px-3 py-1 bg-amber-700 text-white rounded font-semibold text-xs">Configurar Clave</button>
+                            <span>Se requiere desplegar la Edge Function segura en Supabase o configurar una clave de Gemini en Ajustes.</span>
+                            <button onclick="window.AdminApp.showSettingsModal()" class="px-3 py-1 bg-amber-700 text-white rounded font-semibold text-xs">Configurar</button>
                         </div>
                     `;
                 } else {

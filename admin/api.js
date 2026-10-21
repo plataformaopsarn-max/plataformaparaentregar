@@ -777,6 +777,33 @@
         },
 
         async translateWithGemini({ text, sourceLang = 'es', targetLang = 'en', existingTargetText = '', context = '' }) {
+            const client = getClient();
+
+            // 1. Intentar traducción intermediada y segura mediante Supabase Edge Function 'translate'
+            // (La clave secreta de Gemini nunca viaja al navegador ni está expuesta en el frontend)
+            if (client && client.functions) {
+                try {
+                    const { data, error } = await client.functions.invoke('translate', {
+                        body: { text, sourceLang, targetLang, existingTargetText, context }
+                    });
+
+                    if (!error && data && data.translatedText) {
+                        return {
+                            translatedText: data.translatedText,
+                            detectedNovelty: data.detectedNovelty || (sourceLang === 'es' ? 'Actualización completada' : 'Update completed'),
+                            model: data.model || 'Supabase Edge Function'
+                        };
+                    }
+                    if (error) {
+                        console.info('[AdminAPI] Edge Function no disponible o respondió con error, intentando fallback local...', error.message || error);
+                    }
+                } catch (edgeErr) {
+                    console.info('[AdminAPI] Excepción llamando a Edge Function translate:', edgeErr.message || edgeErr);
+                }
+            }
+
+            // 2. Fallback: Si la Edge Function no está desplegada en el proyecto de Supabase,
+            // verificar si el administrador configuró una clave en su propio navegador (Ajustes)
             const apiKey = this.getGeminiKey();
             if (!apiKey) {
                 throw new Error('MISSING_API_KEY');

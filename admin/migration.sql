@@ -390,3 +390,68 @@ SET raw_user_meta_data = jsonb_set(
 )
 WHERE lower(email) = 'roitmanadr@paho.org';
 
+-- ============================================================
+-- 5. PARCHE DE BLINDAJE DE SEGURIDAD RLS (OPS/OMS)
+-- ============================================================
+
+-- A. Proteger Auditoría: Solo administradores activos pueden consultar logs
+DROP POLICY IF EXISTS "anon_read_log" ON public.content_edit_log;
+DROP POLICY IF EXISTS "auth_read_log" ON public.content_edit_log;
+
+CREATE POLICY "admin_only_audit_read" ON public.content_edit_log
+FOR SELECT TO authenticated
+USING (
+    EXISTS (
+        SELECT 1 FROM public.admin_profiles 
+        WHERE admin_profiles.id = auth.uid() 
+          AND admin_profiles.rol = 'administrador'
+          AND admin_profiles.activo = TRUE
+    )
+);
+
+-- B. Proteger Escritura Regulatoria: Solo 'administrador' o 'editor' activos
+DROP POLICY IF EXISTS "auth_update_faq" ON public.faq_rows_corregido;
+CREATE POLICY "auth_update_faq" ON public.faq_rows_corregido 
+FOR ALL TO authenticated 
+USING (
+    EXISTS (
+        SELECT 1 FROM public.admin_profiles 
+        WHERE admin_profiles.id = auth.uid() 
+          AND admin_profiles.rol IN ('administrador', 'editor')
+          AND admin_profiles.activo = TRUE
+    )
+)
+WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM public.admin_profiles 
+        WHERE admin_profiles.id = auth.uid() 
+          AND admin_profiles.rol IN ('administrador', 'editor')
+          AND admin_profiles.activo = TRUE
+    )
+);
+
+DROP POLICY IF EXISTS "auth_update_faq_en" ON public.faq_rows_corregido_en;
+CREATE POLICY "auth_update_faq_en" ON public.faq_rows_corregido_en 
+FOR ALL TO authenticated 
+USING (
+    EXISTS (
+        SELECT 1 FROM public.admin_profiles 
+        WHERE admin_profiles.id = auth.uid() 
+          AND admin_profiles.rol IN ('administrador', 'editor')
+          AND admin_profiles.activo = TRUE
+    )
+)
+WITH CHECK (
+    EXISTS (
+        SELECT 1 FROM public.admin_profiles 
+        WHERE admin_profiles.id = auth.uid() 
+          AND admin_profiles.rol IN ('administrador', 'editor')
+          AND admin_profiles.activo = TRUE
+    )
+);
+
+-- C. Proteger Colas Internas: Eliminar accesos anónimos
+DROP POLICY IF EXISTS "anon_read_queue" ON public.translation_queue;
+DROP POLICY IF EXISTS "anon_read_sync" ON public.content_sync_status;
+
+
