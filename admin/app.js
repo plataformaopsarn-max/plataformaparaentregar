@@ -52,6 +52,13 @@
         },
 
         navigate(view, params = {}) {
+            // Guard de permisos para Auditoría: Los editores no pueden ver auditoría
+            if (view === 'audit' && !window.AdminAuth.canViewAudit()) {
+                this.showToast('Acceso restringido: El rol Editor no tiene permisos para ver auditoría', 'warning');
+                this.navigate('dashboard');
+                return;
+            }
+
             this.state.currentView = view;
             this.state.params = params;
 
@@ -151,6 +158,24 @@
                         </form>
 
                         <div id="login-error-msg" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700"></div>
+
+                        <!-- Acceso Demostración (Solo Lectura) -->
+                        <div class="pt-2">
+                            <div class="relative my-3">
+                                <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+                                <div class="relative flex justify-center text-[10px] uppercase"><span class="bg-white px-2 text-slate-400 font-semibold tracking-wider">o acceso de evaluación</span></div>
+                            </div>
+
+                            <button 
+                                type="button" 
+                                id="btn-login-readonly"
+                                class="w-full py-2.5 px-4 bg-slate-50 hover:bg-purple-50 text-slate-700 hover:text-purple-800 border border-slate-200 hover:border-purple-200 font-semibold rounded-xl transition flex items-center justify-center gap-2 text-xs"
+                            >
+                                <i data-lucide="eye" class="w-4 h-4 text-purple-600"></i>
+                                <span>Explorar en Modo Solo Lectura</span>
+                            </button>
+                            <p class="text-[11px] text-slate-400 text-center mt-1.5">Permite recorrer todo el panel administrativo y auditoría con permisos de modificación deshabilitados.</p>
+                        </div>
                     </div>
                 </div>
             `;
@@ -184,6 +209,12 @@
                     btn.innerHTML = `<span>Iniciar Sesión</span>`;
                 }
             });
+
+            // Bind read-only demo access button
+            mainContainer.querySelector('#btn-login-readonly')?.addEventListener('click', () => {
+                window.AdminAuth.loginAsReadOnly();
+                this.showToast('Sesión iniciada en Modo Solo Lectura (Demostración)', 'info');
+            });
         },
 
         updateHeaderUser() {
@@ -202,11 +233,20 @@
 
             if (userNameEl) userNameEl.textContent = user.nombre || user.email;
             if (userRoleEl) {
-                const isAdmin = user.rol === 'administrador';
-                userRoleEl.textContent = isAdmin ? 'Administrador' : 'Editor';
-                userRoleEl.className = `px-2 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-wider ${
-                    isAdmin ? 'bg-blue-100 text-blue-800' : 'bg-amber-100 text-amber-800'
-                }`;
+                const roleInfo = window.AdminAuth.getRoleInfo();
+                userRoleEl.textContent = roleInfo.label;
+                userRoleEl.className = `px-2 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-wider ${roleInfo.badgeClass}`;
+            }
+
+            // Control de visibilidad del link de Auditoría en la barra de navegación:
+            // Si el rol es editor (no puede ver auditoría), se oculta el link en el menú
+            const navAuditLink = document.querySelector('.nav-link[data-view="audit"]');
+            if (navAuditLink) {
+                if (!window.AdminAuth.canViewAudit()) {
+                    navAuditLink.classList.add('hidden');
+                } else {
+                    navAuditLink.classList.remove('hidden');
+                }
             }
 
             if (window.lucide) window.lucide.createIcons();
@@ -268,10 +308,20 @@
                 }
 
                 if (resetBtn) {
-                    if (!currentlyUsingDefault) {
+                    if (!currentlyUsingDefault && !window.AdminAuth.isReadOnly()) {
                         resetBtn.classList.remove('hidden');
                     } else {
                         resetBtn.classList.add('hidden');
+                    }
+                }
+
+                if (window.AdminAuth.isReadOnly()) {
+                    if (keyInput) keyInput.disabled = true;
+                    const submitBtn = modal.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        submitBtn.title = 'Modo Solo Lectura: Modificación deshabilitada';
                     }
                 }
             }

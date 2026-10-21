@@ -63,12 +63,32 @@
                         </div>
 
                         <div class="flex items-center gap-2">
+                            ${!(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) ? `
                             <button id="btn-add-resource" class="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-xs transition shadow-xs">
                                 <i data-lucide="plus" class="w-4 h-4"></i>
                                 <span>Agregar Nuevo Recurso</span>
                             </button>
+                            ` : `
+                            <span class="text-xs text-purple-700 font-semibold bg-purple-100 border border-purple-200 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                                <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-600"></i>
+                                <span>Solo Lectura</span>
+                            </span>
+                            `}
                         </div>
                     </div>
+
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center gap-3 text-purple-950 text-xs shadow-xs">
+                            <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-purple-900">Modo Solo Lectura (Demostración)</h4>
+                                <p class="text-purple-700 mt-0.5">Biblioteca normativa en modo consulta. Las acciones de agregar, editar o eliminar recursos oficiales están deshabilitadas.</p>
+                            </div>
+                        </div>
+                    ` : ''}
 
                     <!-- Groups by 7.1, 7.2, 7.3 -->
                     <div class="space-y-6">
@@ -198,6 +218,7 @@
                         </div>
                     </div>
 
+                    ${!(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) ? `
                     <div class="flex items-center gap-2 shrink-0">
                         <button 
                             data-action="edit-res" 
@@ -216,6 +237,7 @@
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
+                    ` : ''}
                 </div>
             `;
         },

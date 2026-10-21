@@ -93,6 +93,19 @@
                         </div>
                     </div>
 
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center gap-3 text-purple-950 text-xs shadow-xs">
+                            <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-purple-900">Modo Solo Lectura (Demostración)</h4>
+                                <p class="text-purple-700 mt-0.5">Usted tiene perfil de visualización. Puede explorar libremente la matriz regulatoria bilingüe y las 38 preguntas de ${currentCountry}. Las opciones de edición y guardado están deshabilitadas.</p>
+                            </div>
+                        </div>
+                    ` : ''}
+
                     <!-- Category Tabs -->
                     <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200">
                         ${categories.filter(c => c.id <= 6).map(cat => `
@@ -124,10 +137,11 @@
 
                     <!-- Side-by-Side Questions Area -->
                     <div class="space-y-8" id="editor-questions-list">
-                        ${categoryQuestions.map(qKey => this.renderQuestionCard(qKey, questions[qKey], noBoolean)).join('')}
+                        ${categoryQuestions.map(qKey => this.renderQuestionCard(qKey, questions[qKey], noBoolean, window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly())).join('')}
                     </div>
 
                     <!-- Floating Sticky Save Bar (aparece cuando hay cambios sin guardar) -->
+                    ${!(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) ? `
                     <div id="sticky-save-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-slate-900/95 text-white backdrop-blur-md px-5 py-3 rounded-2xl shadow-2xl border border-slate-700/80 flex items-center gap-4 transition-all duration-300 transform translate-y-24 opacity-0 pointer-events-none">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
@@ -139,6 +153,7 @@
                             <span>Guardar Todo</span>
                         </button>
                     </div>
+                    ` : ''}
                 </div>
             `;
 
@@ -146,7 +161,7 @@
             this.bindEvents(container);
         },
 
-        renderQuestionCard(qKey, questionTitle, noBoolean) {
+        renderQuestionCard(qKey, questionTitle, noBoolean, isReadOnly = false) {
             const colPrefix = `q_${qKey.replace('.', '_')}`;
             const isNoBool = noBoolean.includes(qKey);
 
@@ -159,6 +174,9 @@
             const enAmpliada = countryData.en[`${colPrefix}_ampliada`] || '';
             const enFuente = countryData.en[`${colPrefix}_fuente`] || '';
             const enBool = countryData.en[`${colPrefix}_booleano`];
+
+            const roAttr = isReadOnly ? 'readonly disabled' : '';
+            const roInputClass = isReadOnly ? 'bg-slate-50 text-slate-700 cursor-not-allowed select-text' : '';
 
             // Check if this question is flagged as pending desync
             const hasPendingEN = pendingDesyncs.some(d => d.campo === colPrefix && d.idioma_destino === 'en' && d.estado === 'pendiente');
@@ -179,7 +197,8 @@
                             </div>
                         </div>
 
-                        <!-- Botones de Traducción Bidireccional con IA -->
+                        <!-- Botones de Traducción Bidireccional con IA o Badge Solo Lectura -->
+                        ${!isReadOnly ? `
                         <div class="flex items-center gap-2">
                             <!-- ES -> EN -->
                             <button 
@@ -207,6 +226,12 @@
                                 <span>Traducir a Español</span>
                             </button>
                         </div>
+                        ` : `
+                        <div class="flex items-center gap-1.5 px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg text-xs font-semibold border border-purple-200">
+                            <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-600"></i>
+                            <span>Solo Lectura</span>
+                        </div>
+                        `}
                     </div>
 
                     <!-- Side-by-Side Editor Columns -->
@@ -219,6 +244,7 @@
                                     <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
                                     <span>Se modificó la versión en <strong>Inglés</strong>. La versión en <strong>Español</strong> requiere actualización.</span>
                                 </div>
+                                ${!isReadOnly ? `
                                 <div class="flex items-center gap-1.5 shrink-0">
                                     <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="en-to-es" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
                                         <i data-lucide="sparkles" class="w-3 h-3"></i>
@@ -228,6 +254,7 @@
                                         <span>✕ Descartar</span>
                                     </button>
                                 </div>
+                                ` : ''}
                             </div>
 
                             <div class="flex items-center justify-between">
@@ -238,7 +265,7 @@
                                 ${!isNoBool ? `
                                     <div class="flex items-center gap-2 text-xs">
                                         <span class="text-slate-500 font-medium">Cumplimiento:</span>
-                                        <select data-field="${colPrefix}_booleano" data-lang="es" data-qkey="${qKey}" class="input-editor-field text-xs border border-slate-200 rounded px-2 py-1 bg-slate-50 font-semibold text-slate-700">
+                                        <select data-field="${colPrefix}_booleano" data-lang="es" data-qkey="${qKey}" ${roAttr} class="input-editor-field text-xs border border-slate-200 rounded px-2 py-1 bg-slate-50 font-semibold text-slate-700 ${roInputClass}">
                                             <option value="true" ${esBool === true ? 'selected' : ''}>Sí (Aplica)</option>
                                             <option value="false" ${esBool === false ? 'selected' : ''}>No (No aplica)</option>
                                             <option value="" ${esBool === null || esBool === undefined ? 'selected' : ''}>Sin definir</option>
@@ -255,10 +282,11 @@
                                 <textarea 
                                     data-field="${colPrefix}_directa" 
                                     data-lang="es" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     rows="2" 
                                     placeholder="Ingrese la respuesta directa en español..."
-                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${roInputClass}"
                                 >${esDirecta}</textarea>
                             </div>
 
@@ -270,10 +298,11 @@
                                 <textarea 
                                     data-field="${colPrefix}_ampliada" 
                                     data-lang="es" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     rows="5" 
                                     placeholder="Detalle los artículos, procedimientos y condiciones específicas..."
-                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${roInputClass}"
                                 >${esAmpliada}</textarea>
                             </div>
 
@@ -289,13 +318,15 @@
                                     type="text" 
                                     data-field="${colPrefix}_fuente" 
                                     data-lang="es" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     value="${esFuente.replace(/"/g, '&quot;')}"
                                     placeholder="ej. Disposición ANMAT 7516/2025, Art. 5; Decreto 1490/1992"
-                                    class="input-editor-field w-full text-xs md:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-slate-700"
+                                    class="input-editor-field w-full text-xs md:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-slate-700 ${roInputClass}"
                                 >
                             </div>
 
+                            ${!isReadOnly ? `
                             <div class="pt-2 flex justify-end">
                                 <button 
                                     data-action="save-field-group" 
@@ -307,6 +338,7 @@
                                     <span>Guardar Español</span>
                                 </button>
                             </div>
+                            ` : ''}
                         </div>
 
                         <!-- Columna Inglés -->
@@ -317,6 +349,7 @@
                                     <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
                                     <span>Se modificó la versión en <strong>Español</strong>. La versión en <strong>Inglés</strong> requiere actualización.</span>
                                 </div>
+                                ${!isReadOnly ? `
                                 <div class="flex items-center gap-1.5 shrink-0">
                                     <button data-action="ai-translate" data-qkey="${qKey}" data-prefix="${colPrefix}" data-direction="es-to-en" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1">
                                         <i data-lucide="sparkles" class="w-3 h-3"></i>
@@ -326,6 +359,7 @@
                                         <span>✕ Descartar</span>
                                     </button>
                                 </div>
+                                ` : ''}
                             </div>
 
                             <div class="flex items-center justify-between">
@@ -341,7 +375,7 @@
                                 ${!isNoBool ? `
                                     <div class="flex items-center gap-2 text-xs">
                                         <span class="text-slate-500 font-medium">Applies:</span>
-                                        <select data-field="${colPrefix}_booleano" data-lang="en" data-qkey="${qKey}" class="input-editor-field text-xs border border-slate-200 rounded px-2 py-1 bg-white font-semibold text-slate-700">
+                                        <select data-field="${colPrefix}_booleano" data-lang="en" data-qkey="${qKey}" ${roAttr} class="input-editor-field text-xs border border-slate-200 rounded px-2 py-1 bg-white font-semibold text-slate-700 ${roInputClass}">
                                             <option value="true" ${enBool === true ? 'selected' : ''}>Yes</option>
                                             <option value="false" ${enBool === false ? 'selected' : ''}>No</option>
                                             <option value="" ${enBool === null || enBool === undefined ? 'selected' : ''}>Not defined</option>
@@ -358,10 +392,11 @@
                                 <textarea 
                                     data-field="${colPrefix}_directa" 
                                     data-lang="en" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     rows="2" 
                                     placeholder="Direct answer in English..."
-                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white ${roInputClass}"
                                 >${enDirecta}</textarea>
                             </div>
 
@@ -373,10 +408,11 @@
                                 <textarea 
                                     data-field="${colPrefix}_ampliada" 
                                     data-lang="en" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     rows="5" 
                                     placeholder="Detailed regulatory analysis in English..."
-                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                                    class="input-editor-field w-full text-xs md:text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white ${roInputClass}"
                                 >${enAmpliada}</textarea>
                             </div>
 
@@ -394,13 +430,15 @@
                                     type="text" 
                                     data-field="${colPrefix}_fuente" 
                                     data-lang="en" 
-                                    data-qkey="${qKey}"
+                                    data-qkey="${qKey}" 
+                                    ${roAttr}
                                     value="${enFuente.replace(/"/g, '&quot;')}"
                                     placeholder="e.g., ANMAT Regulation 7516/2025, Art. 5; Decree 1490/1992"
-                                    class="input-editor-field w-full text-xs md:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-mono text-slate-700"
+                                    class="input-editor-field w-full text-xs md:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white font-mono text-slate-700 ${roInputClass}"
                                 >
                             </div>
 
+                            ${!isReadOnly ? `
                             <div class="pt-2 flex justify-end">
                                 <button 
                                     data-action="save-field-group" 
@@ -412,6 +450,7 @@
                                     <span>Guardar Inglés</span>
                                 </button>
                             </div>
+                            ` : ''}
                         </div>
                     </div>
 

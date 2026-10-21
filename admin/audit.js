@@ -117,6 +117,24 @@
                         </div>
                     </div>
 
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center justify-between gap-3 text-purple-950 text-xs shadow-xs">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm text-purple-900">Centro de Auditoría (Modo Visualización Institucional)</h4>
+                                    <p class="text-purple-700 mt-0.5">Explore las 5 agrupaciones de auditoría, inspeccione el comparador visual de diferencias (diff) y descargue reportes oficiales en CSV o JSON.</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800 px-2.5 py-1 rounded-md border border-purple-200 shrink-0">
+                                Solo Lectura
+                            </span>
+                        </div>
+                    ` : ''}
+
                     <!-- Métricas de Auditoría (KPI Cards) -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">

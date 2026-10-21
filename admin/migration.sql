@@ -4,11 +4,15 @@
 -- ============================================================
 
 -- 1. ADMIN PROFILES
+-- Roles soportados:
+--   'administrador': Control total y gestión de auditoría/configuración
+--   'editor': Edición bilingüe y revisión (sin acceso a auditoría)
+--   'lector': Solo lectura para demostración y evaluación (acceso visual total, guardado bloqueado)
 CREATE TABLE IF NOT EXISTS public.admin_profiles (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
   nombre TEXT NOT NULL,
   email TEXT NOT NULL,
-  rol TEXT NOT NULL CHECK (rol IN ('administrador', 'editor')),
+  rol TEXT NOT NULL CHECK (rol IN ('administrador', 'editor', 'lector')),
   activo BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -19,6 +23,10 @@ CREATE POLICY "self_all" ON public.admin_profiles FOR ALL USING (auth.uid() = id
 CREATE POLICY "admin_full" ON public.admin_profiles FOR ALL USING (
   EXISTS (SELECT 1 FROM public.admin_profiles p2 WHERE p2.id = auth.uid() AND p2.rol = 'administrador')
 );
+
+-- Si la tabla admin_profiles ya fue creada previamente, actualizar el check de rol:
+ALTER TABLE public.admin_profiles DROP CONSTRAINT IF EXISTS admin_profiles_rol_check;
+ALTER TABLE public.admin_profiles ADD CONSTRAINT admin_profiles_rol_check CHECK (rol IN ('administrador', 'editor', 'lector'));
 
 -- 2. TRANSLATION QUEUE
 CREATE TABLE IF NOT EXISTS public.translation_queue (
@@ -39,6 +47,8 @@ CREATE TABLE IF NOT EXISTS public.translation_queue (
 ALTER TABLE public.translation_queue ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "authenticated_all" ON public.translation_queue;
 CREATE POLICY "authenticated_all" ON public.translation_queue FOR ALL TO authenticated USING (TRUE) WITH CHECK (TRUE);
+DROP POLICY IF EXISTS "anon_read_queue" ON public.translation_queue;
+CREATE POLICY "anon_read_queue" ON public.translation_queue FOR SELECT TO anon USING (TRUE);
 
 -- 3. CONTENT SYNC STATUS
 CREATE TABLE IF NOT EXISTS public.content_sync_status (
@@ -53,6 +63,8 @@ CREATE TABLE IF NOT EXISTS public.content_sync_status (
 ALTER TABLE public.content_sync_status ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "auth_all_sync" ON public.content_sync_status;
 CREATE POLICY "auth_all_sync" ON public.content_sync_status FOR ALL TO authenticated USING (TRUE) WITH CHECK (TRUE);
+DROP POLICY IF EXISTS "anon_read_sync" ON public.content_sync_status;
+CREATE POLICY "anon_read_sync" ON public.content_sync_status FOR SELECT TO anon USING (TRUE);
 
 -- 4. CONTENT EDIT LOG
 CREATE TABLE IF NOT EXISTS public.content_edit_log (
@@ -72,6 +84,8 @@ DROP POLICY IF EXISTS "auth_read_log" ON public.content_edit_log;
 DROP POLICY IF EXISTS "auth_insert_log" ON public.content_edit_log;
 CREATE POLICY "auth_read_log" ON public.content_edit_log FOR SELECT TO authenticated USING (TRUE);
 CREATE POLICY "auth_insert_log" ON public.content_edit_log FOR INSERT TO authenticated WITH CHECK (TRUE);
+DROP POLICY IF EXISTS "anon_read_log" ON public.content_edit_log;
+CREATE POLICY "anon_read_log" ON public.content_edit_log FOR SELECT TO anon USING (TRUE);
 
 -- INDICES
 CREATE INDEX IF NOT EXISTS idx_tq_estado ON public.translation_queue(estado);

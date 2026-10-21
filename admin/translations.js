@@ -65,6 +65,19 @@
                         </div>
                     </div>
 
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center gap-3 text-purple-950 text-xs shadow-xs">
+                            <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-purple-900">Modo Solo Lectura (Demostración)</h4>
+                                <p class="text-purple-700 mt-0.5">Está visualizando la cola de control editorial en modo consulta. Las acciones de aprobación, descarte y generación con IA se encuentran deshabilitadas.</p>
+                            </div>
+                        </div>
+                    ` : ''}
+
                     <!-- Filtros -->
                     <div class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
                         <div class="flex items-center gap-2 w-full md:w-auto">
@@ -196,9 +209,9 @@
                                 <textarea 
                                     id="queue-text-${item.id}" 
                                     rows="6" 
-                                    ${!isPending ? 'readonly' : ''}
+                                    ${(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) || !isPending ? 'readonly disabled' : ''}
                                     placeholder="Ingrese o genere la traducción correspondiente..."
-                                    class="w-full p-3 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${!isPending ? 'bg-slate-50' : 'bg-white'}"
+                                    class="w-full p-3 rounded-xl border border-slate-200 text-xs text-slate-800 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) || !isPending ? 'bg-slate-50 cursor-not-allowed select-text' : 'bg-white'}"
                                 >${item.traduccion_sugerida || ''}</textarea>
                             </div>
                         </div>
@@ -216,7 +229,7 @@
                                     <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                                     <span>Abrir en Editor</span>
                                 </button>
-                                ${isPending ? `
+                                ${isPending && !(window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) ? `
                                     <button 
                                         data-action="discard-queue-item" 
                                         data-id="${item.id}"
@@ -227,7 +240,12 @@
                                 ` : ''}
                             </div>
 
-                            ${isPending ? `
+                            ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                                <span class="text-xs text-purple-700 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-600"></i>
+                                    <span>Acción deshabilitada (Solo Lectura)</span>
+                                </span>
+                            ` : (isPending ? `
                                 <div class="flex items-center gap-2">
                                     <button 
                                         data-action="translate-queue-ai" 
@@ -246,7 +264,7 @@
                                         <span>Aprobar y Publicar en Base</span>
                                     </button>
                                 </div>
-                            ` : ''}
+                            ` : '')}
                         </div>
                     </div>
                 `;

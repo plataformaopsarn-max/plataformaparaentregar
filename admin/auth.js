@@ -99,7 +99,7 @@
 
         async logout() {
             const client = window.AdminAPI?.getClient();
-            if (client) {
+            if (client && !currentUser?.isGuest) {
                 try {
                     await client.auth.signOut();
                 } catch (_) {}
@@ -123,7 +123,54 @@
         },
 
         isEditor() {
-            return currentUser?.rol === 'editor' || currentUser?.rol === 'administrador';
+            return currentUser?.rol === 'editor';
+        },
+
+        isReadOnly() {
+            return currentUser?.rol === 'lector' || currentUser?.rol === 'solo_lectura' || currentUser?.rol === 'viewer';
+        },
+
+        canEdit() {
+            return currentUser?.rol === 'administrador' || currentUser?.rol === 'editor';
+        },
+
+        canViewAudit() {
+            // El usuario administrador y el perfil de solo lectura (demostración) pueden ver auditoría.
+            // Los editores de contenido NO pueden ver auditoría por requerimiento específico.
+            return currentUser?.rol === 'administrador' || this.isReadOnly();
+        },
+
+        loginAsReadOnly(guestName = 'Invitado (Solo Lectura)') {
+            const guestUser = {
+                id: 'guest-readonly-' + Date.now(),
+                email: 'invitado@regia.ar',
+                nombre: guestName,
+                rol: 'lector',
+                isGuest: true
+            };
+            currentUser = guestUser;
+            localStorage.setItem(window.ADMIN_CONFIG.STORAGE_KEYS.AUTH_USER, JSON.stringify(guestUser));
+            this.notifyListeners();
+            return { ok: true, user: guestUser };
+        },
+
+        getRoleInfo() {
+            if (this.isAdmin()) {
+                return {
+                    label: 'Administrador',
+                    badgeClass: 'bg-blue-100 text-blue-800 border border-blue-200'
+                };
+            }
+            if (this.isEditor()) {
+                return {
+                    label: 'Editor',
+                    badgeClass: 'bg-amber-100 text-amber-800 border border-amber-200'
+                };
+            }
+            return {
+                label: 'Solo Lectura',
+                badgeClass: 'bg-purple-100 text-purple-800 border border-purple-200'
+            };
         },
 
         onAuthChange(callback) {

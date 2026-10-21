@@ -33,6 +33,13 @@
     const AdminAPI = {
         getClient,
 
+        // Verificación de permisos de edición (RBAC)
+        checkEditPermission() {
+            if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                throw new Error('Operación no permitida: El usuario actual tiene perfil de Solo Lectura (Demostración)');
+            }
+        },
+
         // Test Supabase connection
         async testConnection() {
             const client = getClient();
@@ -141,6 +148,7 @@
 
         // Save an entire FAQ question group (ES or EN) with consolidated audit log
         async saveFaqQuestionGroup({ pais, lang, colPrefix, questionLabel, updateFields, oldValueFormatted, newValueFormatted, user }) {
+            this.checkEditPermission();
             const client = getClient();
             const table = lang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
 
@@ -186,6 +194,7 @@
 
         // Save single field (backwards compatibility)
         async saveFaqField({ pais, lang, field, value, oldValue, user }) {
+            this.checkEditPermission();
             const client = getClient();
             const table = lang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
 
@@ -344,6 +353,7 @@
 
         // Register a question desync when one language is modified
         async registerTranslationDesync({ pais, colPrefix, questionLabel, sourceLang, targetLang, sourceText, currentTargetText }) {
+            this.checkEditPermission();
             const client = getClient();
             const targetTable = targetLang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
             const now = new Date().toISOString();
@@ -409,6 +419,7 @@
 
         // Dismiss desync alert (editor explicitly discarded or resolved it)
         async dismissDesyncAlert(pais, colPrefix, targetLang) {
+            this.checkEditPermission();
             const client = getClient();
             const targetTable = targetLang === 'en' ? 'faq_rows_corregido_en' : 'faq_rows_corregido';
             const now = new Date().toISOString();
@@ -441,6 +452,7 @@
 
         // Translation Queue: Add manual/arbitrary item
         async addToTranslationQueue(item) {
+            this.checkEditPermission();
             const client = getClient();
             const queueItem = {
                 id: Date.now(),
@@ -465,6 +477,7 @@
 
         // Translation Queue: Update status & apply
         async updateQueueItem({ id, estado, textoAprobado, usuario }) {
+            this.checkEditPermission();
             const client = getClient();
             const now = new Date().toISOString();
             const localQueue = Storage.get(window.ADMIN_CONFIG.STORAGE_KEYS.TRANSLATION_QUEUE, []);
@@ -568,6 +581,7 @@
         },
 
         async saveEnlace({ id, pais, question_code, titulo, enlace, proposito_descripcion, proposito_descripcion_en }) {
+            this.checkEditPermission();
             const client = getClient();
             if (!client) throw new Error('Cliente no conectado');
 
@@ -600,7 +614,7 @@
             }
 
             // Audit log
-            const user = window.AdminAuth ? window.AdminAuth.getUser() : null;
+            const user = window.AdminAuth ? window.AdminAuth.getCurrentUser() : null;
             await this.logEdit({
                 pais,
                 tabla: 'enlaces',
@@ -616,10 +630,11 @@
         },
 
         async deleteEnlace(id) {
+            this.checkEditPermission();
             const client = getClient();
             if (!client) throw new Error('Cliente no conectado');
 
-            const user = window.AdminAuth ? window.AdminAuth.getUser() : null;
+            const user = window.AdminAuth ? window.AdminAuth.getCurrentUser() : null;
             await this.logEdit({
                 pais: '-',
                 tabla: 'enlaces',

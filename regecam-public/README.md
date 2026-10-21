@@ -149,7 +149,7 @@ La plataforma incluye un panel administrativo institucional de última generaci�
 * **Control Editorial y Cola de Traducción con IA**: Detección automática de desincronización cuando se actualiza un idioma. El motor integrado con **Google Gemini** analiza la novedad normativa y genera una sugerencia precisa que pasa a una cola de revisión para ser aprobada, editada o descartada antes de su publicación en producción.
 * **Centro de Auditoría Multi-Criterio con Diff Visual**: Monitoreo de todas las intervenciones agrupables bajo 5 modalidades (por país, por autor/auditor, por fecha cronológica, por sección regulatoria o tabla global). Incorpora un comparador visual de diferencias (*diff*) palabra por palabra y exportación de reportes a formatos **CSV** (para Excel) y **JSON**.
 * **Gestión de Recursos y Enlaces Oficiales**: Módulo dedicado para administrar fuentes, decretos y enlaces a los boletines oficiales de cada país.
-* **Seguridad y Control de Acceso (RBAC)**: Autenticación mediante tokens JWT sobre Supabase con roles diferenciados (*Administrador* y *Editor*).
+* **Seguridad y Control de Acceso (RBAC)**: Autenticación mediante tokens JWT sobre Supabase con 3 perfiles delimitados (*Administrador total*, *Editor de contenido* sin acceso a auditoría, y *Solo lectura / Demostración* con inmutabilidad garantizada).
 
 Para acceder a la documentación técnica exhaustiva, guías de despliegue en `admin.regia.ar` y esquema de base de datos SQL, consulte:
 

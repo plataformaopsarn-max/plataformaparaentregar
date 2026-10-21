@@ -55,14 +55,27 @@ admin/
 
 ## 🔐 Autenticación y Control de Acceso (RBAC)
 
-El acceso al panel administrativo está protegido y requiere credenciales válidas en **Supabase Auth**:
+El acceso al panel administrativo está estructurado mediante tres perfiles con permisos claramente delimitados:
 
-* **Mecanismo**: `client.auth.signInWithPassword({ email, password })`.
-* **Cierre de Sesión Seguro**: `client.auth.signOut()`, purgando tokens de `localStorage`.
-* **Roles Soportados**:
-  * **`administrador`**: Acceso total (edición de contenidos, aprobación/descarte de traducciones, gestión de enlaces y auditoría completa).
-  * **`editor`**: Edición de preguntas y generación de sugerencias de traducción.
-* **Resolución de Perfiles**: Al autenticarse, consulta la tabla `admin_profiles` para recuperar nombre, rol y permisos.
+* **Mecanismo de Autenticación**: Validación con Supabase Auth (`client.auth.signInWithPassword({ email, password })`), con tokens JWT y resolución en la tabla `public.admin_profiles`.
+* **Cierre de Sesión Seguro**: `client.auth.signOut()`, purgando credenciales y tokens de `localStorage`.
+* **Perfiles y Matriz de Permisos**:
+  1. **`administrador` (Administrador Total)**:
+     - Control editorial absoluto: edición y guardado de respuestas directas, ampliadas y fuentes en Español e Inglés.
+     - Aprobación, ajuste y descarte de sugerencias en la Cola de Traducción con IA.
+     - Gestión completa de la biblioteca normativa y enlaces oficiales (Sección 7).
+     - Acceso pleno al Centro de Control y Auditoría (las 5 agrupaciones, comparador de diffs palabra por palabra y exportación CSV/JSON).
+     - Gestión y configuración de la API Key de Google Gemini.
+  2. **`editor` (Editor de Contenido)**:
+     - Edición bilingüe y guardado de fichas regulatorias de los 22 países.
+     - Generación y revisión de traducciones asistidas por IA.
+     - Gestión de enlaces y normativas oficiales.
+     - **Restricción de Auditoría**: Por política de seguridad, **no puede ver el módulo de Auditoría** (el enlace se oculta del menú de navegación y cualquier intento de acceso directo a la ruta `#audit` es interceptado y bloqueado).
+  3. **`lector` (Solo Lectura / Demostración)**:
+     - Diseñado específicamente para exhibir y evaluar la plataforma por dentro ante evaluadores y autoridades.
+     - Permite navegar y consultar el **Dashboard**, el **Editor Bilingüe Side-by-Side** (con las 38 preguntas y respuestas de cada país), la **Cola de Traducciones**, la **Biblioteca Normativa** y el **Centro de Auditoría con diff visual y exportación**.
+     - **Garantía de Inmutabilidad**: Todas las áreas de texto e inputs están bloqueadas (`readonly`/`disabled`), y los botones de guardado, traducción y eliminación se encuentran deshabilitados u ocultos, impidiendo cualquier alteración accidental de la base de producción.
+     - Cuenta con un botón de acceso directo en el login: *"Explorar en Modo Solo Lectura"*.
 
 ---
 
