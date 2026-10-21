@@ -982,42 +982,66 @@ Return JSON only.`;
         },
 
         async getAvailableSnapshots() {
-            // Lista histórica oficial de respaldos en el repositorio de GitHub
+            function cleanBackupMessage(raw) {
+                let msg = (raw || '').replace(/\[skip ci\]/gi, '').replace(/\[ci skip\]/gi, '').trim();
+                if (/auto-backup:\s*respaldo de tablas descargado desde api rest/i.test(msg)) {
+                    return 'Respaldo Automático (API REST)';
+                }
+                if (/update automatic backup script and save fresh daily snapshot/i.test(msg)) {
+                    return 'Respaldo Inicial de Tablas';
+                }
+                return msg;
+            }
+
+            // Lista histórica verificada de respaldos en el repositorio de GitHub (excluyendo commits de UI/CSS)
             const defaultSnapshots = [
-                { sha: 'main', shortSha: 'main', date: 'Actual', formattedDate: '📌 Versión más reciente (Main - Actual)', message: 'Última versión disponible en repositorio' },
-                { sha: '448dc548062dc513c031fe528dfe66a4b353869c', shortSha: '448dc54', date: '2026-10-20T09:10:30Z', formattedDate: '📅 20/10/2026 09:10 UTC (Commit 448dc54)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '24cb4d679691f207cc564997f9cf1bf209784bcc', shortSha: '24cb4d6', date: '2026-10-03T09:41:43Z', formattedDate: '📅 03/10/2026 09:41 UTC (Commit 24cb4d6)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: 'f0f5e68f522359af1c9bf43db43fd25919887b7c', shortSha: 'f0f5e68', date: '2026-10-02T10:19:43Z', formattedDate: '📅 02/10/2026 10:19 UTC (Commit f0f5e68)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: 'b48f27671809d15e60680b8f67afb44493b35d88', shortSha: 'b48f276', date: '2026-09-18T08:48:05Z', formattedDate: '📅 18/09/2026 08:48 UTC (Commit b48f276)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '812c01c440c37e83c6e2b33fd708d7732f2f8b6b', shortSha: '812c01c', date: '2026-08-28T15:55:36Z', formattedDate: '📅 28/08/2026 15:55 UTC (Commit 812c01c)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: 'd7bcb4d0a182b7293e3c95c0220e71495427a0fe', shortSha: 'd7bcb4d', date: '2026-08-27T15:00:21Z', formattedDate: '📅 27/08/2026 15:00 UTC (Commit d7bcb4d)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '837de2bad0eba33c420bff73ad49a35e83caf528', shortSha: '837de2b', date: '2026-08-25T04:37:53Z', formattedDate: '📅 25/08/2026 04:37 UTC (Commit 837de2b)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '1b3e2cdc42955c46bdb32dd4cddb9b970054d5a6', shortSha: '1b3e2cd', date: '2026-08-22T04:31:43Z', formattedDate: '📅 22/08/2026 04:31 UTC (Commit 1b3e2cd)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '3827ca469b3b458b2db0811e057aba7802736c0e', shortSha: '3827ca4', date: '2026-08-21T04:36:56Z', formattedDate: '📅 21/08/2026 04:36 UTC (Commit 3827ca4)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '0543050bd3918e6812ab06c2586b5e46b942f1c7', shortSha: '0543050', date: '2026-08-19T04:35:37Z', formattedDate: '📅 19/08/2026 04:35 UTC (Commit 0543050)', message: 'Auto-backup: Respaldo de tablas descargado desde API REST' },
-                { sha: '5e988312a1e4ebf8ba04b256633c21c81a94a8dc', shortSha: '5e98831', date: '2026-08-02T17:32:59Z', formattedDate: '📅 02/08/2026 17:32 UTC (Commit 5e98831)', message: 'Respaldo Inicial de Tablas' }
+                { sha: 'main', shortSha: 'main', date: 'Actual', label: '📌 Versión más reciente (Main - Actual en GitHub)', message: 'Última versión disponible en repositorio' },
+                { sha: '448dc548062dc513c031fe528dfe66a4b353869c', shortSha: '448dc54', date: '2026-10-20T09:10:30Z', label: '📅 20/10/2026 09:10 UTC — Respaldo Automático (Commit 448dc54)', message: 'Respaldo Automático (API REST)' },
+                { sha: '24cb4d679691f207cc564997f9cf1bf209784bcc', shortSha: '24cb4d6', date: '2026-10-03T09:41:43Z', label: '📅 03/10/2026 09:41 UTC — Respaldo Automático (Commit 24cb4d6)', message: 'Respaldo Automático (API REST)' },
+                { sha: 'f0f5e68f522359af1c9bf43db43fd25919887b7c', shortSha: 'f0f5e68', date: '2026-10-02T10:19:43Z', label: '📅 02/10/2026 10:19 UTC — Respaldo Automático (Commit f0f5e68)', message: 'Respaldo Automático (API REST)' },
+                { sha: 'b48f27671809d15e60680b8f67afb44493b35d88', shortSha: 'b48f276', date: '2026-09-18T08:48:05Z', label: '📅 18/09/2026 08:48 UTC — Respaldo Automático (Commit b48f276)', message: 'Respaldo Automático (API REST)' },
+                { sha: '812c01c440c37e83c6e2b33fd708d7732f2f8b6b', shortSha: '812c01c', date: '2026-08-28T15:55:36Z', label: '📅 28/08/2026 15:55 UTC — Respaldo Automático (Commit 812c01c)', message: 'Respaldo Automático (API REST)' },
+                { sha: 'd7bcb4d0a182b7293e3c95c0220e71495427a0fe', shortSha: 'd7bcb4d', date: '2026-08-27T15:00:21Z', label: '📅 27/08/2026 15:00 UTC — Respaldo Automático (Commit d7bcb4d)', message: 'Respaldo Automático (API REST)' },
+                { sha: '837de2bad0eba33c420bff73ad49a35e83caf528', shortSha: '837de2b', date: '2026-08-25T04:37:53Z', label: '📅 25/08/2026 04:37 UTC — Respaldo Automático (Commit 837de2b)', message: 'Respaldo Automático (API REST)' },
+                { sha: '1b3e2cdc42955c46bdb32dd4cddb9b970054d5a6', shortSha: '1b3e2cd', date: '2026-08-22T04:31:43Z', label: '📅 22/08/2026 04:31 UTC — Respaldo Automático (Commit 1b3e2cd)', message: 'Respaldo Automático (API REST)' },
+                { sha: '3827ca469b3b458b2db0811e057aba7802736c0e', shortSha: '3827ca4', date: '2026-08-21T04:36:56Z', label: '📅 21/08/2026 04:36 UTC — Respaldo Automático (Commit 3827ca4)', message: 'Respaldo Automático (API REST)' },
+                { sha: '0543050bd3918e6812ab06c2586b5e46b942f1c7', shortSha: '0543050', date: '2026-08-19T04:35:37Z', label: '📅 19/08/2026 04:35 UTC — Respaldo Automático (Commit 0543050)', message: 'Respaldo Automático (API REST)' },
+                { sha: '5e988312a1e4ebf8ba04b256633c21c81a94a8dc', shortSha: '5e98831', date: '2026-08-02T17:32:59Z', label: '📅 02/08/2026 17:32 UTC — Respaldo Inicial de Tablas (Commit 5e98831)', message: 'Respaldo Inicial de Tablas' }
             ];
 
             try {
                 // Consulta en vivo a la API pública de GitHub para traer commits recientes
-                const res = await fetch('https://api.github.com/repos/plataformaopsarn-max/plataformaparaentregar/commits?path=backups&per_page=15', {
+                const res = await fetch('https://api.github.com/repos/plataformaopsarn-max/plataformaparaentregar/commits?path=backups&per_page=25', {
                     headers: { 'Accept': 'application/vnd.github.v3+json' }
                 });
                 if (res.ok) {
                     const commits = await res.json();
                     if (Array.isArray(commits) && commits.length > 0) {
-                        const dynamicSnapshots = commits.map(c => {
-                            const dateObj = new Date(c.commit?.committer?.date || c.commit?.author?.date);
-                            const formatted = `${String(dateObj.getUTCDate()).padStart(2, '0')}/${String(dateObj.getUTCMonth() + 1).padStart(2, '0')}/${dateObj.getUTCFullYear()} ${String(dateObj.getUTCHours()).padStart(2, '0')}:${String(dateObj.getUTCMinutes()).padStart(2, '0')} UTC`;
-                            return {
-                                sha: c.sha,
-                                shortSha: c.sha.slice(0, 7),
-                                date: c.commit?.committer?.date,
-                                formattedDate: `📅 ${formatted} (${c.sha.slice(0, 7)})`,
-                                message: (c.commit?.message || '').split('\n')[0]
-                            };
-                        });
-                        return [defaultSnapshots[0], ...dynamicSnapshots];
+                        const dynamicSnapshots = commits
+                            .filter(c => {
+                                const msg = (c.commit?.message || '').toLowerCase();
+                                // Filtrar y excluir commits de frontend, UI, CSS, build, etc.
+                                if (msg.startsWith('perf(') || msg.startsWith('fix(ui') || msg.includes('css') || msg.includes('footer') || msg.includes('tailwind')) {
+                                    return false;
+                                }
+                                return msg.includes('backup') || msg.includes('respaldo') || msg.includes('volcado');
+                            })
+                            .map(c => {
+                                const dateObj = new Date(c.commit?.committer?.date || c.commit?.author?.date);
+                                const formatted = `${String(dateObj.getUTCDate()).padStart(2, '0')}/${String(dateObj.getUTCMonth() + 1).padStart(2, '0')}/${dateObj.getUTCFullYear()} ${String(dateObj.getUTCHours()).padStart(2, '0')}:${String(dateObj.getUTCMinutes()).padStart(2, '0')} UTC`;
+                                const cleanedMsg = cleanBackupMessage(c.commit?.message || '');
+                                return {
+                                    sha: c.sha,
+                                    shortSha: c.sha.slice(0, 7),
+                                    date: c.commit?.committer?.date,
+                                    label: `📅 ${formatted} — ${cleanedMsg} (Commit ${c.sha.slice(0, 7)})`,
+                                    message: cleanedMsg
+                                };
+                            });
+
+                        if (dynamicSnapshots.length > 0) {
+                            return [defaultSnapshots[0], ...dynamicSnapshots];
+                        }
                     }
                 }
             } catch (_) {}

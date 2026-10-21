@@ -21,7 +21,7 @@
             } catch (err) {
                 console.warn('[AdminBackups] Error cargando snapshots:', err);
                 availableSnapshots = [
-                    { sha: 'main', shortSha: 'main', date: 'Actual', formattedDate: '📌 Versión más reciente (Main - Actual)', message: 'Última versión disponible en repositorio' }
+                    { sha: 'main', shortSha: 'main', date: 'Actual', label: '📌 Versión más reciente (Main - Actual en GitHub)', formattedDate: '📌 Versión más reciente (Main - Actual en GitHub)', message: 'Última versión disponible en repositorio' }
                 ];
             }
 
@@ -90,7 +90,7 @@
                                     <label class="block font-semibold text-slate-700 mb-1.5">2. Seleccionar Fecha del Respaldo (GitHub Snapshot)</label>
                                     <select id="select-country-snapshot" class="w-full p-2.5 border border-slate-200 rounded-xl bg-white text-slate-800 font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
                                         ${availableSnapshots.map((s, idx) => `
-                                            <option value="${s.sha}" ${idx === 0 ? 'selected' : ''}>${s.formattedDate} — ${s.message}</option>
+                                            <option value="${s.sha}" ${idx === 0 ? 'selected' : ''}>${s.label || s.formattedDate || s.message}</option>
                                         `).join('')}
                                     </select>
                                     <p class="text-[10px] text-slate-400 mt-1">Puede elegir entre la versión actual de GitHub o cualquier copia automática previa con su fecha exacta.</p>
@@ -153,7 +153,7 @@
                                     <label class="block font-semibold text-slate-700 mb-1.5">Fecha del Respaldo para Tablas</label>
                                     <select id="select-table-snapshot" class="w-full p-2.5 border border-slate-200 rounded-xl bg-white text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none">
                                         ${availableSnapshots.map((s, idx) => `
-                                            <option value="${s.sha}" ${idx === 0 ? 'selected' : ''}>${s.formattedDate} — ${s.message}</option>
+                                            <option value="${s.sha}" ${idx === 0 ? 'selected' : ''}>${s.label || s.formattedDate || s.message}</option>
                                         `).join('')}
                                     </select>
                                 </div>
@@ -519,7 +519,7 @@
                 const scope = container.querySelector('input[name="country-lang-scope"]:checked')?.value || 'both';
 
                 const snapshotObj = availableSnapshots.find(s => s.sha === commitSha);
-                const snapshotLabel = snapshotObj ? snapshotObj.formattedDate : commitSha.slice(0, 7);
+                const snapshotLabel = snapshotObj ? (snapshotObj.label || snapshotObj.formattedDate) : commitSha.slice(0, 7);
 
                 if (!country) {
                     window.AdminApp?.showToast('Por favor, seleccione un país', 'warning');
@@ -544,7 +544,7 @@
                 modal?.classList.add('hidden');
 
                 const snapshotObj = availableSnapshots.find(s => s.sha === currentPreviewData.commitSha);
-                const snapshotLabel = snapshotObj ? snapshotObj.formattedDate : currentPreviewData.commitSha.slice(0, 7);
+                const snapshotLabel = snapshotObj ? (snapshotObj.label || snapshotObj.formattedDate) : currentPreviewData.commitSha.slice(0, 7);
                 const scopeText = currentPreviewData.scope === 'both' ? 'en Español e Inglés' : (currentPreviewData.scope === 'faq_rows_corregido' ? 'solo en Español' : 'solo en Inglés');
 
                 this.requestConfirmation({
@@ -565,7 +565,7 @@
                     const commitSha = container.querySelector('#select-table-snapshot')?.value || 'main';
 
                     const snapshotObj = availableSnapshots.find(s => s.sha === commitSha);
-                    const snapshotLabel = snapshotObj ? snapshotObj.formattedDate : commitSha.slice(0, 7);
+                    const snapshotLabel = snapshotObj ? (snapshotObj.label || snapshotObj.formattedDate) : commitSha.slice(0, 7);
 
                     this.requestConfirmation({
                         type: 'baseline_table',
@@ -698,7 +698,7 @@
             if (!modal) return;
 
             const snapshotObj = availableSnapshots.find(s => s.sha === preview.commitSha);
-            const snapshotLabel = snapshotObj ? snapshotObj.formattedDate : preview.commitSha.slice(0, 7);
+            const snapshotLabel = snapshotObj ? (snapshotObj.label || snapshotObj.formattedDate) : preview.commitSha.slice(0, 7);
 
             const titleEl = modal.querySelector('#preview-modal-title');
             const subtitleEl = modal.querySelector('#preview-modal-subtitle');
