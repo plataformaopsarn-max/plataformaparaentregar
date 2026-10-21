@@ -207,7 +207,7 @@ BEGIN
     inst_id := '00000000-0000-0000-0000-000000000000'::uuid;
   END IF;
 
-  -- Insertar en auth.users con contraseña encriptada y email_confirmed_at activo
+  -- Insertar en auth.users con todos los campos no-nulos requeridos por GoTrue
   INSERT INTO auth.users (
     instance_id,
     id,
@@ -216,10 +216,15 @@ BEGIN
     email,
     encrypted_password,
     email_confirmed_at,
+    recovery_token,
+    confirmation_token,
+    email_change_token_new,
+    email_change,
     raw_app_meta_data,
     raw_user_meta_data,
     created_at,
-    updated_at
+    updated_at,
+    last_sign_in_at
   ) VALUES (
     inst_id,
     new_user_id,
@@ -228,11 +233,38 @@ BEGIN
     clean_email,
     extensions.crypt(new_password, extensions.gen_salt('bf')),
     NOW(),
-    jsonb_build_object('provider', 'email', 'providers', array['email']),
+    '', -- recovery_token (cadena vacía, nunca NULL para el scanner de GoTrue)
+    '', -- confirmation_token (cadena vacía, nunca NULL para el scanner de GoTrue)
+    '', -- email_change_token_new
+    '', -- email_change
+    '{"provider": "email", "providers": ["email"]}'::jsonb,
     jsonb_build_object('nombre', new_nombre, 'rol', clean_rol),
+    NOW(),
     NOW(),
     NOW()
   );
+
+  -- Insertar en auth.identities para que GoTrue reconozca el proveedor email al iniciar sesión
+  INSERT INTO auth.identities (
+    id,
+    user_id,
+    identity_data,
+    provider,
+    provider_id,
+    last_sign_in_at,
+    created_at,
+    updated_at
+  ) VALUES (
+    new_user_id::text,
+    new_user_id,
+    jsonb_build_object('sub', new_user_id::text, 'email', clean_email, 'email_verified', true),
+    'email',
+    new_user_id::text,
+    NOW(),
+    NOW(),
+    NOW()
+  )
+  ON CONFLICT DO NOTHING;
 
   -- Insertar en admin_profiles
   INSERT INTO public.admin_profiles (id, email, nombre, rol, activo, created_at)
@@ -328,6 +360,7 @@ BEGIN
     RAISE EXCEPTION 'No puede eliminar su propia cuenta de administrador activo';
   END IF;
 
+  DELETE FROM auth.identities WHERE user_id = target_user_id;
   DELETE FROM public.admin_profiles WHERE id = target_user_id;
   DELETE FROM auth.users WHERE id = target_user_id;
 
