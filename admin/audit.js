@@ -19,6 +19,85 @@
         'otro': 'Otras Modificaciones Generales'
     };
 
+    // Registros de auditoría de ejemplo para el modo de visualización de invitados
+    const DEMO_AUDIT_LOGS = [
+        {
+            id: 'demo-log-1',
+            created_at: new Date(Date.now() - 1000 * 60 * 35).toISOString(),
+            usuario_email: 'editor.conosur@paho.org',
+            usuario_nombre: 'Dra. Elena Gómez (OPS)',
+            accion: 'update',
+            pais: 'Argentina',
+            seccion: '1',
+            campo: 'q_1_1_directa',
+            idioma: 'es',
+            tabla: 'faq_rows_corregido',
+            registro_id: 'ARG_q_1_1',
+            valor_anterior: 'La Autoridad Reguladora Nacional es la ANMAT.',
+            valor_nuevo: 'La Autoridad Reguladora Nacional (ARN) para ensayos clínicos con fines registrales es la Administración Nacional de Medicamentos, Alimentos y Tecnología Médica (ANMAT).'
+        },
+        {
+            id: 'demo-log-2',
+            created_at: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
+            usuario_email: 'roitmanadr@paho.org',
+            usuario_nombre: 'Adriel Roitman (Super Admin)',
+            accion: 'translate',
+            pais: 'Argentina',
+            seccion: '1',
+            campo: 'q_1_1_directa',
+            idioma: 'en',
+            tabla: 'faq_rows_corregido_en',
+            registro_id: 'ARG_q_1_1_en',
+            valor_anterior: '[Pending Translation]',
+            valor_nuevo: 'The National Regulatory Authority (NRA) for registration clinical trials is the National Administration of Drugs, Foods and Medical Technology (ANMAT).'
+        },
+        {
+            id: 'demo-log-3',
+            created_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+            usuario_email: 'editor.brasil@paho.org',
+            usuario_nombre: 'Dr. Carlos Silva (ANVISA/OPS)',
+            accion: 'update',
+            pais: 'Brasil',
+            seccion: '4',
+            campo: 'q_4_1_directa',
+            idioma: 'es',
+            tabla: 'faq_rows_corregido',
+            registro_id: 'BRA_q_4_1',
+            valor_anterior: 'Comissão Nacional de Ética em Pesquisa (CONEP).',
+            valor_nuevo: 'El sistema CEP/CONEP constituye la instancia ética nacional para evaluación de protocolos clínicos en seres humanos en Brasil.'
+        },
+        {
+            id: 'demo-log-4',
+            created_at: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
+            usuario_email: 'roitmanadr@paho.org',
+            usuario_nombre: 'Adriel Roitman (Super Admin)',
+            accion: 'rollback',
+            pais: 'Colombia',
+            seccion: '3',
+            campo: 'Ficha Completa',
+            idioma: 'ambos',
+            tabla: 'faq_rows_corregido',
+            registro_id: 'COL_SNAPSHOT_RESTORE',
+            valor_anterior: 'Versión no sincronizada',
+            valor_nuevo: 'Restauración granular de 38 preguntas desde snapshot oficial de GitHub'
+        },
+        {
+            id: 'demo-log-5',
+            created_at: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
+            usuario_email: 'editor.conosur@paho.org',
+            usuario_nombre: 'Dra. Elena Gómez (OPS)',
+            accion: 'update',
+            pais: 'Chile',
+            seccion: 'enlaces',
+            campo: 'enlace_isp',
+            idioma: 'es',
+            tabla: 'enlaces',
+            registro_id: 'CHL_LINKS_2026',
+            valor_anterior: 'https://antiguo.ispch.cl',
+            valor_nuevo: 'https://www.ispch.gob.cl/anamed/ensayos-clinicos'
+        }
+    ];
+
     const AdminAudit = {
         async render(container, params = {}) {
             if (params.country) {
@@ -32,7 +111,14 @@
             `;
 
             try {
-                rawLogs = await window.AdminAPI.getAuditLog(150);
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    rawLogs = DEMO_AUDIT_LOGS;
+                } else {
+                    rawLogs = await window.AdminAPI.getAuditLog(150);
+                    if (!rawLogs || rawLogs.length === 0) {
+                        rawLogs = DEMO_AUDIT_LOGS;
+                    }
+                }
                 this.renderContent(container);
             } catch (err) {
                 console.error('[AdminAudit] Error:', err);
@@ -122,16 +208,18 @@
                         <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center justify-between gap-3 text-purple-950 text-xs shadow-xs">
                             <div class="flex items-center gap-3">
                                 <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
-                                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                    <i data-lucide="info" class="w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-sm text-purple-900">Centro de Auditoría (Modo Visualización Institucional)</h4>
-                                    <p class="text-purple-700 mt-0.5">Explore las 5 agrupaciones de auditoría, inspeccione el comparador visual de diferencias (diff) y descargue reportes oficiales en CSV o JSON.</p>
+                                    <h4 class="font-bold text-sm text-purple-900 flex items-center gap-2">
+                                        <span>Centro de Auditoría y Trazabilidad (Vista de Invitado)</span>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-200 text-purple-800 px-2 py-0.5 rounded">Ejemplo Demostrativo</span>
+                                    </h4>
+                                    <p class="text-purple-700 mt-0.5">
+                                        Los registros exhibidos a continuación son <strong>ejemplos al mero efecto de mostrar</strong> el funcionamiento de la trazabilidad cronológica, filtros por país y cotejo de cambios. No representan datos de producción ni exponen usuarios reales de la OPS.
+                                    </p>
                                 </div>
                             </div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800 px-2.5 py-1 rounded-md border border-purple-200 shrink-0">
-                                Solo Lectura
-                            </span>
                         </div>
                     ` : ''}
 

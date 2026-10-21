@@ -66,23 +66,23 @@
         },
 
         navigate(view, params = {}) {
-            // Guard de permisos para Auditoría: Los editores no pueden ver auditoría
-            if (view === 'audit' && !window.AdminAuth.canViewAudit()) {
+            // Guard de permisos para Auditoría: El rol Editor no tiene acceso a auditoría
+            if (view === 'audit' && window.AdminAuth.isEditor()) {
                 this.showToast('Acceso restringido: El rol Editor no tiene permisos para ver auditoría', 'warning');
                 this.navigate('dashboard');
                 return;
             }
 
-            // Guard de permisos para Usuarios: Solo los administradores pueden gestionar usuarios
-            if (view === 'users' && !window.AdminAuth.isAdmin()) {
-                this.showToast('Acceso restringido: Solo los administradores pueden gestionar usuarios', 'warning');
+            // Guard de permisos para Usuarios: El rol Editor no tiene acceso a usuarios
+            if (view === 'users' && window.AdminAuth.isEditor()) {
+                this.showToast('Acceso restringido: El rol Editor no tiene permisos para gestionar usuarios', 'warning');
                 this.navigate('dashboard');
                 return;
             }
 
-            // Guard de permisos para Copias y Restauración: Solo administradores
-            if (view === 'backups' && !window.AdminAuth.isAdmin()) {
-                this.showToast('Acceso restringido: Solo los administradores pueden gestionar copias de seguridad', 'warning');
+            // Guard de permisos para Copias y Restauración: El rol Editor no tiene acceso a restauración
+            if (view === 'backups' && window.AdminAuth.isEditor()) {
+                this.showToast('Acceso restringido: El rol Editor no tiene permisos para gestionar copias de seguridad', 'warning');
                 this.navigate('dashboard');
                 return;
             }
@@ -273,33 +273,39 @@
 
         updateNavPermissions() {
             const isAdmin = window.AdminAuth.isAdmin();
-            const canViewAudit = window.AdminAuth.canViewAudit();
+            const isReadOnly = window.AdminAuth.isReadOnly();
 
             // 1. Auditoría: Visible para Administrador y Lector (demo), NUNCA para Editor
             const navAuditLink = document.querySelector('.nav-link[data-view="audit"]');
             if (navAuditLink) {
-                if (canViewAudit) {
+                if (isAdmin || isReadOnly) {
                     navAuditLink.classList.remove('hidden');
+                    const span = navAuditLink.querySelector('span');
+                    if (span) span.innerHTML = isReadOnly ? 'Auditoría <span class="text-[9px] px-1 py-0.5 bg-purple-100 text-purple-700 rounded font-bold ml-1">Demo</span>' : 'Auditoría';
                 } else {
                     navAuditLink.classList.add('hidden');
                 }
             }
 
-            // 2. Usuarios: Solo Administrador
+            // 2. Usuarios: Visible para Administrador y Lector (demo), NUNCA para Editor
             const navUsersLink = document.querySelector('.nav-link[data-view="users"]');
             if (navUsersLink) {
-                if (isAdmin) {
+                if (isAdmin || isReadOnly) {
                     navUsersLink.classList.remove('hidden');
+                    const span = navUsersLink.querySelector('span');
+                    if (span) span.innerHTML = isReadOnly ? 'Usuarios <span class="text-[9px] px-1 py-0.5 bg-purple-100 text-purple-700 rounded font-bold ml-1">Demo</span>' : 'Usuarios';
                 } else {
                     navUsersLink.classList.add('hidden');
                 }
             }
 
-            // 3. Copias y Restauración: Solo Administrador
+            // 3. Copias y Restauración: Visible para Administrador y Lector (demo), NUNCA para Editor
             const navBackupsLink = document.querySelector('.nav-link[data-view="backups"]');
             if (navBackupsLink) {
-                if (isAdmin) {
+                if (isAdmin || isReadOnly) {
                     navBackupsLink.classList.remove('hidden');
+                    const span = navBackupsLink.querySelector('span');
+                    if (span) span.innerHTML = isReadOnly ? 'Restauración <span class="text-[9px] px-1 py-0.5 bg-purple-100 text-purple-700 rounded font-bold ml-1">Demo</span>' : 'Copias y Restauración';
                 } else {
                     navBackupsLink.classList.add('hidden');
                 }

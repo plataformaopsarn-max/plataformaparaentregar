@@ -6,6 +6,46 @@
     let filterRole = 'todos';
     let filterStatus = 'todos';
 
+    // Lista de usuarios de ejemplo para el modo de visualización de invitados
+    const DEMO_USERS_LIST = [
+        {
+            id: 'demo-user-1',
+            email: 'admin.coordinacion@paho.org',
+            nombre: 'Dra. María Fernández',
+            rol: 'administrador',
+            activo: true,
+            created_at: '2026-08-01T12:00:00Z',
+            last_sign_in_at: new Date(Date.now() - 1000 * 60 * 25).toISOString()
+        },
+        {
+            id: 'demo-user-2',
+            email: 'editor.conosur@paho.org',
+            nombre: 'Dr. Alejandro Morales',
+            rol: 'editor',
+            activo: true,
+            created_at: '2026-08-15T10:30:00Z',
+            last_sign_in_at: new Date(Date.now() - 1000 * 60 * 180).toISOString()
+        },
+        {
+            id: 'demo-user-3',
+            email: 'editor.caribe@paho.org',
+            nombre: 'Lic. Sarah Jenkins',
+            rol: 'editor',
+            activo: true,
+            created_at: '2026-09-01T14:20:00Z',
+            last_sign_in_at: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString()
+        },
+        {
+            id: 'demo-user-4',
+            email: 'evaluador.externo@paho.org',
+            nombre: 'Invitado Evaluador (Comité Revisor)',
+            rol: 'lector',
+            activo: true,
+            created_at: '2026-10-01T09:00:00Z',
+            last_sign_in_at: new Date().toISOString()
+        }
+    ];
+
     const AdminUsers = {
         async render(container, params = {}) {
             container.innerHTML = `
@@ -16,9 +56,17 @@
             `;
 
             try {
-                const res = await window.AdminAPI.getAdminUsers();
-                usersList = res.users || [];
-                rpcActive = res.rpcActive !== false;
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    usersList = DEMO_USERS_LIST;
+                    rpcActive = true;
+                } else {
+                    const res = await window.AdminAPI.getAdminUsers();
+                    usersList = res.users || [];
+                    rpcActive = res.rpcActive !== false;
+                    if (usersList.length === 0) {
+                        usersList = DEMO_USERS_LIST;
+                    }
+                }
                 this.renderContent(container);
             } catch (err) {
                 console.error('[AdminUsers] Error loading users:', err);
@@ -90,6 +138,26 @@
                             </button>
                         </div>
                     </div>
+
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center justify-between gap-3 text-purple-950 text-xs shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                <i data-lucide="info" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-purple-900 flex items-center gap-2">
+                                    <span>Directorio de Usuarios y Permisos (Vista de Invitado)</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-200 text-purple-800 px-2 py-0.5 rounded">Ejemplo Demostrativo</span>
+                                </h4>
+                                <p class="text-purple-700 mt-0.5">
+                                    Los perfiles exhibidos a continuación son <strong>ejemplos al mero efecto de mostrar</strong> la interfaz de administración, roles (Administrador, Editor, Lector) y asignación de accesos institucionales. Las funciones de creación, edición o eliminación de cuentas reales están deshabilitadas en este modo de lectura.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
 
                     ${!rpcActive ? `
                     <!-- Aviso de instalación de funciones RPC -->
@@ -526,6 +594,10 @@
             // Modal Create: Open
             const modalCreate = container.querySelector('#modal-create-user');
             container.querySelector('#btn-modal-create-user')?.addEventListener('click', () => {
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    window.AdminApp.showToast('Acción deshabilitada: Se encuentra en la vista demostrativa de invitados', 'info');
+                    return;
+                }
                 modalCreate.classList.remove('hidden');
                 container.querySelector('#create-user-nombre')?.focus();
             });
@@ -593,6 +665,10 @@
             const modalEdit = container.querySelector('#modal-edit-user');
             container.querySelectorAll('[data-action="edit-user"]').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                        window.AdminApp.showToast('Acción deshabilitada: Se encuentra en la vista demostrativa de invitados', 'info');
+                        return;
+                    }
                     const id = btn.getAttribute('data-id');
                     const user = usersList.find(u => String(u.id) === String(id));
                     if (!user) return;
@@ -619,6 +695,10 @@
             // Submit Edit User
             container.querySelector('#form-edit-user')?.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    window.AdminApp.showToast('Acción deshabilitada: Se encuentra en la vista demostrativa de invitados', 'info');
+                    return;
+                }
                 const id = container.querySelector('#edit-user-id').value;
                 const nombre = container.querySelector('#edit-user-nombre').value.trim();
                 const rol = container.querySelector('input[name="edit-user-role"]:checked')?.value || 'editor';
@@ -648,6 +728,10 @@
             // Action Delete User
             container.querySelectorAll('[data-action="delete-user"]').forEach(btn => {
                 btn.addEventListener('click', async () => {
+                    if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                        window.AdminApp.showToast('Acción deshabilitada: Se encuentra en la vista demostrativa de invitados', 'info');
+                        return;
+                    }
                     const id = btn.getAttribute('data-id');
                     const email = btn.getAttribute('data-email');
                     if (confirm(`¿Está seguro de eliminar definitivamente al usuario ${email}?\nEsta acción no se puede deshacer.`)) {

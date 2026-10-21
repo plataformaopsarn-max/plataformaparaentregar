@@ -49,6 +49,26 @@
                         </div>
                     </div>
 
+                    ${window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly() ? `
+                    <!-- Banner de Modo Solo Lectura (Demostración) -->
+                    <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl flex items-center justify-between gap-3 text-purple-950 text-xs shadow-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-purple-100 rounded-xl text-purple-700 shrink-0">
+                                <i data-lucide="info" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-purple-900 flex items-center gap-2">
+                                    <span>Puntos de Restauración y Disaster Recovery (Vista de Invitado)</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-200 text-purple-800 px-2 py-0.5 rounded">Ejemplo Demostrativo</span>
+                                </h4>
+                                <p class="text-purple-700 mt-0.5">
+                                    Esta sección es un <strong>ejemplo al mero efecto de mostrar</strong> la capacidad de recuperación granular por país, cotejo de versiones previas (Diff) y trazabilidad con GitHub. Puede interactuar con el selector de snapshots y la previsualización, pero las operaciones de sobreescritura sobre la base de datos se encuentran bloqueadas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
                     <!-- Alerta de Advertencia Institucional -->
                     <div class="p-4 bg-amber-50/80 border border-amber-200/90 rounded-2xl flex items-start gap-3">
                         <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
@@ -514,6 +534,10 @@
             // 4. Submit Restauración Granular por País
             container.querySelector('#form-restore-country')?.addEventListener('submit', (e) => {
                 e.preventDefault();
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    window.AdminApp?.showToast('Acción deshabilitada: La restauración se encuentra bloqueada en la vista demostrativa de invitados', 'info');
+                    return;
+                }
                 const country = container.querySelector('#select-restore-country')?.value;
                 const commitSha = container.querySelector('#select-country-snapshot')?.value || 'main';
                 const scope = container.querySelector('input[name="country-lang-scope"]:checked')?.value || 'both';
@@ -540,6 +564,10 @@
             // 5. Proceder a Restaurar desde el modal de Previsualización
             container.querySelector('#btn-proceed-restore-from-preview')?.addEventListener('click', () => {
                 if (!currentPreviewData) return;
+                if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                    window.AdminApp?.showToast('Acción deshabilitada: La restauración se encuentra bloqueada en la vista demostrativa de invitados', 'info');
+                    return;
+                }
                 const modal = document.getElementById('modal-preview-country-backup');
                 modal?.classList.add('hidden');
 
@@ -560,6 +588,10 @@
             // 6. Restauración de Tablas Maestras
             container.querySelectorAll('button[data-action="restore-baseline-table"]').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    if (window.AdminAuth?.isReadOnly && window.AdminAuth.isReadOnly()) {
+                        window.AdminApp?.showToast('Acción deshabilitada: La restauración se encuentra bloqueada en la vista demostrativa de invitados', 'info');
+                        return;
+                    }
                     const file = btn.getAttribute('data-file');
                     const table = btn.getAttribute('data-table');
                     const commitSha = container.querySelector('#select-table-snapshot')?.value || 'main';
