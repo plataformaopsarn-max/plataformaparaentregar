@@ -335,12 +335,18 @@ GRANT EXECUTE ON FUNCTION public.admin_update_user(UUID, TEXT, TEXT, BOOLEAN, TE
 GRANT EXECUTE ON FUNCTION public.admin_delete_user(UUID) TO authenticated;
 
 -- ============================================================
--- HELPER: ASEGURAR QUE TU CUENTA SEA ADMINISTRADOR
--- Ejecuta esto reemplazando tu correo para garantizar acceso total:
+-- HELPER: ASEGURAR QUE roitmanadr@paho.org SEA ADMINISTRADOR
 -- ============================================================
--- INSERT INTO public.admin_profiles (id, email, nombre, rol, activo)
--- SELECT id, email, COALESCE(raw_user_meta_data->>'nombre', 'Administrador'), 'administrador', TRUE
--- FROM auth.users
--- WHERE email = 'tu_correo@paho.org'
--- ON CONFLICT (id) DO UPDATE SET rol = 'administrador', activo = TRUE;
+INSERT INTO public.admin_profiles (id, email, nombre, rol, activo)
+SELECT id, email, COALESCE(raw_user_meta_data->>'nombre', 'Adriel Roitman'), 'administrador', TRUE
+FROM auth.users
+WHERE lower(email) = 'roitmanadr@paho.org'
+ON CONFLICT (id) DO UPDATE SET rol = 'administrador', activo = TRUE, nombre = 'Adriel Roitman';
+
+UPDATE auth.users
+SET raw_user_meta_data = jsonb_set(
+    jsonb_set(COALESCE(raw_user_meta_data, '{}'::jsonb), '{rol}', '"administrador"'),
+    '{nombre}', '"Adriel Roitman"'
+)
+WHERE lower(email) = 'roitmanadr@paho.org';
 

@@ -48,11 +48,14 @@
 
         async resolveUserProfile(sbUser) {
             const client = window.AdminAPI?.getClient();
+            const emailLower = (sbUser.email || '').toLowerCase().trim();
+            const isKnownSuperAdmin = emailLower === 'roitmanadr@paho.org';
+
             let profile = {
                 id: sbUser.id,
                 email: sbUser.email,
-                nombre: sbUser.user_metadata?.nombre || sbUser.email.split('@')[0],
-                rol: sbUser.user_metadata?.rol || 'editor'
+                nombre: sbUser.user_metadata?.nombre || (isKnownSuperAdmin ? 'Adriel Roitman' : sbUser.email.split('@')[0]),
+                rol: isKnownSuperAdmin ? 'administrador' : (sbUser.user_metadata?.rol || 'editor')
             };
 
             if (client) {
@@ -64,7 +67,16 @@
                         .maybeSingle();
                     if (!error && data) {
                         profile.nombre = data.nombre || profile.nombre;
-                        profile.rol = data.rol || profile.rol;
+                        profile.rol = isKnownSuperAdmin ? 'administrador' : (data.rol || profile.rol);
+                    } else if (isKnownSuperAdmin) {
+                        // Si el usuario es el administrador principal y no tiene fila aún, registrarlo
+                        await client.from('admin_profiles').upsert({
+                            id: sbUser.id,
+                            email: emailLower,
+                            nombre: profile.nombre,
+                            rol: 'administrador',
+                            activo: true
+                        });
                     }
                 } catch (_) {}
             }
