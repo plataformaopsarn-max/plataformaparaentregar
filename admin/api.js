@@ -938,6 +938,143 @@ Return JSON only.`;
                 detectedNovelty: detectedNovelty || 'Actualización de contenido',
                 engine: usedModel
             };
+        },
+
+        // --- BACKUPS & DISASTER RECOVERY ---
+        async fetchTableData(tableName) {
+            const client = getClient();
+            if (!client) throw new Error('Cliente Supabase no conectado');
+            let all = [];
+            let from = 0;
+            const step = 1000;
+            while (true) {
+                const { data, error } = await client.from(tableName).select('*').range(from, from + step - 1);
+                if (error) throw error;
+                if (!data || data.length === 0) break;
+                all = all.concat(data);
+                if (data.length < step) break;
+                from += step;
+            }
+            return all;
+        },
+
+        async exportFullDatabase() {
+            const tables = ['faq_rows_corregido', 'faq_rows_corregido_en', 'enlaces', 'enlaces_descripcion_en', 'resumen_ejecutivo'];
+            const dump = {
+                metadata: {
+                    exportDate: new Date().toISOString(),
+                    exportedBy: window.AdminAuth?.getCurrentUser()?.email || 'Administrador',
+                    platform: 'REGIA Admin (OPS/OMS)',
+                    version: '2.0'
+                },
+                tables: {}
+            };
+
+            for (const t of tables) {
+                try {
+                    dump.tables[t] = await this.fetchTableData(t);
+                } catch (e) {
+                    console.warn(`[AdminAPI] Error exportando tabla ${t}:`, e);
+                    dump.tables[t] = [];
+                }
+            }
+            return dump;
+        },
+
+        async loadBaselineJson(fileName) {
+            const candidateUrls = [
+                `../backups/${fileName}`,
+                `./backups/${fileName}`,
+                `/backups/${fileName}`,
+                `https://raw.githubusercontent.com/PAHO-EIH/Plataforma_Informacion_Regulatoria/main/backups/${fileName}`
+            ];
+
+            for (const url of candidateUrls) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        return await res.json();
+                    }
+                } catch (_) {}
+            }
+            throw new Error(`No se pudo cargar el archivo baseline: ${fileName}`);
+        },
+
+        async restoreCountryFromBaseline(pais, targetTable = 'both') {
+            this.checkEditPermission();
+            const client = getClient();
+            if (!client) throw new Error('Cliente Supabase no conectado');
+
+            const results = { es: false, en: false };
+
+            // 1. Restaurar Español si aplica
+            if (targetTable === 'both' || targetTable === 'faq_rows_corregido') {
+                const dataES = await this.loadBaselineJson('faq_rows_corregido.json');
+                const rowES = dataES.find(r => r.pais && r.pais.toLowerCase() === pais.toLowerCase());
+                if (rowES) {
+                    const { error } = await client.from('faq_rows_corregido').upsert(rowES);
+                    if (error) throw error;
+                    results.es = true;
+                }
+            }
+
+            // 2. Restaurar Inglés si aplica
+            if (targetTable === 'both' || targetTable === 'faq_rows_corregido_en') {
+                const dataEN = await this.loadBaselineJson('faq_rows_corregido_en.json');
+                const rowEN = dataEN.find(r => r.pais && r.pais.toLowerCase() === pais.toLowerCase());
+                if (rowEN) {
+                    const { error } = await client.from('faq_rows_corregido_en').upsert(rowEN);
+                    if (error) throw error;
+                    results.en = true;
+                }
+            }
+
+            // 3. Registrar en Auditoría
+            const user = window.AdminAuth?.getCurrentUser();
+            await this.logEdit({
+                pais: pais,
+                tabla: targetTable === 'both' ? 'faq_rows_corregido (ES+EN)' : targetTable,
+                campo: 'Restauración Granular',
+                idioma: targetTable === 'both' ? 'es/en' : (targetTable.includes('_en') ? 'en' : 'es'),
+                valor_anterior: '(Versión en producción modificada)',
+                valor_nuevo: 'Restaurado desde Baseline Oficial de GitHub',
+                usuario_id: user?.id || null,
+                usuario_nombre: user?.nombre || user?.email || 'Administrador'
+            });
+
+            return results;
+        },
+
+        async restoreTableData(tableName, recordsArray) {
+            this.checkEditPermission();
+            const client = getClient();
+            if (!client) throw new Error('Cliente Supabase no conectado');
+            if (!Array.isArray(recordsArray) || recordsArray.length === 0) {
+                throw new Error('El archivo no contiene registros válidos para esta tabla.');
+            }
+
+            const batchSize = 50;
+            let processed = 0;
+            for (let i = 0; i < recordsArray.length; i += batchSize) {
+                const chunk = recordsArray.slice(i, i + batchSize);
+                const { error } = await client.from(tableName).upsert(chunk);
+                if (error) throw error;
+                processed += chunk.length;
+            }
+
+            const user = window.AdminAuth?.getCurrentUser();
+            await this.logEdit({
+                pais: 'TODOS',
+                tabla: tableName,
+                campo: 'Restauración de Tabla Completa',
+                idioma: tableName.includes('_en') ? 'en' : 'es',
+                valor_anterior: `(Tabla ${tableName} previa)`,
+                valor_nuevo: `Restaurada con ${processed} registros`,
+                usuario_id: user?.id || null,
+                usuario_nombre: user?.nombre || user?.email || 'Administrador'
+            });
+
+            return { ok: true, count: processed };
         }
     };
 

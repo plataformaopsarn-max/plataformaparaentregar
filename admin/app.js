@@ -66,6 +66,13 @@
                 return;
             }
 
+            // Guard de permisos para Copias y Restauración: Solo administradores
+            if (view === 'backups' && !window.AdminAuth.isAdmin()) {
+                this.showToast('Acceso restringido: Solo los administradores pueden gestionar copias de seguridad', 'warning');
+                this.navigate('dashboard');
+                return;
+            }
+
             this.state.currentView = view;
             this.state.params = params;
 
@@ -101,6 +108,9 @@
                     break;
                 case 'users':
                     window.AdminUsers.render(mainContainer, params);
+                    break;
+                case 'backups':
+                    window.AdminBackups.render(mainContainer, params);
                     break;
                 default:
                     window.AdminDashboard.render(mainContainer);
@@ -267,6 +277,17 @@
                     navUsersLink.classList.add('hidden');
                 } else {
                     navUsersLink.classList.remove('hidden');
+                }
+            }
+
+            // Control de visibilidad del link de Copias y Restauración en la barra de navegación:
+            // Solo visible para administradores
+            const navBackupsLink = document.querySelector('.nav-link[data-view="backups"]');
+            if (navBackupsLink) {
+                if (!window.AdminAuth.isAdmin()) {
+                    navBackupsLink.classList.add('hidden');
+                } else {
+                    navBackupsLink.classList.remove('hidden');
                 }
             }
 

@@ -15,7 +15,8 @@ Este directorio (`admin/`) contiene el sistema integral de gestión de contenido
 6. [Cola de Revisión y Control Editorial](#-cola-de-revisión-y-control-editorial)
 7. [Centro de Control y Auditoría con Visualizador de Diff](#-centro-de-control-y-auditoría-con-visualizador-de-diff)
 8. [Base de Datos y Script de Migración](#-base-de-datos-y-script-de-migración)
-9. [Despliegue y Configuración de Subdominio (`admin.regia.ar`)](#-despliegue-y-configuración-de-subdominio-adminregiaar)
+9. [Módulo de Copias de Seguridad y Puntos de Restauración (`#backups`)](#-módulo-de-copias-de-seguridad-y-puntos-de-restauración-backups)
+10. [Despliegue y Configuración de Subdominio (`admin.regia.ar`)](#-despliegue-y-configuración-de-subdominio-adminregiaar)
 
 ---
 
@@ -24,7 +25,7 @@ Este directorio (`admin/`) contiene el sistema integral de gestión de contenido
 El panel opera como una **Single-Page Application (SPA)** de arquitectura desacoplada y cliente ligero, conectada directamente a PostgreSQL en la nube vía Supabase:
 
 * **Frontend**: HTML5 semántico + Vanilla JavaScript modular (ES6+ sin dependencias de compiladores pesados).
-* **Enrutamiento**: Hash routing reactivo (`#dashboard`, `#editor`, `#translations`, `#resources`, `#audit`).
+* **Enrutamiento**: Hash routing reactivo (`#dashboard`, `#editor`, `#translations`, `#resources`, `#audit`, `#users`, `#backups`).
 * **Estilos**: Tailwind CSS con paleta institucional OPS (`#005596`, pizarra suave y acentos esmeralda/ámbar).
 * **Iconografía**: Lucide Icons.
 * **Autenticación & Base de Datos**: Supabase JavaScript Client v2 con tokens JWT y Row Level Security (RLS).
@@ -41,13 +42,14 @@ admin/
 ├── auth.js             # Gestión de sesiones Supabase Auth, roles (RBAC) y persistencia segura
 ├── config.js           # Variables de conexión, claves de almacenamiento y configuración de Gemini
 ├── constants.js        # Lista oficial de los 22 países, preguntas normativas y secciones
-├── api.js              # Capa de servicios REST: Supabase queries, auditoría y motor Gemini
+├── api.js              # Capa de servicios REST: Supabase queries, auditoría, motor Gemini y backups
 ├── dashboard.js        # Vista principal: KPIs de sincronización, buscador y tarjetas interactivas de países
 ├── editor.js           # Editor bilingüe Side-by-Side con buscador predictivo y guardado flotante sticky
 ├── translations.js     # Cola editorial de sugerencias de traducción (aprobación, edición y descarte)
 ├── resources.js        # Gestor de enlaces normativos oficiales, decretos y fuentes por país
 ├── audit.js            # Centro de auditoría multi-criterio (5 agrupaciones), diff visual y exportador CSV
 ├── users.js            # Gestión integral de usuarios (RBAC): altas, bajas, roles y contraseñas
+├── backups.js          # Módulo de Copias de Seguridad, Exportación y Puntos de Restauración (Disaster Recovery)
 ├── migration.sql       # Script SQL DDL para aprovisionar tablas, políticas RLS y funciones RPC en Supabase
 └── regia-logo.png      # Isotipo y banner oficial institucional de REGIA
 ```
@@ -176,6 +178,40 @@ Para posibilitar la gestión completa de usuarios desde el frontend sin requerir
 * `admin_create_user(new_email, new_password, new_nombre, new_rol)`: Crea el usuario en Supabase Auth con confirmación automática de correo (`email_confirmed_at = NOW()`) usando `pgcrypto` y crea su registro en `admin_profiles`.
 * `admin_update_user(target_user_id, new_nombre, new_rol, new_activo, new_password)`: Modifica nombre, rol, activa/desactiva la cuenta o actualiza la contraseña de forma inmediata.
 * `admin_delete_user(target_user_id)`: Elimina de forma atómica y segura el usuario en `admin_profiles` y en `auth.users`.
+
+---
+
+## 💾 Módulo de Copias de Seguridad y Puntos de Restauración (`#backups`)
+
+Exclusivo para el rol `administrador`, este módulo provee una solución integral de **recuperación ante desastres (Disaster Recovery)** y reversión de contenidos directamente desde el navegador, salvaguardando la continuidad operativa del observatorio:
+
+### 1. Respaldo Caliente Completo (Hot Full Export)
+* Descarga inmediata de un paquete JSON consolidado con el estado en vivo de todas las tablas de Supabase:
+  - `faq_rows_corregido` (38 preguntas regulatorias x 22 países en Español).
+  - `faq_rows_corregido_en` (38 preguntas regulatorias x 22 países en Inglés).
+  - `enlaces` y `enlaces_descripcion_en` (biblioteca normativa y decretos).
+  - `resumen_ejecutivo` (fichas sinópticas por país).
+* Genera archivos con nombre institucional estampado con fecha y hora (`regia-backup-YYYY-MM-DD-HHmm.json`).
+* Permite también la exportación individual de cualquier tabla seleccionada.
+
+### 2. Reversión Granular por País (Country Rollback)
+* Si un editor introduce un error involuntario o una modificación no deseada en un país específico, el administrador puede revertir **únicamente ese país** a su versión base original de GitHub (`/backups/faq_rows_corregido.json` o `_en.json`).
+* **Aislamiento total**: No sobreescribe ni altera a ninguno de los otros 21 países en producción.
+* Permite seleccionar el idioma de destino (Español o Inglés).
+
+### 3. Restauración de Tablas Base desde Repositorio GitHub
+* Permite restaurar de forma completa cualquiera de las tablas oficiales a la versión base limpia almacenada en el repositorio (`/backups/`).
+* Ideal para sincronizaciones maestras o restitución de entornos de prueba.
+
+### 4. Restauración desde Archivo Local (`.json`)
+* Zona de arrastrar y soltar (Drag & Drop) para cargar respaldos externos o históricos generados previamente.
+* El sistema valida la integridad de la estructura antes de permitir cualquier operación.
+
+### 5. Medidas de Seguridad Institucional y Prevención de Errores
+* **Acceso Restringido**: Oculto y bloqueado para perfiles `editor` y `lector`.
+* **Copia de Respaldo Automática Preventiva (Auto-Snapshot)**: Antes de aplicar cualquier restauración o rollback, el sistema genera automáticamente un respaldo en vivo del contenido que está a punto de ser reemplazado y lo descarga en el navegador del administrador.
+* **Modal de Doble Confirmación con Palabra Clave**: Ninguna acción destructiva se ejecuta sin que el administrador escriba explícitamente la palabra `RESTAURAR` en el modal de advertencia.
+* **Registro de Auditoría**: Toda operación de restauración o rollback queda registrada de forma inmutable en el historial con fecha, autor y detalle de registros impactados.
 
 ---
 
