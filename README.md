@@ -33,6 +33,14 @@ plataforma-publica/
 ├── en/                         # 🇺🇸 Espejo completo en Inglés
 │   ├── index.html              # HTML en inglés (título, navegación, footer PAHO/EN, selector ES|EN)
 │   └── main.js                 # Controlador en inglés (38 preguntas, conexión a tablas _en, SPA routes)
+├── admin/                      # 🛡️ Panel de Administración y Control Editorial (SPA)
+│   ├── index.html              # Portal del panel administrativo REGIA Admin
+│   ├── app.js / auth.js        # Enrutamiento SPA, control de acceso RBAC y Supabase Auth
+│   ├── editor.js               # Editor bilingüe Side-by-Side con búsqueda y barra flotante
+│   ├── translations.js         # Cola editorial de sugerencias de traducción (IA Gemini)
+│   ├── audit.js                # Centro de auditoría multi-criterio (5 vistas) y diff visual
+│   ├── resources.js            # Gestor de enlaces y normativas oficiales por país
+│   └── README.md               # 📖 Documentación técnica completa del panel administrativo
 ├── config.js                   # Módulo dinámico para abstracción de credenciales y variables de entorno
 ├── backup_tablas.js            # Script de volcado y respaldo diario de datos JSON
 ├── .github/workflows/
@@ -42,6 +50,7 @@ plataforma-publica/
 ├── TECHNICAL_SPECIFICATION.md  # Especificaciones técnicas completas de arquitectura, seguridad y APIs
 ├── logo-final.png              # Isotipo oficial de la plataforma
 ├── logos-header.png            # Banner institucional OPS / OMS / Programa Regional de Bioética
+├── regia-logo.png              # Logotipo oficial REGIA
 └── Logo2.png                   # Isotipo secundario institucional
 ```
 
@@ -129,6 +138,22 @@ Para mantener la velocidad de carga óptima, los estilos se encuentran precompil
 ```bash
 npx tailwindcss -o styles.min.css --minify
 ```
+
+---
+
+## 🛡️ Panel de Administración y Control Editorial (admin/)
+
+La plataforma incluye un panel administrativo institucional de última generación ubicado en el directorio [`admin/`](admin/README.md), diseñado para que el equipo editorial y las autoridades sanitarias gestionen el contenido regulatorio con trazabilidad absoluta y flujos asistidos por Inteligencia Artificial:
+
+* **Edición Bilingüe Simultánea (Side-by-Side)**: Interfaz sincronizada de doble columna para comparar y editar en tiempo real las respuestas directas, respuestas ampliadas y fuentes normativas en Español e Inglés.
+* **Control Editorial y Cola de Traducción con IA**: Detección automática de desincronización cuando se actualiza un idioma. El motor integrado con **Google Gemini** analiza la novedad normativa y genera una sugerencia precisa que pasa a una cola de revisión para ser aprobada, editada o descartada antes de su publicación en producción.
+* **Centro de Auditoría Multi-Criterio con Diff Visual**: Monitoreo de todas las intervenciones agrupables bajo 5 modalidades (por país, por autor/auditor, por fecha cronológica, por sección regulatoria o tabla global). Incorpora un comparador visual de diferencias (*diff*) palabra por palabra y exportación de reportes a formatos **CSV** (para Excel) y **JSON**.
+* **Gestión de Recursos y Enlaces Oficiales**: Módulo dedicado para administrar fuentes, decretos y enlaces a los boletines oficiales de cada país.
+* **Seguridad y Control de Acceso (RBAC)**: Autenticación mediante tokens JWT sobre Supabase con roles diferenciados (*Administrador* y *Editor*).
+
+Para acceder a la documentación técnica exhaustiva, guías de despliegue en `admin.regia.ar` y esquema de base de datos SQL, consulte:
+
+👉 **[Documentación Técnica de REGIA Admin (admin/README.md)](admin/README.md)**
 
 ---
 
