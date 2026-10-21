@@ -13,3 +13,9 @@ dist/
 
 # Repositorio clonado de entrega pública
 regecam-public/
+
+# Secretos y variables de entorno
+.env
+.env.*
+*.local
+
