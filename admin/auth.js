@@ -140,6 +140,23 @@
             return currentUser?.rol === 'administrador' || this.isReadOnly();
         },
 
+        async updateOwnPassword(newPassword) {
+            if (currentUser?.isGuest) {
+                throw new Error('La cuenta de demostración (solo lectura) no admite cambio de contraseña.');
+            }
+            if (!newPassword || newPassword.length < 6) {
+                throw new Error('La contraseña debe tener al menos 6 caracteres.');
+            }
+            const client = window.AdminAPI?.getClient();
+            if (!client) throw new Error('Cliente Supabase no conectado');
+
+            const { data, error } = await client.auth.updateUser({
+                password: newPassword
+            });
+            if (error) throw error;
+            return { ok: true, user: data.user };
+        },
+
         loginAsReadOnly(guestName = 'Invitado (Solo Lectura)') {
             const guestUser = {
                 id: 'guest-readonly-' + Date.now(),

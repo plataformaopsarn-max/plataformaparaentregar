@@ -392,6 +392,50 @@
                 modal.classList.add('hidden');
             });
 
+            // Change Own Password
+            const newPwInput = modal.querySelector('#settings-new-password');
+            const confirmPwInput = modal.querySelector('#settings-confirm-password');
+            const changePwBtn = modal.querySelector('#btn-change-own-password');
+            const pwSection = modal.querySelector('#user-password-change-section');
+
+            if (window.AdminAuth.isReadOnly()) {
+                if (pwSection) pwSection.classList.add('hidden');
+            } else {
+                if (pwSection) pwSection.classList.remove('hidden');
+            }
+
+            if (changePwBtn) {
+                changePwBtn.onclick = async () => {
+                    const newPw = newPwInput?.value?.trim() || '';
+                    const confirmPw = confirmPwInput?.value?.trim() || '';
+
+                    if (!newPw || newPw.length < 6) {
+                        this.showToast('La nueva contraseña debe tener al menos 6 caracteres', 'error');
+                        return;
+                    }
+                    if (newPw !== confirmPw) {
+                        this.showToast('Las contraseñas no coinciden', 'error');
+                        return;
+                    }
+
+                    changePwBtn.disabled = true;
+                    changePwBtn.innerHTML = `<span>Actualizando...</span>`;
+
+                    try {
+                        await window.AdminAuth.updateOwnPassword(newPw);
+                        this.showToast('¡Contraseña actualizada correctamente!', 'success');
+                        if (newPwInput) newPwInput.value = '';
+                        if (confirmPwInput) confirmPwInput.value = '';
+                    } catch (err) {
+                        this.showToast('Error al actualizar contraseña: ' + (err.message || err), 'error');
+                    } finally {
+                        changePwBtn.disabled = false;
+                        changePwBtn.innerHTML = `<i data-lucide="check" class="w-3 h-3"></i><span>Actualizar Contraseña</span>`;
+                        if (window.lucide) window.lucide.createIcons();
+                    }
+                };
+            }
+
             // Copy SQL Migration
             modal.querySelector('#btn-copy-migration')?.addEventListener('click', () => {
                 const sqlText = `-- Ejecutar en Supabase SQL Editor:
