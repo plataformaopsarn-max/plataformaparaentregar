@@ -397,6 +397,7 @@ WHERE lower(email) = 'roitmanadr@paho.org';
 -- A. Proteger Auditoría: Solo administradores activos pueden consultar logs
 DROP POLICY IF EXISTS "anon_read_log" ON public.content_edit_log;
 DROP POLICY IF EXISTS "auth_read_log" ON public.content_edit_log;
+DROP POLICY IF EXISTS "admin_only_audit_read" ON public.content_edit_log;
 
 CREATE POLICY "admin_only_audit_read" ON public.content_edit_log
 FOR SELECT TO authenticated
