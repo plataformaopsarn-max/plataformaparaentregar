@@ -47,7 +47,8 @@ admin/
 ├── translations.js     # Cola editorial de sugerencias de traducción (aprobación, edición y descarte)
 ├── resources.js        # Gestor de enlaces normativos oficiales, decretos y fuentes por país
 ├── audit.js            # Centro de auditoría multi-criterio (5 agrupaciones), diff visual y exportador CSV
-├── migration.sql       # Script SQL DDL para aprovisionar tablas administrativas e índices en Supabase
+├── users.js            # Gestión integral de usuarios (RBAC): altas, bajas, roles y contraseñas
+├── migration.sql       # Script SQL DDL para aprovisionar tablas, políticas RLS y funciones RPC en Supabase
 └── regia-logo.png      # Isotipo y banner oficial institucional de REGIA
 ```
 
@@ -76,6 +77,25 @@ El acceso al panel administrativo está estructurado mediante tres perfiles con 
      - Permite navegar y consultar el **Dashboard**, el **Editor Bilingüe Side-by-Side** (con las 38 preguntas y respuestas de cada país), la **Cola de Traducciones**, la **Biblioteca Normativa** y el **Centro de Auditoría con diff visual y exportación**.
      - **Garantía de Inmutabilidad**: Todas las áreas de texto e inputs están bloqueadas (`readonly`/`disabled`), y los botones de guardado, traducción y eliminación se encuentran deshabilitados u ocultos, impidiendo cualquier alteración accidental de la base de producción.
      - Cuenta con un botón de acceso directo en el login: *"Explorar en Modo Solo Lectura"*.
+
+---
+
+## 👥 Módulo de Gestión de Usuarios (`#users`)
+
+Exclusivo para el rol `administrador`, este panel permite la administración completa del ciclo de vida de usuarios y credenciales directamente desde el navegador, sin necesidad de ingresar a la consola técnica de Supabase:
+
+* **Métricas en Tiempo Real**: Tarjetas con conteo total de cuentas, administradores, editores y lectores.
+* **Alta Inmediata de Usuarios**:
+  - Creación de cuenta con Nombre Completo, Correo y Contraseña inicial.
+  - Asignación de rol (`administrador`, `editor` o `lector`).
+  - **Activación instantánea**: El usuario se registra con `email_confirmed_at = NOW()` a través de funciones PostgreSQL con privilegios `SECURITY DEFINER`, permitiéndole iniciar sesión de inmediato sin depender de correos de confirmación.
+* **Modificación de Perfil y Permisos**:
+  - Cambio dinámico de rol en cualquier momento.
+  - Modificación de nombre descriptivo.
+  - Suspensión temporal de accesos (conmutador *Activo / Desactivado*).
+  - Restablecimiento directo de contraseña para soporte a usuarios del equipo.
+* **Baja de Usuarios**: Eliminación sincronizada tanto del perfil administrativo (`public.admin_profiles`) como de la cuenta de autenticación (`auth.users`).
+* **Filtros y Búsqueda Predictiva**: Búsqueda por texto (nombre/email) y segmentación por rol o estado de actividad.
 
 ---
 
@@ -143,12 +163,19 @@ El módulo de auditoría (`admin/audit.js`) ofrece trazabilidad total con **5 mo
 
 ## 🗄️ Base de Datos y Script de Migración
 
-El script `admin/migration.sql` aprovisiona las tablas administrativas necesarias en Supabase:
+El script `admin/migration.sql` aprovisiona las tablas administrativas, políticas RLS y funciones de gestión en Supabase:
 
-* `admin_profiles`: Registro de usuarios autorizados y roles (`administrador`, `editor`).
+* `admin_profiles`: Registro de usuarios autorizados y roles (`administrador`, `editor`, `lector`).
 * `translation_queue`: Cola de tareas de traducción con estados (`pendiente`, `aprobado`, `descartado`, `editado`).
 * `content_sync_status`: Estado de sincronización bilingüe por país y campo.
 * `audit_log`: Registro inmutable de eventos de modificación con valor anterior, nuevo, fecha y autor.
+
+### Funciones Almacenadas (RPC con `SECURITY DEFINER`)
+Para posibilitar la gestión completa de usuarios desde el frontend sin requerir Service Role Keys expuestas en el cliente, la sección 6 de `migration.sql` instala 4 funciones RPC seguras:
+* `admin_list_users()`: Retorna la lista consolidada de cuentas de `auth.users` combinada con sus roles en `admin_profiles`.
+* `admin_create_user(new_email, new_password, new_nombre, new_rol)`: Crea el usuario en Supabase Auth con confirmación automática de correo (`email_confirmed_at = NOW()`) usando `pgcrypto` y crea su registro en `admin_profiles`.
+* `admin_update_user(target_user_id, new_nombre, new_rol, new_activo, new_password)`: Modifica nombre, rol, activa/desactiva la cuenta o actualiza la contraseña de forma inmediata.
+* `admin_delete_user(target_user_id)`: Elimina de forma atómica y segura el usuario en `admin_profiles` y en `auth.users`.
 
 ---
 

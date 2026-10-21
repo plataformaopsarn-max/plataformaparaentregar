@@ -59,6 +59,13 @@
                 return;
             }
 
+            // Guard de permisos para Usuarios: Solo los administradores pueden gestionar usuarios
+            if (view === 'users' && !window.AdminAuth.isAdmin()) {
+                this.showToast('Acceso restringido: Solo los administradores pueden gestionar usuarios', 'warning');
+                this.navigate('dashboard');
+                return;
+            }
+
             this.state.currentView = view;
             this.state.params = params;
 
@@ -91,6 +98,9 @@
                     break;
                 case 'audit':
                     window.AdminAudit.render(mainContainer, params);
+                    break;
+                case 'users':
+                    window.AdminUsers.render(mainContainer, params);
                     break;
                 default:
                     window.AdminDashboard.render(mainContainer);
@@ -246,6 +256,17 @@
                     navAuditLink.classList.add('hidden');
                 } else {
                     navAuditLink.classList.remove('hidden');
+                }
+            }
+
+            // Control de visibilidad del link de Usuarios en la barra de navegación:
+            // Solo visible para administradores
+            const navUsersLink = document.querySelector('.nav-link[data-view="users"]');
+            if (navUsersLink) {
+                if (!window.AdminAuth.isAdmin()) {
+                    navUsersLink.classList.add('hidden');
+                } else {
+                    navUsersLink.classList.remove('hidden');
                 }
             }
 

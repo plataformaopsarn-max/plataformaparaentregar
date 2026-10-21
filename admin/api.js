@@ -651,6 +651,100 @@
             return { ok: true };
         },
 
+        // --- USER MANAGEMENT (RBAC) ---
+        async getAdminUsers() {
+            const client = getClient();
+            if (!client) throw new Error('Cliente no conectado a Supabase');
+
+            // 1. Intentar vía función RPC
+            try {
+                const { data, error } = await client.rpc('admin_list_users');
+                if (!error && data) {
+                    return { ok: true, users: data, rpcActive: true };
+                }
+            } catch (_) {}
+
+            // 2. Fallback: Consultar directamente admin_profiles
+            try {
+                const { data, error } = await client.from('admin_profiles').select('*').order('created_at', { ascending: false });
+                if (!error && data && data.length > 0) {
+                    return { ok: true, users: data, rpcActive: false };
+                }
+            } catch (_) {}
+
+            // 3. Fallback: Retornar usuario en sesión
+            const currentUser = window.AdminAuth?.getCurrentUser();
+            const fallbackUsers = currentUser ? [currentUser] : [];
+            return { ok: true, users: fallbackUsers, rpcActive: false };
+        },
+
+        async createAdminUser({ email, password, nombre, rol }) {
+            this.checkEditPermission();
+            const client = getClient();
+            if (!client) throw new Error('Cliente no conectado');
+
+            try {
+                const { data, error } = await client.rpc('admin_create_user', {
+                    new_email: email,
+                    new_password: password,
+                    new_nombre: nombre,
+                    new_rol: rol
+                });
+                if (!error && data) {
+                    return { ok: true, user: data };
+                }
+                if (error) throw error;
+            } catch (err) {
+                if (err.message && (err.message.includes('function') || err.message.includes('admin_create_user') || err.code === 'PGRST202')) {
+                    throw new Error('La función de base de datos no está instalada. Debe ejecutar el script SQL (sección 6 de migration.sql) en el SQL Editor de Supabase.');
+                }
+                throw err;
+            }
+        },
+
+        async updateAdminUser({ id, nombre, rol, activo, password }) {
+            this.checkEditPermission();
+            const client = getClient();
+            if (!client) throw new Error('Cliente no conectado');
+
+            try {
+                const { data, error } = await client.rpc('admin_update_user', {
+                    target_user_id: id,
+                    new_nombre: nombre,
+                    new_rol: rol,
+                    new_activo: activo,
+                    new_password: password || null
+                });
+                if (!error && data) return { ok: true };
+                if (error) throw error;
+            } catch (err) {
+                try {
+                    const updateData = { nombre, rol, activo };
+                    const { error } = await client.from('admin_profiles').update(updateData).eq('id', id);
+                    if (!error) return { ok: true };
+                } catch (_) {}
+                throw err;
+            }
+        },
+
+        async deleteAdminUser(id) {
+            this.checkEditPermission();
+            const client = getClient();
+            if (!client) throw new Error('Cliente no conectado');
+
+            try {
+                const { data, error } = await client.rpc('admin_delete_user', { target_user_id: id });
+                if (!error && data) return { ok: true };
+                if (error) throw error;
+            } catch (err) {
+                try {
+                    const { error } = await client.from('admin_profiles').delete().eq('id', id);
+                    if (!error) return { ok: true };
+                } catch (_) {}
+                throw err;
+            }
+        },
+
         // --- GEMINI TRANSLATION MOTOR ---
         getGeminiKey() {
             const storageKey = window.ADMIN_CONFIG?.STORAGE_KEYS?.GEMINI_API_KEY || 'regia_admin_gemini_key';
