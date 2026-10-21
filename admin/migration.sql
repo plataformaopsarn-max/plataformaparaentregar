@@ -176,6 +176,7 @@ DECLARE
   new_user_id UUID;
   clean_email TEXT;
   clean_rol TEXT;
+  inst_id UUID;
 BEGIN
   -- Verificar permisos
   SELECT rol INTO caller_role FROM public.admin_profiles WHERE id = auth.uid();
@@ -190,7 +191,7 @@ BEGIN
     RAISE EXCEPTION 'Rol inválido. Debe ser: administrador, editor o lector';
   END IF;
 
-  IF EXISTS (SELECT 1 FROM auth.users WHERE email = clean_email) THEN
+  IF EXISTS (SELECT 1 FROM auth.users WHERE lower(email) = clean_email) THEN
     RAISE EXCEPTION 'El correo % ya se encuentra registrado', clean_email;
   END IF;
 
@@ -199,6 +200,12 @@ BEGIN
   END IF;
 
   new_user_id := gen_random_uuid();
+
+  -- Obtener el instance_id real de auth.users o fallback canónico de 32 ceros
+  SELECT instance_id INTO inst_id FROM auth.users WHERE instance_id IS NOT NULL LIMIT 1;
+  IF inst_id IS NULL THEN
+    inst_id := '00000000-0000-0000-0000-000000000000'::uuid;
+  END IF;
 
   -- Insertar en auth.users con contraseña encriptada y email_confirmed_at activo
   INSERT INTO auth.users (
@@ -214,7 +221,7 @@ BEGIN
     created_at,
     updated_at
   ) VALUES (
-    '00000000-0000-0000-0000-000000000000',
+    inst_id,
     new_user_id,
     'authenticated',
     'authenticated',
