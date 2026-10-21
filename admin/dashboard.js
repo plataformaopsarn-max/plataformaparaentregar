@@ -57,10 +57,11 @@
                                 <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                                 <span>Actualizar</span>
                             </button>
+                            ${window.AdminAuth?.isAdmin() ? `
                             <button id="btn-open-api-settings" class="flex items-center gap-2 px-3 py-2 bg-white text-blue-900 hover:bg-blue-50 rounded-lg text-sm font-semibold transition shadow-sm">
                                 <i data-lucide="sparkles" class="w-4 h-4 text-blue-600"></i>
                                 <span>Configurar IA Gemini</span>
-                            </button>
+                            </button>` : ''}
                         </div>
                     </div>
 
@@ -237,6 +238,7 @@
                                 <i data-lucide="link" class="w-3.5 h-3.5"></i>
                             </button>
 
+                            ${(window.AdminAuth?.canViewAudit() && !window.AdminAuth?.isEditor()) ? `
                             <button 
                                 data-action="audit-country" 
                                 data-country="${c.name}"
@@ -244,7 +246,7 @@
                                 class="px-2.5 py-2 bg-white hover:bg-blue-50 text-slate-600 hover:text-blue-700 border border-slate-200 font-medium rounded-lg transition"
                             >
                                 <i data-lucide="history" class="w-3.5 h-3.5"></i>
-                            </button>
+                            </button>` : ''}
                         </div>
                     </div>
                 `;

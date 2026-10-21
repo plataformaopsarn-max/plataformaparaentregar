@@ -249,10 +249,10 @@
             }
 
             // Control de visibilidad del link de Auditoría en la barra de navegación:
-            // Si el rol es editor (no puede ver auditoría), se oculta el link en el menú
+            // Al rol editor NUNCA se le muestra la opción de auditoría
             const navAuditLink = document.querySelector('.nav-link[data-view="audit"]');
             if (navAuditLink) {
-                if (!window.AdminAuth.canViewAudit()) {
+                if (window.AdminAuth.isEditor() || !window.AdminAuth.canViewAudit()) {
                     navAuditLink.classList.add('hidden');
                 } else {
                     navAuditLink.classList.remove('hidden');
@@ -301,6 +301,43 @@
             const modal = document.getElementById('admin-settings-modal');
             if (!modal) return;
 
+            const user = window.AdminAuth.getCurrentUser();
+            const isAdmin = window.AdminAuth.isAdmin();
+
+            // Actualizar información de la cuenta en el modal
+            const userNameEl = modal.querySelector('#settings-user-name');
+            const userEmailEl = modal.querySelector('#settings-user-email');
+            const userAvatarEl = modal.querySelector('#settings-user-avatar');
+            const userRoleBadge = modal.querySelector('#settings-user-role-badge');
+            const modalTitleEl = modal.querySelector('#settings-modal-title');
+            const techSection = modal.querySelector('#settings-technical-admin-section');
+            const submitSettingsBtn = modal.querySelector('#btn-submit-settings');
+
+            if (user) {
+                if (userNameEl) userNameEl.textContent = user.nombre || user.email;
+                if (userEmailEl) userEmailEl.textContent = user.email;
+                if (userAvatarEl) {
+                    const initials = (user.nombre || user.email || 'U').substring(0, 2).toUpperCase();
+                    userAvatarEl.textContent = initials;
+                }
+                if (userRoleBadge) {
+                    const roleInfo = window.AdminAuth.getRoleInfo();
+                    userRoleBadge.textContent = roleInfo.label;
+                    userRoleBadge.className = `px-2 py-0.5 text-[10px] font-bold rounded-md uppercase tracking-wider ${roleInfo.badgeClass}`;
+                }
+            }
+
+            // Ocultar sección técnica para todo perfil que NO sea administrador
+            if (!isAdmin) {
+                if (techSection) techSection.classList.add('hidden');
+                if (submitSettingsBtn) submitSettingsBtn.classList.add('hidden');
+                if (modalTitleEl) modalTitleEl.textContent = 'Mi Cuenta y Seguridad';
+            } else {
+                if (techSection) techSection.classList.remove('hidden');
+                if (submitSettingsBtn) submitSettingsBtn.classList.remove('hidden');
+                if (modalTitleEl) modalTitleEl.textContent = 'Configuración del Panel (Administrador)';
+            }
+
             const isDefault = window.AdminAPI.isUsingDefaultKey();
             const customKey = window.AdminAPI.getUserCustomGeminiKey();
             const keyInput = modal.querySelector('#settings-gemini-key');
@@ -338,11 +375,10 @@
 
                 if (window.AdminAuth.isReadOnly()) {
                     if (keyInput) keyInput.disabled = true;
-                    const submitBtn = modal.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        submitBtn.disabled = true;
-                        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                        submitBtn.title = 'Modo Solo Lectura: Modificación deshabilitada';
+                    if (submitSettingsBtn) {
+                        submitSettingsBtn.disabled = true;
+                        submitSettingsBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        submitSettingsBtn.title = 'Modo Solo Lectura: Modificación deshabilitada';
                     }
                 }
             }
