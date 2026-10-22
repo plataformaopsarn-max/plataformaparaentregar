@@ -638,7 +638,6 @@ const app = {
     initMapInteractions: function () {
         const svg = document.getElementById('map-svg');
         const wrap = document.getElementById('map-wrap');
-        const tip = document.getElementById('map-tooltip');
         if (!svg || !wrap) return;
         this.mapView = { k: 1, x: 0, y: 0 };
         const self = this;
@@ -647,21 +646,6 @@ const app = {
             pt.x = e.clientX; pt.y = e.clientY;
             return pt.matrixTransform(svg.getScreenCTM().inverse());
         };
-
-        // Tooltip que sigue al cursor
-        svg.addEventListener('mousemove', (e) => {
-            const g = e.target.closest ? e.target.closest('.map-country') : null;
-            if (g && tip && !drag) {
-                const r = wrap.getBoundingClientRect();
-                tip.textContent = g.getAttribute('data-name');
-                tip.classList.remove('hidden');
-                tip.style.left = Math.min(r.width - tip.offsetWidth - 4, Math.max(4, e.clientX - r.left + 12)) + 'px';
-                tip.style.top = Math.max(4, e.clientY - r.top - 34) + 'px';
-            } else if (tip) {
-                tip.classList.add('hidden');
-            }
-        });
-        svg.addEventListener('mouseleave', () => { if (tip) tip.classList.add('hidden'); });
 
         // Zoom con Ctrl/⌘ + rueda (o pellizco en trackpad)
         svg.addEventListener('wheel', (e) => {
@@ -678,7 +662,6 @@ const app = {
             if (self.mapView.k <= 1 || e.button !== 0) return;
             drag = { sx: e.clientX, sy: e.clientY, ox: self.mapView.x, oy: self.mapView.y };
             svg.style.cursor = 'grabbing';
-            if (tip) tip.classList.add('hidden');
         });
         window.addEventListener('mousemove', (e) => {
             if (!drag) return;
@@ -801,7 +784,6 @@ const app = {
                                 <button type="button" onclick="app.mapZoom(1/1.4)" aria-label="Alejar" title="Alejar" class="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-blue-700 hover:border-blue-400 text-lg font-bold leading-none cursor-pointer">&minus;</button>
                                 <button type="button" onclick="app.mapResetZoom()" aria-label="Restablecer vista" title="Restablecer vista" class="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-blue-700 hover:border-blue-400 text-sm font-bold leading-none cursor-pointer">&#x21BA;</button>
                             </div>
-                            <div id="map-tooltip" class="hidden pointer-events-none absolute z-20 px-2.5 py-1 rounded-md bg-slate-900/90 text-white text-[11px] font-bold shadow-lg whitespace-nowrap"></div>
                         </div>
                     </div>
                     <p class="text-[10px] text-slate-400 text-center mt-3 leading-tight italic">
