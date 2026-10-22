@@ -134,6 +134,8 @@ const DataCacheManager = {
 DataCacheManager.loadSync();
 
 const MAP_PATHS = {
+    CA: "M60,10 L80,8 L190,8 L200,25 L190,32 L150,30 L130,28 L85,28 L75,22 L60,18 Z",
+    US: "M85,28 L130,28 L150,30 L190,32 L195,45 L180,60 L160,60 L100,50 L90,38 Z",
     MX: "M100,50 L160,60 L180,90 L160,120 L130,110 L110,90 Z",
     GT: "M160,120 L175,125 L170,135 L160,130 Z",
     SV: "M170,135 L180,135 L175,140 Z",
@@ -159,6 +161,7 @@ const MAP_PATHS = {
 };
 
 const MAP_COORDS = {
+    CA: { x: 135, y: 18 }, US: { x: 140, y: 44 },
     MX: { x: 130, y: 80 }, GT: { x: 160, y: 120 }, SV: { x: 170, y: 145 }, HN: { x: 190, y: 120 },
     NI: { x: 200, y: 145 }, CR: { x: 205, y: 165 }, PA: { x: 240, y: 175 }, CU: { x: 250, y: 85 },
     JM: { x: 240, y: 115 }, HT: { x: 265, y: 95 }, DO: { x: 290, y: 90 }, TT: { x: 345, y: 135 },
@@ -171,12 +174,14 @@ const COUNTRIES_LIST = [
     { id: 'AR', name: 'Argentina', displayName: 'Argentina', flagCode: 'ar', region: 'South America' },
     { id: 'BO', name: 'Bolivia', displayName: 'Bolivia', flagCode: 'bo', region: 'South America' },
     { id: 'BR', name: 'Brasil', displayName: 'Brazil', flagCode: 'br', region: 'South America' },
+    { id: 'CA', name: 'Canadá', displayName: 'Canada', flagCode: 'ca', region: 'North America' },
     { id: 'CL', name: 'Chile', displayName: 'Chile', flagCode: 'cl', region: 'South America' },
     { id: 'CO', name: 'Colombia', displayName: 'Colombia', flagCode: 'co', region: 'South America' },
     { id: 'CR', name: 'Costa Rica', displayName: 'Costa Rica', flagCode: 'cr', region: 'Central America' },
     { id: 'CU', name: 'Cuba', displayName: 'Cuba', flagCode: 'cu', region: 'Caribbean' },
     { id: 'EC', name: 'Ecuador', displayName: 'Ecuador', flagCode: 'ec', region: 'South America' },
     { id: 'SV', name: 'El Salvador', displayName: 'El Salvador', flagCode: 'sv', region: 'Central America' },
+    { id: 'US', name: 'Estados Unidos', displayName: 'United States', flagCode: 'us', region: 'North America' },
     { id: 'GT', name: 'Guatemala', displayName: 'Guatemala', flagCode: 'gt', region: 'Central America' },
     { id: 'HT', name: 'Haití', displayName: 'Haiti', flagCode: 'ht', region: 'Caribbean' },
     { id: 'HN', name: 'Honduras', displayName: 'Honduras', flagCode: 'hn', region: 'Central America' },
