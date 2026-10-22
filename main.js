@@ -588,6 +588,116 @@ const app = {
     },
 
     // VISTA: HOME (MOBILE: SOLO 3 TARJETAS | DESKTOP: 2 COLUMNAS TARJETAS + MAPA)
+    // ===== ZOOM / PAN / TOOLTIP DEL MAPA =====
+    mapView: { k: 1, x: 0, y: 0 },
+    _mapDragged: false,
+
+    applyMapView: function () {
+        const layer = document.getElementById('map-zoom-layer');
+        if (layer) layer.setAttribute('transform', `translate(${this.mapView.x} ${this.mapView.y}) scale(${this.mapView.k})`);
+    },
+
+    clampMapView: function () {
+        const svg = document.getElementById('map-svg');
+        if (!svg) return;
+        const vb = svg.viewBox.baseVal, v = this.mapView;
+        const k = v.k;
+        v.x = Math.min(vb.x * (1 - k), Math.max((vb.x + vb.width) * (1 - k), v.x));
+        v.y = Math.min(vb.y * (1 - k), Math.max((vb.y + vb.height) * (1 - k), v.y));
+    },
+
+    mapZoom: function (factor, cx, cy) {
+        const svg = document.getElementById('map-svg');
+        if (!svg) return;
+        const vb = svg.viewBox.baseVal, v = this.mapView;
+        const px = (cx === undefined) ? vb.x + vb.width / 2 : cx;
+        const py = (cy === undefined) ? vb.y + vb.height / 2 : cy;
+        const nk = Math.min(6, Math.max(1, v.k * factor));
+        const f = nk / v.k;
+        v.x = px - (px - v.x) * f;
+        v.y = py - (py - v.y) * f;
+        v.k = nk;
+        if (nk === 1) { v.x = 0; v.y = 0; }
+        this.clampMapView();
+        this.applyMapView();
+        svg.style.cursor = v.k > 1 ? 'grab' : 'default';
+    },
+
+    mapResetZoom: function () {
+        this.mapView = { k: 1, x: 0, y: 0 };
+        this.applyMapView();
+        const svg = document.getElementById('map-svg');
+        if (svg) svg.style.cursor = 'default';
+    },
+
+    onMapCountryClick: function (name) {
+        if (this._mapDragged) return;
+        this.selectCountry(name);
+    },
+
+    initMapInteractions: function () {
+        const svg = document.getElementById('map-svg');
+        const wrap = document.getElementById('map-wrap');
+        const tip = document.getElementById('map-tooltip');
+        if (!svg || !wrap) return;
+        this.mapView = { k: 1, x: 0, y: 0 };
+        const self = this;
+        const toSvg = (e) => {
+            const pt = svg.createSVGPoint();
+            pt.x = e.clientX; pt.y = e.clientY;
+            return pt.matrixTransform(svg.getScreenCTM().inverse());
+        };
+
+        // Tooltip que sigue al cursor
+        svg.addEventListener('mousemove', (e) => {
+            const g = e.target.closest ? e.target.closest('.map-country') : null;
+            if (g && tip && !drag) {
+                const r = wrap.getBoundingClientRect();
+                tip.textContent = g.getAttribute('data-name');
+                tip.classList.remove('hidden');
+                tip.style.left = Math.min(r.width - tip.offsetWidth - 4, Math.max(4, e.clientX - r.left + 12)) + 'px';
+                tip.style.top = Math.max(4, e.clientY - r.top - 34) + 'px';
+            } else if (tip) {
+                tip.classList.add('hidden');
+            }
+        });
+        svg.addEventListener('mouseleave', () => { if (tip) tip.classList.add('hidden'); });
+
+        // Zoom con Ctrl/⌘ + rueda (o pellizco en trackpad)
+        svg.addEventListener('wheel', (e) => {
+            if (!(e.ctrlKey || e.metaKey)) return;
+            e.preventDefault();
+            const p = toSvg(e);
+            self.mapZoom(e.deltaY < 0 ? 1.2 : 1 / 1.2, p.x, p.y);
+        }, { passive: false });
+
+        // Arrastrar para desplazar (solo con zoom > 1)
+        let drag = null;
+        svg.addEventListener('mousedown', (e) => {
+            self._mapDragged = false;
+            if (self.mapView.k <= 1 || e.button !== 0) return;
+            drag = { sx: e.clientX, sy: e.clientY, ox: self.mapView.x, oy: self.mapView.y };
+            svg.style.cursor = 'grabbing';
+            if (tip) tip.classList.add('hidden');
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!drag) return;
+            const dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+            if (Math.abs(dx) + Math.abs(dy) > 4) self._mapDragged = true;
+            const scale = svg.getScreenCTM().a || 1;
+            self.mapView.x = drag.ox + dx / scale;
+            self.mapView.y = drag.oy + dy / scale;
+            self.clampMapView();
+            self.applyMapView();
+        });
+        window.addEventListener('mouseup', () => {
+            if (!drag) return;
+            drag = null;
+            svg.style.cursor = self.mapView.k > 1 ? 'grab' : 'default';
+            setTimeout(() => { self._mapDragged = false; }, 0);
+        });
+    },
+
     renderHome: function (container) {
         // Limpiar sección de impacto si existía
         const impactContainer = document.getElementById('impact-section');
@@ -596,17 +706,15 @@ const app = {
         }
 
         let mapPathsHtml = '';
+        const MAP_SMALL_HIT = ['SV','JM','TT','CR','HT','DO','PA','GT','HN','NI','CU','UY','EC'];
         for (const [id, pathData] of Object.entries(MAP_PATHS)) {
             const country = COUNTRIES_LIST.find(c => c.id === id);
             const coords = MAP_COORDS[id];
             if (country && coords) {
                 mapPathsHtml += `
-                <g class="group cursor-pointer" onmouseenter="this.parentNode.appendChild(this)" onclick="app.selectCountry('${country.name}')">
-                    <path d="${pathData}" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" class="map-path hover:fill-blue-500 hover:stroke-blue-700"></path>
-                    <g class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <rect x="${coords.x - (country.name.length * 3.5)}" y="${coords.y - 20}" width="${country.name.length * 7 + 10}" height="20" rx="4" fill="rgba(15, 23, 42, 0.9)"></rect>
-                        <text x="${coords.x}" y="${coords.y - 6}" text-anchor="middle" fill="white" font-size="10" font-weight="bold">${country.name}</text>
-                    </g>
+                <g class="map-country cursor-pointer" data-name="${country.name}" onclick="app.onMapCountryClick('${country.name}')">
+                    <path d="${pathData}" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" class="map-path"></path>
+                    ${MAP_SMALL_HIT.includes(id) ? `<path d="${pathData}" fill="none" stroke="transparent" stroke-width="6" vector-effect="non-scaling-stroke"></path>` : ''}
                 </g>`;
             }
         }
@@ -684,10 +792,16 @@ const app = {
                         </div>
 
                         <!-- Contenedor del Mapa -->
-                        <div class="relative w-full h-[560px] bg-blue-50/40 rounded-2xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-3">
-                            <svg viewBox="0 -100 440 570" class="w-full h-full drop-shadow-md">
-                                ${mapPathsHtml}
+                        <div id="map-wrap" class="relative w-full h-[520px] bg-blue-50/40 rounded-2xl border border-blue-100 shadow-inner overflow-hidden flex items-center justify-center p-3 select-none">
+                            <svg id="map-svg" viewBox="0 -100 440 570" class="w-full h-full drop-shadow-md" style="touch-action:none">
+                                <g id="map-zoom-layer">${mapPathsHtml}</g>
                             </svg>
+                            <div class="absolute top-3 right-3 flex flex-col gap-1.5 z-10">
+                                <button type="button" onclick="app.mapZoom(1.4)" aria-label="Acercar" title="Acercar" class="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-blue-700 hover:border-blue-400 text-lg font-bold leading-none cursor-pointer">+</button>
+                                <button type="button" onclick="app.mapZoom(1/1.4)" aria-label="Alejar" title="Alejar" class="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-blue-700 hover:border-blue-400 text-lg font-bold leading-none cursor-pointer">&minus;</button>
+                                <button type="button" onclick="app.mapResetZoom()" aria-label="Restablecer vista" title="Restablecer vista" class="w-8 h-8 rounded-lg bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-blue-700 hover:border-blue-400 text-sm font-bold leading-none cursor-pointer">&#x21BA;</button>
+                            </div>
+                            <div id="map-tooltip" class="hidden pointer-events-none absolute z-20 px-2.5 py-1 rounded-md bg-slate-900/90 text-white text-[11px] font-bold shadow-lg whitespace-nowrap"></div>
                         </div>
                     </div>
                     <p class="text-[10px] text-slate-400 text-center mt-3 leading-tight italic">
@@ -708,6 +822,8 @@ const app = {
                 </p>
             </div>
         </div>`;
+
+        this.initMapInteractions();
 
         const input = document.getElementById('home-search-input');
         if (input) {

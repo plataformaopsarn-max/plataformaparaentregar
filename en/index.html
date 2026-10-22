@@ -34,7 +34,7 @@
 
     <!-- 5. Supabase & Configuración Centralizada -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../config.js?v=1.3.1"></script>
+    <script src="../config.js?v=1.3.2"></script>
 
     <style>
         body {
@@ -71,13 +71,15 @@
         }
 
         .map-path {
-            transition: all 0.3s ease;
+            transition: fill 0.2s ease, stroke 0.2s ease;
             cursor: pointer;
         }
 
+        /* Hover sin desplazamiento (el 'levantado' sacaba el cursor de los países pequeños y perdía el clic) */
+        .map-country:hover .map-path,
         .map-path:hover {
-            filter: brightness(1.1);
-            transform: translateY(-2px);
+            fill: #3b82f6;
+            stroke: #1d4ed8;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -214,7 +216,7 @@
         </div>
     </main>
 
-    <script type="module" src="main.js?v=1.3.1"></script>
+    <script type="module" src="main.js?v=1.3.2"></script>
 </body>
 
 </html>
