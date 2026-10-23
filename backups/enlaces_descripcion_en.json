@@ -1620,6 +1620,10 @@
     "proposito_descripcion_en": "\"Registro Sanitario\" [Sanitary Registration] section of the INHRR portal."
   },
   {
+    "id": 509,
+    "proposito_descripcion_en": "FDA regulation on the protection of human subjects: informed consent, emergency situations and additional safeguards for children."
+  },
+  {
     "id": 301,
     "proposito_descripcion_en": "Although not a regulation in force, this document, which was open for public consultation, is the clearest reference on the direction the regulatory authority seeks to take to align Venezuela's regulatory framework with international GCP standards."
   },
@@ -1742,5 +1746,333 @@
   {
     "id": 328,
     "proposito_descripcion_en": "Defines the national strategic framework, governance pillars, and the National Research Agenda. The guiding document for strengthening the health system through evidence-based data, and regulates transparency in disseminating research results."
+  },
+  {
+    "id": 458,
+    "proposito_descripcion_en": "The federal act that gives Health Canada its authority over therapeutic products, including authorization of the sale and importation of drugs for clinical trials."
+  },
+  {
+    "id": 459,
+    "proposito_descripcion_en": "The regulation that governs drugs for clinical trials involving human subjects: application, authorization after 30 days, amendments, sponsor obligations, labelling, records, safety reports, discontinuation and suspension."
+  },
+  {
+    "id": 508,
+    "proposito_descripcion_en": "The federal law that gives the FDA its authority over drugs and biological products, including the investigational new drug (IND) exemption needed to begin a clinical trial."
+  },
+  {
+    "id": 460,
+    "proposito_descripcion_en": "The policy of Canada's three federal research agencies that sets the ethical standard for research ethics boards in Canada: consent, privacy, biological materials, vulnerable populations and trial registration."
+  },
+  {
+    "id": 461,
+    "proposito_descripcion_en": "The federal data protection law that applies to private-sector organizations, including health data."
+  },
+  {
+    "id": 462,
+    "proposito_descripcion_en": "The federal law that governs the handling of personal information by federal government departments and agencies."
+  },
+  {
+    "id": 463,
+    "proposito_descripcion_en": "The act that requires a licence for controlled activities with human pathogens and toxins, including their import and export."
+  },
+  {
+    "id": 464,
+    "proposito_descripcion_en": "The regulations under the Human Pathogens and Toxins Act, setting out licence requirements by risk group."
+  },
+  {
+    "id": 465,
+    "proposito_descripcion_en": "Health Canada form for submitting the clinical trial application and the sponsor's attestation, with the appendix that authorizes each importer."
+  },
+  {
+    "id": 466,
+    "proposito_descripcion_en": "Form that tells Health Canada, for each Phase I to III site, the qualified investigator, the research ethics board approval and the start date."
+  },
+  {
+    "id": 467,
+    "proposito_descripcion_en": "Attestation completed by the research ethics board that approved the trial, which the sponsor keeps for 15 years."
+  },
+  {
+    "id": 468,
+    "proposito_descripcion_en": "Form in which the qualified investigator undertakes to conduct the trial in accordance with Good Clinical Practice. The sponsor keeps it on file."
+  },
+  {
+    "id": 469,
+    "proposito_descripcion_en": "Health Canada form for expedited reporting of serious unexpected adverse drug reactions in clinical trials."
+  },
+  {
+    "id": 470,
+    "proposito_descripcion_en": "International form for reporting suspected adverse events, which must accompany the expedited report."
+  },
+  {
+    "id": 471,
+    "proposito_descripcion_en": "Health Canada's secure portal for electronic submission of clinical trial applications and other regulatory transactions in eCTD format."
+  },
+  {
+    "id": 472,
+    "proposito_descripcion_en": "FDA platform that Canada shares: the sponsor must register as a trading partner and select Health Canada as the recipient."
+  },
+  {
+    "id": 473,
+    "proposito_descripcion_en": "Public Health Canada portal, in effect since July 29, 2026, with selected information on authorized trials of pharmaceutical and biologic drugs and radiopharmaceuticals."
+  },
+  {
+    "id": 474,
+    "proposito_descripcion_en": "Public clinical trial registry recognized by the WHO, accepted by Health Canada guidance for registering trials."
+  },
+  {
+    "id": 475,
+    "proposito_descripcion_en": "Public clinical trial registry recognized by the WHO, accepted by Health Canada guidance for registering trials."
+  },
+  {
+    "id": 476,
+    "proposito_descripcion_en": "National inventory of clinical research investigators and sites, useful for identifying sites and speeding up feasibility (an account is required)."
+  },
+  {
+    "id": 477,
+    "proposito_descripcion_en": "Health Canada's main guidance for sponsors: scope, content and process of the clinical trial application, review timelines, amendments, notifications and safety."
+  },
+  {
+    "id": 478,
+    "proposito_descripcion_en": "Health Canada's interpretation of Division 5 of the Regulations, revised effective April 1, 2026 to align with ICH E6(R3)."
+  },
+  {
+    "id": 479,
+    "proposito_descripcion_en": "Harmonized Good Clinical Practice guideline that Health Canada implemented effective April 1, 2026, and which takes precedence over other Health Canada guidance where they are inconsistent."
+  },
+  {
+    "id": 480,
+    "proposito_descripcion_en": "Guidance on managing submissions, including review timelines, pre-submission meetings and communications with the sponsor."
+  },
+  {
+    "id": 481,
+    "proposito_descripcion_en": "Instructions for completing the application form, including authorization of importers in Canada."
+  },
+  {
+    "id": 482,
+    "proposito_descripcion_en": "Guidance and templates for completing the quality (chemistry and manufacturing) part of a clinical trial application for pharmaceuticals."
+  },
+  {
+    "id": 483,
+    "proposito_descripcion_en": "Notice setting out the quality requirements for investigational biologic drugs used in clinical trials."
+  },
+  {
+    "id": 484,
+    "proposito_descripcion_en": "Guidance on electronic filing of applications: eCTD, dossier IDs, formats and physical media."
+  },
+  {
+    "id": 485,
+    "proposito_descripcion_en": "Notice of September 14, 2026 that, pending the proposed regulations, relaxes how research ethics boards are reported on the CTSI form, the criteria for qualified investigators and the methods of documented consent."
+  },
+  {
+    "id": 486,
+    "proposito_descripcion_en": "Guidance in effect since July 29, 2026 setting out Health Canada's expectations for registering trials and disclosing summary results."
+  },
+  {
+    "id": 487,
+    "proposito_descripcion_en": "2012 notice that clarified that trial registration was not a mandatory requirement."
+  },
+  {
+    "id": 488,
+    "proposito_descripcion_en": "Describes the obligations after authorization: reporting of adverse drug reactions, annual review of the Investigator's Brochure and other reports."
+  },
+  {
+    "id": 489,
+    "proposito_descripcion_en": "Guidance on the Development Safety Update Report (DSUR), which is submitted at Health Canada's request or voluntarily."
+  },
+  {
+    "id": 490,
+    "proposito_descripcion_en": "Regional requirements for DSURs submitted to the authorities of Canada and the United Kingdom."
+  },
+  {
+    "id": 491,
+    "proposito_descripcion_en": "Health Canada FAQs that confirm there is no fee to file a clinical trial application."
+  },
+  {
+    "id": 492,
+    "proposito_descripcion_en": "Fact sheet on the process for reviewing drugs and clinical trial applications in Canada."
+  },
+  {
+    "id": 493,
+    "proposito_descripcion_en": "Annex on good manufacturing practices for drugs used in clinical trials: manufacture, packaging, labelling and changing the expiry date."
+  },
+  {
+    "id": 494,
+    "proposito_descripcion_en": "General good manufacturing practices guide, which requires a quality management system."
+  },
+  {
+    "id": 495,
+    "proposito_descripcion_en": "Principles for environmental control of drugs during storage and transport."
+  },
+  {
+    "id": 496,
+    "proposito_descripcion_en": "Guidance on importing and exporting, stating that drugs without a Drug Identification Number can be imported if an NOL has been issued, and that Health Canada does not regulate human biological material for research."
+  },
+  {
+    "id": 497,
+    "proposito_descripcion_en": "FAQs on importing the investigational product and on the copy of the NOL that should accompany the shipment."
+  },
+  {
+    "id": 498,
+    "proposito_descripcion_en": "Policy stating that sponsors, qualified investigators and CROs have mandatory responsibilities and may be inspected."
+  },
+  {
+    "id": 499,
+    "proposito_descripcion_en": "Lot Release Program guidance, with rules for lots of prophylactic vaccines and other biologics used in clinical trials."
+  },
+  {
+    "id": 500,
+    "proposito_descripcion_en": "September 2025 guidance on expanded access clinical trials, which are distinct from the Special Access Program."
+  },
+  {
+    "id": 501,
+    "proposito_descripcion_en": "Describes the order that allows Health Canada to rely on decisions and documents from comparable foreign regulators for certain drugs."
+  },
+  {
+    "id": 502,
+    "proposito_descripcion_en": "Page of the joint Health Canada and Public Health Agency of Canada ethics board, with its consent templates and the clarification that it does not oversee other boards."
+  },
+  {
+    "id": 503,
+    "proposito_descripcion_en": "Guidance on the single-REB review model for multi-jurisdictional minimal risk research."
+  },
+  {
+    "id": 504,
+    "proposito_descripcion_en": "Guidance from the Panel on Research Ethics, published May 27, 2026, on ethics review and the conduct of research during publicly declared emergencies."
+  },
+  {
+    "id": 505,
+    "proposito_descripcion_en": "Guidance, updated August 4, 2026, on broad consent for data and biological material repositories."
+  },
+  {
+    "id": 506,
+    "proposito_descripcion_en": "Public Health Agency biosafety standard that classifies biological materials by risk group."
+  },
+  {
+    "id": 507,
+    "proposito_descripcion_en": "List of provincial and territorial privacy laws, including those on personal health information."
+  },
+  {
+    "id": 510,
+    "proposito_descripcion_en": "FDA regulation on institutional review boards (IRBs): membership, functions, review procedures, records and registration with HHS."
+  },
+  {
+    "id": 511,
+    "proposito_descripcion_en": "FDA regulation on the investigational new drug (IND) application: content, effective dates, amendments, safety reports, sponsor and investigator responsibilities, labeling and importation."
+  },
+  {
+    "id": 512,
+    "proposito_descripcion_en": "Regulates expanded access to investigational drugs outside a clinical trial for patients with serious or immediately life-threatening diseases."
+  },
+  {
+    "id": 513,
+    "proposito_descripcion_en": "Sets the current good manufacturing practice requirements for the manufacture of drugs, including the investigational drug."
+  },
+  {
+    "id": 514,
+    "proposito_descripcion_en": "The revised Common Rule for research with human subjects funded or supported by federal agencies, which applies to studies approved, exempted or waived from ethics review on or after January 21, 2019."
+  },
+  {
+    "id": 515,
+    "proposito_descripcion_en": "The earlier version of the Common Rule, which applies to studies approved, exempted or waived from ethics review before January 21, 2019, unless the institution opts to transition."
+  },
+  {
+    "id": 516,
+    "proposito_descripcion_en": "Additional HHS protections for pregnant women, fetuses and neonates (B), prisoners (C) and children (D), with provisions on registration of IRBs (E)."
+  },
+  {
+    "id": 517,
+    "proposito_descripcion_en": "Requires the registration of applicable clinical trials and the submission of their results on ClinicalTrials.gov, with deadlines for registration, updates and results."
+  },
+  {
+    "id": 518,
+    "proposito_descripcion_en": "The law that, in Section 801, established mandatory registration of clinical trials and submission of results on ClinicalTrials.gov."
+  },
+  {
+    "id": 519,
+    "proposito_descripcion_en": "Sets the conditions under which covered entities may use and disclose protected health information for research."
+  },
+  {
+    "id": 520,
+    "proposito_descripcion_en": "Regulates the records on identifiable individuals kept by federal agencies, including the NIH."
+  },
+  {
+    "id": 521,
+    "proposito_descripcion_en": "Prohibits certain data transactions that give countries of concern or covered persons access to bulk human 'omic data or to the biospecimens from which it can be derived, with an exemption for regulatory approval data."
+  },
+  {
+    "id": 522,
+    "proposito_descripcion_en": "Sets the general requirements for the transport of hazardous materials, including patient and infectious specimens."
+  },
+  {
+    "id": 523,
+    "proposito_descripcion_en": "Regulates the possession, use and transfer of select agents and toxins."
+  },
+  {
+    "id": 524,
+    "proposito_descripcion_en": "FDA forms for the IND: Form 1571 is the cover sheet of the application and Form 1572 is the investigator's signed statement."
+  },
+  {
+    "id": 525,
+    "proposito_descripcion_en": "FDA platform for the electronic submission of IND applications, amendments and safety reports."
+  },
+  {
+    "id": 526,
+    "proposito_descripcion_en": "FDA system that receives the individual case safety reports of serious and unexpected suspected adverse reactions submitted by IND sponsors."
+  },
+  {
+    "id": 527,
+    "proposito_descripcion_en": "Alternative form for safety reports for noncommercial INDs or those exempt from mandatory electronic submission."
+  },
+  {
+    "id": 528,
+    "proposito_descripcion_en": "HHS's single electronic system for registering IRBs and processing Federalwide Assurances (FWAs), with a public search of the status of each registration."
+  },
+  {
+    "id": 529,
+    "proposito_descripcion_en": "The NIH's public registry of clinical trials, where studies are registered and updates and results are posted."
+  },
+  {
+    "id": 530,
+    "proposito_descripcion_en": "FDA guidance that adopts ICH E6(R3) as the Good Clinical Practice reference, with guidance on the responsibilities of the sponsor, the investigator and the IRB."
+  },
+  {
+    "id": 531,
+    "proposito_descripcion_en": "FDA guidance on IRB registration, which clarifies that registration is not accreditation or certification."
+  },
+  {
+    "id": 532,
+    "proposito_descripcion_en": "FDA guidance to determine when a human study requires an IND and when it is exempt."
+  },
+  {
+    "id": 533,
+    "proposito_descripcion_en": "FDA guidance on sponsor safety reporting: what to report, timelines and format, including submission to AEMS."
+  },
+  {
+    "id": 534,
+    "proposito_descripcion_en": "FDA guidance on the electronic eCTD format required for commercial INDs and the exceptions for noncommercial INDs."
+  },
+  {
+    "id": 535,
+    "proposito_descripcion_en": "FDA guidance explaining the informed consent requirements of 21 CFR Part 50, including withdrawal of the participant, language and persons with diminished capacity."
+  },
+  {
+    "id": 536,
+    "proposito_descripcion_en": "FDA guidance on payment and reimbursement to participants, which treats payment as a recruitment incentive and not a benefit."
+  },
+  {
+    "id": 537,
+    "proposito_descripcion_en": "FDA guidance on Form 1572, which records the investigator's commitment to the regulations on clinical research."
+  },
+  {
+    "id": 538,
+    "proposito_descripcion_en": "FDA guidance on the conditions for accepting data from foreign clinical studies in support of an IND."
+  },
+  {
+    "id": 539,
+    "proposito_descripcion_en": "CBER guidance proposing a uniform scale to grade clinical and laboratory abnormalities in healthy volunteers in preventive vaccine clinical trials."
+  },
+  {
+    "id": 540,
+    "proposito_descripcion_en": "Describes the FDA's mutual recognition agreements, which are limited to manufacturing inspections and do not cover the authorization of clinical trials."
   }
 ]
