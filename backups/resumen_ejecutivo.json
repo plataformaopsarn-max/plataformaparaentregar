@@ -196,5 +196,23 @@
     "domicilio": "115, Frederick Street, Port-of-Spain, Trinidad.",
     "correo_contacto": "cfdd@health.gov.tt",
     "telefonos": "800-CFDD; 623-5242."
+  },
+  {
+    "pais": "Canadá",
+    "fecha_compilacion": "21/10/2026",
+    "autoridad_regulatoria": "Health Canada (HC)",
+    "sitio_web_oficial": "https://www.canada.ca/en/health-canada.html",
+    "domicilio": "Office of Clinical Trials, Pharmaceutical Drugs Directorate, Health Canada, 1600 Scott Street, Holland Cross, Tower B, 5th Floor, Address Locator 3105A, Ottawa, Ontario K1A 0K9, Canadá",
+    "correo_contacto": "oct.enquiries-requetes.bec@hc-sc.gc.ca",
+    "telefonos": "Office of Clinical Trials (PDD): 613-957-0368. Office of Regulatory Affairs (BRDD): 613-957-1722."
+  },
+  {
+    "pais": "Estados Unidos",
+    "fecha_compilacion": "21/10/2026",
+    "autoridad_regulatoria": "Food and Drug Administration (FDA)",
+    "sitio_web_oficial": "https://www.fda.gov",
+    "domicilio": "10903 New Hampshire Avenue, Silver Spring, MD 20993, Estados Unidos",
+    "correo_contacto": "druginfo@fda.hhs.gov",
+    "telefonos": "Información general de la FDA: (888) 463-6332. CDER, información sobre medicamentos: (301) 796-3400. CBER: (800) 835-4709 o (240) 402-8010."
   }
 ]

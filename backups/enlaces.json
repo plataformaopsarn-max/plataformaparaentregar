@@ -480,6 +480,76 @@
     "peso": 4
   },
   {
+    "id": 458,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Food and Drugs Act",
+    "proposito_descripcion": "Ley federal que otorga a Health Canada su autoridad sobre los productos terapéuticos, incluida la autorización de la venta y la importación de medicamentos para ensayos clínicos.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/acts/F-27/index.html",
+    "peso": 4
+  },
+  {
+    "id": 459,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Food and Drug Regulations, Parte C, División 5",
+    "proposito_descripcion": "Reglamento que regula los medicamentos para ensayos clínicos con seres humanos: solicitud, autorización a los 30 días, enmiendas, obligaciones del patrocinador, etiquetado, registros, informes de seguridad, discontinuación y suspensión.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/regulations/c.r.c.,_c._870/index.html",
+    "peso": 5
+  },
+  {
+    "id": 460,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans (TCPS 2, 2022)",
+    "proposito_descripcion": "Política de los tres consejos federales de investigación que fija el estándar ético para los comités de ética de Canadá: consentimiento, privacidad, material biológico, poblaciones vulnerables y registro de ensayos.",
+    "enlace": "https://ethics.gc.ca/eng/policy-politique_tcps2-eptc2_2022.html",
+    "peso": 5
+  },
+  {
+    "id": 461,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Personal Information Protection and Electronic Documents Act",
+    "proposito_descripcion": "Ley federal de protección de datos personales aplicable a las empresas privadas, incluidos los datos de salud.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/acts/p-8.6/",
+    "peso": 3
+  },
+  {
+    "id": 462,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Privacy Act",
+    "proposito_descripcion": "Ley federal que regula el tratamiento de información personal por los departamentos y organismos del gobierno federal.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/ACTS/P-21/index.html",
+    "peso": 2
+  },
+  {
+    "id": 463,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Human Pathogens and Toxins Act",
+    "proposito_descripcion": "Ley que exige licencia para las actividades controladas con patógenos y toxinas humanos, incluida su importación y exportación.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/acts/H-5.67/FullText.html",
+    "peso": 2
+  },
+  {
+    "id": 464,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Human Pathogens and Toxins Regulations",
+    "proposito_descripcion": "Reglamento de la ley sobre patógenos y toxinas humanos, que detalla los requisitos de licencia según el grupo de riesgo.",
+    "enlace": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2015-44/FullText.html",
+    "peso": 2
+  },
+  {
     "id": 77,
     "pais": "Brasil",
     "fecha_de_relevamiento": "17/10/2025",
@@ -518,6 +588,16 @@
     "proposito_descripcion": "Formulario para notificar a ANVISA la fecha de inicio del ensayo clínico (inclusión del primer participante) en Brasil.",
     "enlace": "https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/pesquisaclinica/formularios-1/formulario-de-notificacao-de-inicio-do-ensaio-clinico-no-brasil-versao-2-0.docx/view",
     "peso": 3
+  },
+  {
+    "id": 465,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formulario HC/SC 3011 (solicitud y atestación de ensayo clínico)",
+    "proposito_descripcion": "Formulario de Health Canada para presentar la solicitud de ensayo clínico y la atestación del patrocinador, con el apéndice que autoriza a cada importador.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/forms.html",
+    "peso": 4
   },
   {
     "id": 85,
@@ -740,6 +820,26 @@
     "peso": 3
   },
   {
+    "id": 466,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formulario de información del centro de ensayo clínico (CTSI)",
+    "proposito_descripcion": "Formulario que informa a Health Canada, por cada centro de Fases I a III, el investigador calificado, la aprobación del comité de ética y la fecha de inicio.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/forms/instructions-clinical-trial-information-form.html",
+    "peso": 4
+  },
+  {
+    "id": 467,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Declaración del Comité de Ética de la Investigación (REB Attestation)",
+    "proposito_descripcion": "Atestación que completa el comité de ética que aprobó el ensayo y que el patrocinador conserva durante 15 años.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/forms/research-ethics-board-attestation.html",
+    "peso": 3
+  },
+  {
     "id": 91,
     "pais": "Costa Rica",
     "fecha_de_relevamiento": "15/10/2025",
@@ -758,6 +858,16 @@
     "proposito_descripcion": "Requisitos, procedimientos, plazos y obligaciones de los actores en investigación",
     "enlace": "https://pgrweb.go.cr/scij/Busqueda/Normativa/Normas/nrm_texto_completo.aspx?param1=NRTC&nValor1=1&nValor2=79779",
     "peso": 4
+  },
+  {
+    "id": 468,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Compromiso del Investigador Calificado (QIU)",
+    "proposito_descripcion": "Formulario con el que el investigador calificado se compromete a conducir el ensayo conforme a las Buenas Prácticas Clínicas; el patrocinador lo conserva en archivo.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/forms/qualified-investigator-undertaking.html",
+    "peso": 3
   },
   {
     "id": 115,
@@ -808,6 +918,66 @@
     "proposito_descripcion": "Repositorio centralizado de recursos informativos sobre ética en la investigación en salud.",
     "enlace": "https://temas.sld.cu/eticaeninvestigacion/",
     "peso": 3
+  },
+  {
+    "id": 469,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formulario de resumen de notificación acelerada de reacciones adversas a medicamentos",
+    "proposito_descripcion": "Formulario de Health Canada para notificar de forma acelerada las reacciones adversas serias e inesperadas de ensayos clínicos.",
+    "enlace": "https://www.canada.ca/content/dam/hc-sc/migration/hc-sc/dhp-mps/alt_formats/hpfb-dgpsa/pdf/prodpharma/ctadr_dceim-eng.pdf",
+    "peso": 3
+  },
+  {
+    "id": 470,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formulario CIOMS I",
+    "proposito_descripcion": "Formulario internacional de notificación de eventos adversos sospechosos que debe acompañar la notificación acelerada.",
+    "enlace": "https://cioms.ch/wp-content/uploads/2017/05/cioms-form1.pdf",
+    "peso": 2
+  },
+  {
+    "id": 471,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Common Electronic Submissions Gateway (CESG)",
+    "proposito_descripcion": "Portal seguro de Health Canada para enviar por vía electrónica las solicitudes de ensayo clínico y demás transacciones regulatorias en formato eCTD.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/common-electronic-submissions-gateway.html",
+    "peso": 3
+  },
+  {
+    "id": 472,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "FDA Electronic Submissions Gateway Next Generation (ESG NextGen)",
+    "proposito_descripcion": "Plataforma de la FDA que Canadá comparte: el patrocinador debe registrarse como socio comercial y elegir Health Canada como destinatario.",
+    "enlace": "https://www.fda.gov/industry/electronic-submissions-gateway-next-generation-esg-nextgen",
+    "peso": 2
+  },
+  {
+    "id": 473,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Canadian Clinical Trial Search Portal",
+    "proposito_descripcion": "Portal público de Health Canada, vigente desde el 29 de julio de 2026, con información seleccionada de los ensayos autorizados con medicamentos farmacéuticos, biológicos y radiofármacos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/clinical-trials/search-portal.html",
+    "peso": 3
+  },
+  {
+    "id": 474,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "ClinicalTrials.gov",
+    "proposito_descripcion": "Registro público de ensayos clínicos reconocido por la OMS, que la guía de Health Canada admite para registrar los ensayos.",
+    "enlace": "https://clinicaltrials.gov/",
+    "peso": 2
   },
   {
     "id": 127,
@@ -878,6 +1048,16 @@
     "proposito_descripcion": "Formulario para solicitar autorización de enmiendas sustanciales o notificar enmiendas administrativas a protocolos aprobados.",
     "enlace": "https://www.gob.ec/arcsa/tramites/autorizacion-realizar-enmienda-modificacion-ensayo-clinico",
     "peso": 3
+  },
+  {
+    "id": 475,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "ISRCTN Registry",
+    "proposito_descripcion": "Registro público de ensayos clínicos reconocido por la OMS, que la guía de Health Canada admite para registrar los ensayos.",
+    "enlace": "https://www.isrctn.com/",
+    "peso": 2
   },
   {
     "id": 113,
@@ -970,6 +1150,56 @@
     "peso": 3
   },
   {
+    "id": 476,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Canadian Clinical Trials Asset Map (CCTAM)",
+    "proposito_descripcion": "Inventario nacional de investigadores y centros de investigación clínica, útil para identificar centros y acelerar la factibilidad (requiere crear una cuenta).",
+    "enlace": "https://base2.cctam.ca/",
+    "peso": 2
+  },
+  {
+    "id": 477,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance Document for Clinical Trial Sponsors: Clinical Trial Applications",
+    "proposito_descripcion": "Guía principal de Health Canada para patrocinadores: alcance, contenido y proceso de la solicitud de ensayo clínico, plazos de revisión, enmiendas, notificaciones y seguridad.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/clinical-trial-sponsors-applications.html",
+    "peso": 5
+  },
+  {
+    "id": 478,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance Document: Part C, Division 5 of the Food and Drug Regulations (GUI-0100)",
+    "proposito_descripcion": "Interpretación de Health Canada de la División 5 del reglamento, revisada con vigencia desde el 1 de abril de 2026 para alinearse con ICH E6(R3).",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/good-clinical-practices/guidance-documents/guidance-drugs-clinical-trials-human-subjects-gui-0100.html",
+    "peso": 5
+  },
+  {
+    "id": 479,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guía ICH E6(R3) de Buenas Prácticas Clínicas",
+    "proposito_descripcion": "Guía armonizada de Buenas Prácticas Clínicas que Health Canada implementó con vigencia desde el 1 de abril de 2026 y que prevalece sobre otras guías suyas en caso de inconsistencia.",
+    "enlace": "https://database.ich.org/sites/default/files/ICH_E6%28R3%29_Step4_FinalGuideline_2025_0106_ErrorCorrections_2025_1024.pdf",
+    "peso": 4
+  },
+  {
+    "id": 480,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance Document: The Management of Drug Submissions and Applications",
+    "proposito_descripcion": "Guía sobre la gestión de las solicitudes, incluidos plazos de revisión, reuniones previas a la presentación y comunicaciones con el patrocinador.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/management-drug-submissions-applications.html",
+    "peso": 3
+  },
+  {
     "id": 149,
     "pais": "El Salvador",
     "fecha_de_relevamiento": "16/10/2025",
@@ -990,6 +1220,16 @@
     "peso": 3
   },
   {
+    "id": 481,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance for Completing the Drug Submission Application Form",
+    "proposito_descripcion": "Instrucciones para completar el formulario de solicitud, incluida la autorización de importadores en Canadá.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/forms/guidance-completing-drug-submission-application-form.html",
+    "peso": 2
+  },
+  {
     "id": 156,
     "pais": "El Salvador",
     "fecha_de_relevamiento": "16/10/2025",
@@ -1007,6 +1247,16 @@
     "titulo": "Asamblea Legislativa de El Salvador (Búsqueda de Leyes)",
     "proposito_descripcion": "Portal oficial para la búsqueda y consulta del texto completo de las leyes y decretos vigentes en El Salvador.",
     "enlace": "https://www.asamblea.gob.sv/",
+    "peso": 3
+  },
+  {
+    "id": 482,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance Document: Quality (Chemistry and Manufacturing) Guidance: Clinical Trial Applications (CTAs) for Pharmaceuticals",
+    "proposito_descripcion": "Guía y plantillas para completar la parte de calidad (química y manufactura) de la solicitud de ensayo con productos farmacéuticos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/quality-chemistry-manufacturing-guidance-clinical-trial-applications-pharmaceuticals.html",
     "peso": 3
   },
   {
@@ -1080,6 +1330,76 @@
     "peso": 3
   },
   {
+    "id": 483,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Quality Requirements for Investigational Biologic Drugs Used in Clinical Trials: Notice to Clinical Trial Sponsors",
+    "proposito_descripcion": "Aviso con los requisitos de calidad para productos biológicos en investigación usados en ensayos clínicos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/quality-requirements-investigational-biologic-drugs-clinical-trials.html",
+    "peso": 2
+  },
+  {
+    "id": 484,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Filing Submissions Electronically",
+    "proposito_descripcion": "Guía sobre el envío electrónico de solicitudes: eCTD, números de expediente (dossier ID), formatos y medios físicos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/filing-submissions-electronically.html",
+    "peso": 3
+  },
+  {
+    "id": 485,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Interim policy for the modernization of the clinical trial framework: Notice",
+    "proposito_descripcion": "Aviso del 14 de septiembre de 2026 que flexibiliza, mientras se tramita el reglamento propuesto, la información de comités de ética en el formulario CTSI, los criterios del investigador calificado y los métodos documentados de consentimiento.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/announcements/interim-policy-modernization-clinical-trial-framework-notice.html",
+    "peso": 4
+  },
+  {
+    "id": 486,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance on the registration of clinical trials and public disclosure of results",
+    "proposito_descripcion": "Guía vigente desde el 29 de julio de 2026 con las expectativas de Health Canada para registrar los ensayos y divulgar sus resultados resumidos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/guidance-registration-clinical-trials-public-disclosure-results.html",
+    "peso": 4
+  },
+  {
+    "id": 487,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Update: Registration and Disclosure of Clinical Trial Information",
+    "proposito_descripcion": "Aviso de 2012 que aclaró que el registro de ensayos no era un requisito obligatorio.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/projects/registration-disclosure-clinical-trial-information/update-registration-disclosure-clinical-trial-information-health-canada-notice-2012-10-19.html",
+    "peso": 2
+  },
+  {
+    "id": 488,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Post-Authorization Requirements",
+    "proposito_descripcion": "Describe las obligaciones posteriores a la autorización: notificación de reacciones adversas, revisión anual del Manual del Investigador y demás informes.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/post-authorization-requirements.html",
+    "peso": 4
+  },
+  {
+    "id": 489,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance Document - Development Safety Update Report (DSUR) - ICH Topic E2F",
+    "proposito_descripcion": "Guía sobre el informe de actualización de seguridad del desarrollo (DSUR), que se presenta a solicitud de Health Canada o de forma voluntaria.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/international-council-harmonisation/guidelines/guidance-document-development-safety-update-report-dsur-international-conference-harmonisation-topic.html",
+    "peso": 3
+  },
+  {
     "id": 159,
     "pais": "Guatemala",
     "fecha_de_relevamiento": "16/10/2025",
@@ -1150,6 +1470,26 @@
     "peso": 4
   },
   {
+    "id": 490,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guideline: Increasing Transparency when Presenting Safety Information in the Development Safety Update Report: Region-Specific Requirements for Canada and the United Kingdom",
+    "proposito_descripcion": "Requisitos regionales para los DSUR presentados ante las autoridades de Canadá y del Reino Unido.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/increasing-transparency-presenting-safety-information-development-safety-update-report-regions-requirements-canada-united-kingdom.html",
+    "peso": 2
+  },
+  {
+    "id": 491,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Filing of Clinical Trials Frequently Asked Questions",
+    "proposito_descripcion": "Preguntas frecuentes de Health Canada, que confirman que no hay tasas por presentar una solicitud de ensayo clínico.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/frequently-asked-questions-filing.html",
+    "peso": 2
+  },
+  {
     "id": 181,
     "pais": "Honduras",
     "fecha_de_relevamiento": null,
@@ -1177,6 +1517,86 @@
     "titulo": "Arsateca (Repositorio Digital de ARSA)",
     "proposito_descripcion": "Es la biblioteca digital de la ARSA, donde se pueden encontrar y descargar los textos completos de acuerdos, reglamentos, leyes y decretos que conforman el marco normativo sanitario de Honduras.",
     "enlace": "https://arsateca.arsa.hn/",
+    "peso": 3
+  },
+  {
+    "id": 492,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "How Drugs are Reviewed in Canada",
+    "proposito_descripcion": "Hoja informativa sobre el proceso de revisión de medicamentos y de solicitudes de ensayo clínico en Canadá.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/fact-sheets/drugs-reviewed-canada.html",
+    "peso": 3
+  },
+  {
+    "id": 493,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Annex 13 to the Good Manufacturing Practices Guide for Drugs Used in Clinical Trials (GUI-0036)",
+    "proposito_descripcion": "Anexo de buenas prácticas de manufactura para medicamentos de ensayos clínicos: fabricación, empaque, etiquetado y cambio de fecha de vencimiento.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/good-manufacturing-practices/guidance-documents/annex-13-guide-drugs-clinical-trials-0036.html",
+    "peso": 4
+  },
+  {
+    "id": 494,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Good Manufacturing Practices Guide for Drug Products (GUI-0001)",
+    "proposito_descripcion": "Guía general de buenas prácticas de manufactura que exige un sistema de gestión de calidad.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/good-manufacturing-practices/guidance-documents/gmp-guidelines-0001/document.html",
+    "peso": 3
+  },
+  {
+    "id": 495,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidelines for Environmental Control of Drugs During Storage and Transportation (GUI-0069)",
+    "proposito_descripcion": "Principios sobre el control ambiental de los medicamentos durante el almacenamiento y el transporte.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/good-manufacturing-practices/guidance-documents/guidelines-temperature-control-drug-products-storage-transportation-0069.html",
+    "peso": 2
+  },
+  {
+    "id": 496,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Importing and Exporting Health Products for Commercial Use (GUI-0117)",
+    "proposito_descripcion": "Guía sobre importación y exportación, que indica que pueden importarse medicamentos sin número de identificación si hay una NOL, y que Health Canada no regula el material biológico humano para investigación.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/importation-exportation/commercial-use-health-products-guidance/document.html",
+    "peso": 3
+  },
+  {
+    "id": 497,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Clinical Trials Drug Importation, Record Keeping Frequently Asked Questions",
+    "proposito_descripcion": "Preguntas frecuentes sobre la importación del producto en investigación y la copia de la NOL que debe acompañar el envío.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/drug-importation-record-keeping-frequently-asked-questions.html",
+    "peso": 3
+  },
+  {
+    "id": 498,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "POL-0030: Compliance and Enforcement Approach and Inspection Strategy for Clinical Trials of Drugs Involving Human Subjects",
+    "proposito_descripcion": "Política que indica que patrocinadores, investigadores calificados y CRO tienen responsabilidades obligatorias y pueden ser inspeccionados.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/compliance-enforcement/good-clinical-practices/guidance-documents/inspection-strategy-clinical-trials.html",
+    "peso": 2
+  },
+  {
+    "id": 499,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance on the Lot Release Program for Schedule D (biologic) drugs",
+    "proposito_descripcion": "Guía del programa de liberación de lotes de productos biológicos, con reglas para los lotes de vacunas profilácticas y otros biológicos usados en ensayos clínicos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/biologics-radiopharmaceuticals-genetic-therapies/applications-submissions/guidance-documents/lot-release-program-schedule-d-drugs.html",
     "peso": 3
   },
   {
@@ -1260,6 +1680,86 @@
     "peso": 3
   },
   {
+    "id": 500,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance on expanded access clinical trials: Overview",
+    "proposito_descripcion": "Guía de septiembre de 2025 sobre ensayos clínicos de acceso ampliado, distintos del Special Access Program.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/applications-submissions/guidance-documents/clinical-trials/expanded-access.html",
+    "peso": 3
+  },
+  {
+    "id": 501,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "The Ministerial Reliance Order: About the Order",
+    "proposito_descripcion": "Describe la orden que permite a Health Canada apoyarse en decisiones y documentos de reguladores extranjeros comparables para ciertos medicamentos.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/drugs-health-products/ministerial-reliance-order.html",
+    "peso": 2
+  },
+  {
+    "id": 502,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Health Canada and Public Health Agency of Canada Research Ethics Board (HC-PHAC REB)",
+    "proposito_descripcion": "Página del comité de ética conjunto de Health Canada y la Agencia de Salud Pública, con sus plantillas de consentimiento y la aclaración de que no supervisa a otros comités.",
+    "enlace": "https://www.canada.ca/en/health-canada/services/science-research/science-advice-decision-making/research-ethics-board.html",
+    "peso": 3
+  },
+  {
+    "id": 503,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Applying the Single REB Review Model for Multi-jurisdictional Minimal Risk Research",
+    "proposito_descripcion": "Guía del modelo de revisión por un único comité para investigación multijurisdiccional de riesgo mínimo.",
+    "enlace": "https://ethics.gc.ca/eng/reb-cer_minimal_risk_research-recherche_risque_minimal.html",
+    "peso": 2
+  },
+  {
+    "id": 504,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Research Ethics During Publicly Declared Emergencies",
+    "proposito_descripcion": "Orientación del Panel on Research Ethics, publicada el 27 de mayo de 2026, sobre la revisión ética y la conducción de la investigación durante emergencias declaradas.",
+    "enlace": "https://ethics.gc.ca/eng/research_ethics_pde-ethique_recherche_lors_upd.html",
+    "peso": 3
+  },
+  {
+    "id": 505,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Broad consent: Clarifications and considerations for researchers and research ethics boards",
+    "proposito_descripcion": "Orientación, actualizada el 4 de agosto de 2026, sobre el consentimiento amplio para repositorios de datos y material biológico.",
+    "enlace": "https://ethics.gc.ca/eng/broad_consent-consentement_elargi.html",
+    "peso": 2
+  },
+  {
+    "id": 506,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Canadian Biosafety Standard (tercera edición)",
+    "proposito_descripcion": "Norma de bioseguridad de la Agencia de Salud Pública que clasifica los materiales biológicos por grupo de riesgo.",
+    "enlace": "https://www.canada.ca/en/public-health/services/canadian-biosafety-standards-guidelines/third-edition.html",
+    "peso": 2
+  },
+  {
+    "id": 507,
+    "pais": "Canadá",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Provincial and Territorial Privacy Laws and Oversight",
+    "proposito_descripcion": "Listado de las leyes de privacidad provinciales y territoriales, incluidas las de información personal de salud.",
+    "enlace": "https://www.priv.gc.ca/en/about-the-opc/what-we-do/provincial-and-territorial-collaboration/provincial-and-territorial-privacy-laws-and-oversight/",
+    "peso": 2
+  },
+  {
     "id": 210,
     "pais": "México",
     "fecha_de_relevamiento": "15/10/2025",
@@ -1337,6 +1837,86 @@
     "titulo": "Lista de Registro de Comités de Ética en Investigación (CONBIOÉTICA)",
     "proposito_descripcion": "Proveer un listado público y actualizado de todos los Comités de Ética en Investigación que cuentan con un registro vigente ante la CONBIOÉTICA, permitiendo a patrocinadores y autoridades verificar la validez del comité que evalúa un protocolo.",
     "enlace": "https://www.conbioetica-mexico.salud.gob.mx/interior/registrocomites/Registro_CEI_list.html",
+    "peso": 3
+  },
+  {
+    "id": 508,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Federal Food, Drug, and Cosmetic Act",
+    "proposito_descripcion": "Ley federal que otorga a la FDA su autoridad sobre medicamentos y productos biológicos, incluida la exención de nuevo fármaco en investigación (IND) necesaria para iniciar un ensayo clínico.",
+    "enlace": "https://uscode.house.gov/view.xhtml?path=/prelim@title21/chapter9&edition=prelim",
+    "peso": 4
+  },
+  {
+    "id": 509,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "21 CFR Parte 50",
+    "proposito_descripcion": "Reglamento de la FDA sobre protección de sujetos humanos: consentimiento informado, situaciones de emergencia y salvaguardas adicionales para niños.",
+    "enlace": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-50",
+    "peso": 5
+  },
+  {
+    "id": 510,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "21 CFR Parte 56",
+    "proposito_descripcion": "Reglamento de la FDA sobre comités de ética institucionales (IRB): composición, funciones, procedimientos de revisión, registros y registro ante el HHS.",
+    "enlace": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-A/part-56",
+    "peso": 5
+  },
+  {
+    "id": 511,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "21 CFR Parte 312",
+    "proposito_descripcion": "Reglamento de la FDA sobre la solicitud de nuevo fármaco en investigación (IND): contenido, plazos de vigencia, enmiendas, informes de seguridad, responsabilidades del patrocinador y del investigador, etiquetado e importación.",
+    "enlace": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-312",
+    "peso": 5
+  },
+  {
+    "id": 512,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "21 CFR Parte 312, Subparte I",
+    "proposito_descripcion": "Regula el acceso ampliado a productos en investigación fuera de un ensayo clínico para pacientes con enfermedades graves o que ponen en riesgo la vida.",
+    "enlace": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-D/part-312/subpart-I",
+    "peso": 3
+  },
+  {
+    "id": 513,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "21 CFR Parte 210",
+    "proposito_descripcion": "Establece las prácticas actuales de buena manufactura aplicables a la fabricación de medicamentos, incluido el producto en investigación.",
+    "enlace": "https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-210",
+    "peso": 3
+  },
+  {
+    "id": 514,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "45 CFR Parte 46, Subparte A (Regla Común revisada de 2018)",
+    "proposito_descripcion": "Regla Común vigente para la investigación con seres humanos financiada o patrocinada por agencias federales, aplicable a estudios aprobados, exentos o con revisión ética dispensada desde el 21 de enero de 2019.",
+    "enlace": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A",
+    "peso": 4
+  },
+  {
+    "id": 515,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "45 CFR Parte 46, Subparte A (Regla Común previa a 2018)",
+    "proposito_descripcion": "Versión anterior de la Regla Común, aplicable a estudios aprobados, exentos o con revisión ética dispensada antes del 21 de enero de 2019, salvo que la institución opte por la transición.",
+    "enlace": "https://www.ecfr.gov/on/2017-01-03/title-45/subtitle-A/subchapter-A/part-46",
     "peso": 3
   },
   {
@@ -1440,6 +2020,36 @@
     "peso": 3
   },
   {
+    "id": 516,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "45 CFR Parte 46, Subpartes B a E",
+    "proposito_descripcion": "Protecciones adicionales del HHS para embarazadas, fetos y neonatos (B), personas privadas de libertad (C) y niños (D), con disposiciones sobre registro de comités de ética (E).",
+    "enlace": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46#subpart-B",
+    "peso": 4
+  },
+  {
+    "id": 517,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "42 CFR Parte 11",
+    "proposito_descripcion": "Reglamento que exige registrar los ensayos clínicos aplicables y presentar sus resultados en ClinicalTrials.gov, con plazos de registro, actualización y resultados.",
+    "enlace": "https://www.ecfr.gov/current/title-42/chapter-I/subchapter-A/part-11",
+    "peso": 4
+  },
+  {
+    "id": 518,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Food and Drug Administration Amendments Act of 2007",
+    "proposito_descripcion": "Ley que, en su Sección 801, estableció el registro obligatorio de ensayos clínicos y la presentación de resultados en ClinicalTrials.gov.",
+    "enlace": "https://www.govinfo.gov/content/pkg/PLAW-110publ85/pdf/PLAW-110publ85.pdf",
+    "peso": 3
+  },
+  {
     "id": 217,
     "pais": "Panamá",
     "fecha_de_relevamiento": "11/10/2025",
@@ -1448,6 +2058,46 @@
     "proposito_descripcion": "Regula y promueve la investigación para la salud, establece la rectoría del MINSA y las funciones del CNBI",
     "enlace": "https://www.gacetaoficial.gob.pa/pdfTemp/28775_A/72874.pdf",
     "peso": 5
+  },
+  {
+    "id": 519,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Regla de Privacidad de HIPAA (45 CFR Partes 160 y 164)",
+    "proposito_descripcion": "Define las condiciones en que las entidades cubiertas pueden usar y divulgar información de salud protegida con fines de investigación.",
+    "enlace": "https://www.hhs.gov/hipaa/for-professionals/privacy/index.html",
+    "peso": 3
+  },
+  {
+    "id": 520,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "Privacy Act of 1974 (5 U.S.C. § 552a)",
+    "proposito_descripcion": "Regula los registros sobre personas identificables que mantienen las agencias federales, entre ellas los NIH.",
+    "enlace": "https://www.govinfo.gov/app/details/USCODE-2024-title5/USCODE-2024-title5-partI-chap5-subchapII-sec552a",
+    "peso": 2
+  },
+  {
+    "id": 521,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "28 CFR Parte 202",
+    "proposito_descripcion": "Prohíbe ciertas transacciones de datos que den a países o personas cubiertas acceso a datos ómicos humanos masivos o a biomuestras de las que puedan derivarse, con exención para datos de aprobación regulatoria.",
+    "enlace": "https://www.ecfr.gov/current/title-28/chapter-I/part-202",
+    "peso": 2
+  },
+  {
+    "id": 522,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "49 CFR Parte 173",
+    "proposito_descripcion": "Establece los requisitos generales para el transporte de materiales peligrosos, incluidos los especímenes de pacientes e infecciosos.",
+    "enlace": "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-I/subchapter-C/part-173",
+    "peso": 2
   },
   {
     "id": 242,
@@ -1520,6 +2170,36 @@
     "peso": 3
   },
   {
+    "id": 523,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.1,
+    "titulo": "42 CFR Parte 73",
+    "proposito_descripcion": "Regula la posesión, el uso y la transferencia de agentes selectos y toxinas.",
+    "enlace": "https://www.ecfr.gov/current/title-42/chapter-I/subchapter-F/part-73",
+    "peso": 2
+  },
+  {
+    "id": 524,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formularios FDA 1571 y 1572 (solicitud IND)",
+    "proposito_descripcion": "Formularios de la FDA para la IND: el 1571 es la hoja de portada de la solicitud y el 1572 es la declaración firmada del investigador.",
+    "enlace": "https://www.fda.gov/drugs/investigational-new-drug-ind-application/ind-forms-and-instructions",
+    "peso": 4
+  },
+  {
+    "id": 525,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "FDA Electronic Submissions Gateway Next Generation (ESG NextGen)",
+    "proposito_descripcion": "Plataforma de la FDA para el envío electrónico de solicitudes IND, enmiendas e informes de seguridad.",
+    "enlace": "https://www.fda.gov/industry/electronic-submissions-gateway-next-generation-esg-nextgen",
+    "peso": 4
+  },
+  {
     "id": 253,
     "pais": "Trinidad y Tobago",
     "fecha_de_relevamiento": "11/11/2023",
@@ -1570,6 +2250,16 @@
     "peso": 5
   },
   {
+    "id": 526,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "FDA Adverse Event Monitoring System (AEMS)",
+    "proposito_descripcion": "Sistema de la FDA que recibe los informes individuales de seguridad de reacciones adversas sospechadas, graves e inesperadas presentados por los patrocinadores de IND.",
+    "enlace": "https://www.fda.gov/drugs/fda-adverse-event-monitoring-system-aems/fda-adverse-event-monitoring-system-aems-electronic-submissions",
+    "peso": 3
+  },
+  {
     "id": 256,
     "pais": "Trinidad y Tobago",
     "fecha_de_relevamiento": "11/11/2023",
@@ -1577,6 +2267,66 @@
     "titulo": "Detailed Requirements For New Drug Submission",
     "proposito_descripcion": "Este documento detalla el contenido técnico que debe incluirse en cada sección del dossier de la NDS. Proporciona una lista de verificación de los datos químicos, farmacéuticos (incluyendo farmacodinámicos y farmacocinéticos), toxicológicos y clínicos requeridos para la evaluación.",
     "enlace": "https://health.gov.tt/sites/default/files/2023-01/Detailed%20Requirements%20For%20New%20Drug%20Submission.pdf",
+    "peso": 3
+  },
+  {
+    "id": 527,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Formulario FDA 3500A (MedWatch)",
+    "proposito_descripcion": "Formulario alternativo para informes de seguridad de INDs no comerciales o exentas del envío electrónico obligatorio.",
+    "enlace": "https://www.fda.gov/safety/medical-product-safety-information/medwatch-forms-fda-safety-reporting",
+    "peso": 2
+  },
+  {
+    "id": 528,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "Sistema de registro de IRB y FWA de la OHRP",
+    "proposito_descripcion": "Sistema electrónico único del HHS para registrar comités de ética y tramitar garantías institucionales (Federalwide Assurance), con consulta pública del estado de cada registro.",
+    "enlace": "https://www.hhs.gov/ohrp/register-irbs-and-obtain-fwas/irb-registration/new-irb-registration/index.html",
+    "peso": 3
+  },
+  {
+    "id": 529,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.2,
+    "titulo": "ClinicalTrials.gov",
+    "proposito_descripcion": "Registro público de ensayos clínicos de los NIH donde se registran los estudios y se publican actualizaciones y resultados.",
+    "enlace": "https://clinicaltrials.gov/",
+    "peso": 4
+  },
+  {
+    "id": 530,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guía ICH E6(R3) de Buenas Prácticas Clínicas",
+    "proposito_descripcion": "Guía de la FDA que adopta ICH E6(R3) como referencia de Buenas Prácticas Clínicas, con orientación sobre responsabilidades del patrocinador, del investigador y del comité de ética.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/e6r3-good-clinical-practice-gcp",
+    "peso": 4
+  },
+  {
+    "id": 531,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Frequently Asked Questions - IRB Registration",
+    "proposito_descripcion": "Guía de la FDA sobre el registro de comités de ética, que aclara que el registro no constituye acreditación ni certificación.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/frequently-asked-questions-irb-registration",
+    "peso": 3
+  },
+  {
+    "id": 532,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Investigational New Drug Applications (INDs): Determining Whether Human Research Studies Can Be Conducted Without an IND",
+    "proposito_descripcion": "Guía de la FDA para determinar cuándo un estudio en humanos requiere IND y cuándo está exento.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/investigational-new-drug-applications-inds-determining-whether-human-research-studies-can-be",
     "peso": 3
   },
   {
@@ -1720,6 +2470,76 @@
     "peso": 4
   },
   {
+    "id": 533,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Sponsor Responsibilities: Safety Reporting Requirements and Safety Assessment for IND and Bioavailability/Bioequivalence Studies",
+    "proposito_descripcion": "Guía de la FDA sobre informes de seguridad del patrocinador: qué reportar, plazos y formato, incluido el envío al sistema AEMS.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/sponsor-responsibilities-safety-reporting-requirements-and-safety-assessment-ind-and",
+    "peso": 4
+  },
+  {
+    "id": 534,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Providing Regulatory Submissions in Electronic Format: Certain Human Pharmaceutical Product Applications and Related Submissions Using the eCTD Specifications",
+    "proposito_descripcion": "Guía de la FDA sobre el formato electrónico eCTD obligatorio para IND comerciales y las excepciones para IND no comerciales.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/providing-regulatory-submissions-electronic-format-certain-human-pharmaceutical-product-applications",
+    "peso": 3
+  },
+  {
+    "id": 535,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Guidance for IRBs, Clinical Investigators, and Sponsors: Informed Consent",
+    "proposito_descripcion": "Guía de la FDA que explica los requisitos de consentimiento informado del 21 CFR Parte 50, incluidos retiro del participante, idioma y personas con capacidad disminuida.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/informed-consent",
+    "peso": 3
+  },
+  {
+    "id": 536,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Payment and Reimbursement to Research Subjects",
+    "proposito_descripcion": "Guía de la FDA sobre pagos y reembolsos a participantes, que los considera incentivos de reclutamiento y no un beneficio.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/payment-and-reimbursement-research-subjects",
+    "peso": 2
+  },
+  {
+    "id": 537,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Frequently Asked Questions - Statement of Investigator (Form FDA 1572)",
+    "proposito_descripcion": "Guía de la FDA sobre el formulario 1572, que recoge el compromiso del investigador con la normativa de investigación clínica.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/frequently-asked-questions-statement-investigator-form-fda-1572",
+    "peso": 3
+  },
+  {
+    "id": 538,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "FDA Acceptance of Foreign Clinical Studies Not Conducted Under an IND: Frequently Asked Questions",
+    "proposito_descripcion": "Guía de la FDA sobre las condiciones para aceptar datos de estudios clínicos extranjeros como respaldo de una IND.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/fda-acceptance-foreign-clinical-studies-not-conducted-under-ind-frequently-asked-questions",
+    "peso": 3
+  },
+  {
+    "id": 539,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Toxicity Grading Scale for Healthy Adult and Adolescent Volunteers Enrolled in Preventive Vaccine Clinical Trials",
+    "proposito_descripcion": "Guía de la CBER que propone una escala uniforme para graduar anomalías clínicas y de laboratorio en voluntarios sanos de ensayos de vacunas preventivas.",
+    "enlace": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/toxicity-grading-scale-healthy-adult-and-adolescent-volunteers-enrolled-preventive-vaccine-clinical",
+    "peso": 3
+  },
+  {
     "id": 286,
     "pais": "República Dominicana",
     "fecha_de_relevamiento": "17/10/2025",
@@ -1778,6 +2598,16 @@
     "proposito_descripcion": "Es la autoridad regulatoria de productos. Su sitio web contiene información sobre registro sanitario, farmacovigilancia, importaciones y normativas técnicas aplicables a los productos en investigación.",
     "enlace": "https://digemaps.gob.do/",
     "peso": 3
+  },
+  {
+    "id": 540,
+    "pais": "Estados Unidos",
+    "fecha_de_relevamiento": "octubre 2026",
+    "question_code": 7.3,
+    "titulo": "Mutual Recognition Agreements (MRA) de la FDA",
+    "proposito_descripcion": "Describe los acuerdos de reconocimiento mutuo de la FDA, que se limitan a inspecciones de manufactura y no abarcan la autorización de ensayos clínicos.",
+    "enlace": "https://www.fda.gov/international-programs/international-arrangements/mutual-recognition-agreements-mra",
+    "peso": 2
   },
   {
     "id": 299,
