@@ -5,6 +5,33 @@ const SUPABASE_KEY = (window.APP_CONFIG && window.APP_CONFIG.SUPABASE_ANON_KEY) 
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const COUNTRIES_LIST = [
+    { id: 'AR', name: 'Argentina', displayName: 'Argentina', flagCode: 'ar', region: 'South America' },
+    { id: 'BO', name: 'Bolivia', displayName: 'Bolivia', flagCode: 'bo', region: 'South America' },
+    { id: 'BR', name: 'Brasil', displayName: 'Brazil', flagCode: 'br', region: 'South America' },
+    { id: 'CA', name: 'Canadá', displayName: 'Canada', flagCode: 'ca', region: 'North America' },
+    { id: 'CL', name: 'Chile', displayName: 'Chile', flagCode: 'cl', region: 'South America' },
+    { id: 'CO', name: 'Colombia', displayName: 'Colombia', flagCode: 'co', region: 'South America' },
+    { id: 'CR', name: 'Costa Rica', displayName: 'Costa Rica', flagCode: 'cr', region: 'Central America' },
+    { id: 'CU', name: 'Cuba', displayName: 'Cuba', flagCode: 'cu', region: 'Caribbean' },
+    { id: 'EC', name: 'Ecuador', displayName: 'Ecuador', flagCode: 'ec', region: 'South America' },
+    { id: 'SV', name: 'El Salvador', displayName: 'El Salvador', flagCode: 'sv', region: 'Central America' },
+    { id: 'US', name: 'Estados Unidos', displayName: 'United States', flagCode: 'us', region: 'North America' },
+    { id: 'GT', name: 'Guatemala', displayName: 'Guatemala', flagCode: 'gt', region: 'Central America' },
+    { id: 'HT', name: 'Haití', displayName: 'Haiti', flagCode: 'ht', region: 'Caribbean' },
+    { id: 'HN', name: 'Honduras', displayName: 'Honduras', flagCode: 'hn', region: 'Central America' },
+    { id: 'JM', name: 'Jamaica', displayName: 'Jamaica', flagCode: 'jm', region: 'Caribbean' },
+    { id: 'MX', name: 'México', displayName: 'Mexico', flagCode: 'mx', region: 'North America' },
+    { id: 'NI', name: 'Nicaragua', displayName: 'Nicaragua', flagCode: 'ni', region: 'Central America' },
+    { id: 'PA', name: 'Panamá', displayName: 'Panama', flagCode: 'pa', region: 'Central America' },
+    { id: 'PY', name: 'Paraguay', displayName: 'Paraguay', flagCode: 'py', region: 'South America' },
+    { id: 'PE', name: 'Perú', displayName: 'Peru', flagCode: 'pe', region: 'South America' },
+    { id: 'DO', name: 'República Dominicana', displayName: 'Dominican Republic', flagCode: 'do', region: 'Caribbean' },
+    { id: 'TT', name: 'Trinidad y Tobago', displayName: 'Trinidad and Tobago', flagCode: 'tt', region: 'Caribbean' },
+    { id: 'UY', name: 'Uruguay', displayName: 'Uruguay', flagCode: 'uy', region: 'South America' },
+    { id: 'VE', name: 'Venezuela', displayName: 'Venezuela', flagCode: 've', region: 'South America' },
+];
+
 // GESTOR DE CACHÉ LOCAL CON TTL Y BATCH PRE-FETCHING (Mitiga consumo de Supabase en 98%+)
 const DataCacheManager = {
     CACHE_KEY: (window.APP_CONFIG && window.APP_CONFIG.CACHE_KEY_EN) || 'regia_cache_en_v1.4',
@@ -22,7 +49,12 @@ const DataCacheManager = {
             if (cached) {
                 const { timestamp, payload } = JSON.parse(cached);
                 if (Date.now() - timestamp < this.TTL && payload && payload.faq && payload.summary) {
-                    this.data = payload;
+                    const allowed = new Set(COUNTRIES_LIST.map(c => c.name));
+                    this.data = {
+                        faq: (payload.faq || []).filter(r => allowed.has(r.pais)),
+                        summary: (payload.summary || []).filter(r => allowed.has(r.pais)),
+                        links: (payload.links || []).filter(l => allowed.has(l.pais))
+                    };
                     console.log('⚡ [DataCacheManager-EN] Data loaded instantly from LocalStorage (0 Supabase queries)');
                     return true;
                 }
@@ -49,10 +81,11 @@ const DataCacheManager = {
                 supabase.from('enlaces_descripcion_en').select('*')
             ]);
 
-            const faqEs = faqEsRes.data || [];
-            const faqEn = faqEnRes.data || [];
-            const summary = summaryRes.data || [];
-            const links = linksRes.data || [];
+            const allowed = new Set(COUNTRIES_LIST.map(c => c.name));
+            const faqEs = (faqEsRes.data || []).filter(r => allowed.has(r.pais));
+            const faqEn = (faqEnRes.data || []).filter(r => allowed.has(r.pais));
+            const summary = (summaryRes.data || []).filter(r => allowed.has(r.pais));
+            const links = (linksRes.data || []).filter(l => allowed.has(l.pais));
             const linksDescEn = linksDescEnRes.data || [];
 
             // Map English descriptions by link ID
@@ -105,7 +138,9 @@ const DataCacheManager = {
 
     getFilteredCountries(criteriaList) {
         if (!this.data.faq) return [];
+        const allowed = new Set(COUNTRIES_LIST.map(c => c.name));
         return this.data.faq.filter(row => {
+            if (!allowed.has(row.pais)) return false;
             return criteriaList.every(code => {
                 const dbKey = `q_${code.replace(/\./g, '_')}_booleano`;
                 return row[dbKey] === true;
@@ -115,13 +150,16 @@ const DataCacheManager = {
 
     getRequirementComparison(questionId) {
         if (!this.data.faq) return [];
+        const allowed = new Set(COUNTRIES_LIST.map(c => c.name));
         const dbKey = `q_${questionId.replace(/\./g, '_')}`;
-        return this.data.faq.map(r => ({
-            pais: r.pais,
-            [`${dbKey}_directa`]: r[`${dbKey}_directa`],
-            [`${dbKey}_ampliada`]: r[`${dbKey}_ampliada`],
-            [`${dbKey}_booleano`]: r[`${dbKey}_booleano`]
-        }));
+        return this.data.faq
+            .filter(r => allowed.has(r.pais))
+            .map(r => ({
+                pais: r.pais,
+                [`${dbKey}_directa`]: r[`${dbKey}_directa`],
+                [`${dbKey}_ampliada`]: r[`${dbKey}_ampliada`],
+                [`${dbKey}_booleano`]: r[`${dbKey}_booleano`]
+            }));
     },
 
     getCountriesComparison(selectedCountries) {
@@ -170,32 +208,7 @@ const MAP_COORDS = {
     AR: { x: 310, y: 400 }, UY: { x: 365, y: 365 }
 };
 
-const COUNTRIES_LIST = [
-    { id: 'AR', name: 'Argentina', displayName: 'Argentina', flagCode: 'ar', region: 'South America' },
-    { id: 'BO', name: 'Bolivia', displayName: 'Bolivia', flagCode: 'bo', region: 'South America' },
-    { id: 'BR', name: 'Brasil', displayName: 'Brazil', flagCode: 'br', region: 'South America' },
-    { id: 'CA', name: 'Canadá', displayName: 'Canada', flagCode: 'ca', region: 'North America' },
-    { id: 'CL', name: 'Chile', displayName: 'Chile', flagCode: 'cl', region: 'South America' },
-    { id: 'CO', name: 'Colombia', displayName: 'Colombia', flagCode: 'co', region: 'South America' },
-    { id: 'CR', name: 'Costa Rica', displayName: 'Costa Rica', flagCode: 'cr', region: 'Central America' },
-    { id: 'CU', name: 'Cuba', displayName: 'Cuba', flagCode: 'cu', region: 'Caribbean' },
-    { id: 'EC', name: 'Ecuador', displayName: 'Ecuador', flagCode: 'ec', region: 'South America' },
-    { id: 'SV', name: 'El Salvador', displayName: 'El Salvador', flagCode: 'sv', region: 'Central America' },
-    { id: 'US', name: 'Estados Unidos', displayName: 'United States', flagCode: 'us', region: 'North America' },
-    { id: 'GT', name: 'Guatemala', displayName: 'Guatemala', flagCode: 'gt', region: 'Central America' },
-    { id: 'HT', name: 'Haití', displayName: 'Haiti', flagCode: 'ht', region: 'Caribbean' },
-    { id: 'HN', name: 'Honduras', displayName: 'Honduras', flagCode: 'hn', region: 'Central America' },
-    { id: 'JM', name: 'Jamaica', displayName: 'Jamaica', flagCode: 'jm', region: 'Caribbean' },
-    { id: 'MX', name: 'México', displayName: 'Mexico', flagCode: 'mx', region: 'North America' },
-    { id: 'NI', name: 'Nicaragua', displayName: 'Nicaragua', flagCode: 'ni', region: 'Central America' },
-    { id: 'PA', name: 'Panamá', displayName: 'Panama', flagCode: 'pa', region: 'Central America' },
-    { id: 'PY', name: 'Paraguay', displayName: 'Paraguay', flagCode: 'py', region: 'South America' },
-    { id: 'PE', name: 'Perú', displayName: 'Peru', flagCode: 'pe', region: 'South America' },
-    { id: 'DO', name: 'República Dominicana', displayName: 'Dominican Republic', flagCode: 'do', region: 'Caribbean' },
-    { id: 'TT', name: 'Trinidad y Tobago', displayName: 'Trinidad and Tobago', flagCode: 'tt', region: 'Caribbean' },
-    { id: 'UY', name: 'Uruguay', displayName: 'Uruguay', flagCode: 'uy', region: 'South America' },
-    { id: 'VE', name: 'Venezuela', displayName: 'Venezuela', flagCode: 've', region: 'South America' },
-];
+
 
 const CATEGORIES = [
     { id: 1, name: 'Authorities and general framework', icon: 'scale' },
@@ -1585,6 +1598,9 @@ const app = {
             });
         }
 
+        const allowedCompareEn = new Set(COUNTRIES_LIST.map(c => c.name));
+        data = (data || []).filter(r => allowedCompareEn.has(r.pais));
+
         // Sort countries alphabetically (A-Z) by English display name
         if (data && Array.isArray(data)) {
             data.sort((a, b) => {
@@ -1765,7 +1781,8 @@ const app = {
                 });
                 const { data, error } = await query;
                 if (!error && data) {
-                    countryNames = data.map(d => d.pais);
+                    const allowedFilter = new Set(COUNTRIES_LIST.map(c => c.name));
+                    countryNames = data.map(d => d.pais).filter(p => allowedFilter.has(p));
                 }
             } catch (err) {
                 console.error("Error executing filter query fallback:", err);
