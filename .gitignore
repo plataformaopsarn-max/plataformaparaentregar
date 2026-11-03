@@ -18,4 +18,6 @@ regecam-public/
 .env
 .env.*
 *.local
+*credentials*.json
+ga4_*.json
 
