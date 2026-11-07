@@ -10,6 +10,16 @@
     "peso": 3
   },
   {
+    "id": 1,
+    "pais": "Argentina",
+    "fecha_de_relevamiento": "21/10/2025",
+    "question_code": 7.1,
+    "titulo": "Disposición ANMAT 7516/2025",
+    "proposito_descripcion": "Establece el marco regulatorio integral para las Buenas Prácticas Clínicas (BPC), la evaluación y la fiscalización de estudios de farmacología clínica con fines registrales. Adopta la Guía ICH E6 (R3) y deroga la normativa anterior (Disp. 6677/10), consolidando los requisitos en un único cuerpo normativo.",
+    "enlace": "https://www.boletinoficial.gob.ar/detalleAviso/primera/332695/20251009",
+    "peso": 5
+  },
+  {
     "id": 9,
     "pais": "Argentina",
     "fecha_de_relevamiento": "21/10/2025",
@@ -118,16 +128,6 @@
     "proposito_descripcion": "Recordatorio sobre obligatoriedad de autorización para ensayos clínicos",
     "enlace": "https://www.agemed.gob.bo/circulares/2020/CIRCULAR-100-2020.pdf",
     "peso": 3
-  },
-  {
-    "id": 1,
-    "pais": "Argentina",
-    "fecha_de_relevamiento": "21/10/2025",
-    "question_code": 7.1,
-    "titulo": "Disposición ANMAT 7516/2025",
-    "proposito_descripcion": "Establece el marco regulatorio integral para las Buenas Prácticas Clínicas (BPC), la evaluación y la fiscalización de estudios de farmacología clínica con fines registrales. Adopta la Guía ICH E6 (R3) y deroga la normativa anterior (Disp. 6677/10), consolidando los requisitos en un único cuerpo normativo.",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/disposici%C3%B3n-7516-2025-418573/texto",
-    "peso": 5
   },
   {
     "id": 24,
@@ -3406,8 +3406,18 @@
     "question_code": 7.1,
     "titulo": "Resolución 1480/2011 del Ministerio de Salud",
     "proposito_descripcion": "Aprueba la \"Guía para Investigaciones en Salud Humana\", estableciendo el marco ético y operativo general para toda la investigación en salud en el país. Creó el Registro Nacional de Investigaciones en Salud (RENIS).",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/resolucion-1480-2011-187206/texto",
+    "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/185000-189999/187206/texact.htm",
     "peso": 4
+  },
+  {
+    "id": 5,
+    "pais": "Argentina",
+    "fecha_de_relevamiento": "21/10/2025",
+    "question_code": 7.1,
+    "titulo": "Disposición ANMAT 969/1997",
+    "proposito_descripcion": "Aprueba el régimen específico aplicable a los estudios clínicos realizados con Tecnología Médica (dispositivos médicos), complementando la regulación de medicamentos.",
+    "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/40000-44999/42205/norma.htm",
+    "peso": 3
   },
   {
     "id": 3,
@@ -3428,46 +3438,6 @@
     "proposito_descripcion": "Regula la protección integral de los datos personales, incluyendo los \"datos sensibles\" como la información de salud. Establece los derechos de los titulares de los datos y las obligaciones de quienes los tratan, siendo de aplicación directa en la gestión de la información de los participantes de ensayos clínicos.",
     "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/60000-64999/64790/texact.htm",
     "peso": 3
-  },
-  {
-    "id": 5,
-    "pais": "Argentina",
-    "fecha_de_relevamiento": "21/10/2025",
-    "question_code": 7.1,
-    "titulo": "Disposición ANMAT 969/1997",
-    "proposito_descripcion": "Aprueba el régimen específico aplicable a los estudios clínicos realizados con Tecnología Médica (dispositivos médicos), complementando la regulación de medicamentos.",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/disposicion-969-1997-42205/texto",
-    "peso": 3
-  },
-  {
-    "id": 6,
-    "pais": "Argentina",
-    "fecha_de_relevamiento": "21/10/2025",
-    "question_code": 7.1,
-    "titulo": "Disposición ANMAT 705/2005",
-    "proposito_descripcion": "Establece los requisitos específicos para la inscripción y registro de vacunas, detallando la documentación técnica y clínica necesaria para su autorización.",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/disposicion-705-2005-103738/texto",
-    "peso": 2
-  },
-  {
-    "id": 7,
-    "pais": "Argentina",
-    "fecha_de_relevamiento": "21/10/2025",
-    "question_code": 7.1,
-    "titulo": "Resolución 2940/2020 del Ministerio de Salud",
-    "proposito_descripcion": "Aprueba la \"Guía para Biobancos de Muestras Biológicas de Origen Humano con Fines de Investigación\", estableciendo las pautas éticas y técnicas para la recolección, almacenamiento y uso de muestras biológicas.",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/resolucion-2940-2020-345977",
-    "peso": 2
-  },
-  {
-    "id": 8,
-    "pais": "Argentina",
-    "fecha_de_relevamiento": "21/10/2025",
-    "question_code": 7.1,
-    "titulo": "Resolución 908/2020 del Ministerio de Salud",
-    "proposito_descripcion": "Establece las \"Pautas Éticas y Operativas para la Evaluación Ética Acelerada\" de investigaciones con seres humanos en contextos de emergencia sanitaria, como la pandemia de COVID-19.",
-    "enlace": "https://www.argentina.gob.ar/normativa/nacional/resolucion-908-2020-337359",
-    "peso": 2
   },
   {
     "id": 20,
@@ -3557,6 +3527,36 @@
     "titulo": "Regulación M 75-20 CECMED",
     "proposito_descripcion": "Requisitos para la solicitud de Autorización de Uso en Emergencia de medicamentos y productos biológicos de uso humano en investigación. Norma técnica operativa que complementa la Resolución 54/2020 del CECMED.",
     "enlace": "https://www.cecmed.cu/reglamentacion/ensayos-clinicos/aprobadas",
+    "peso": 2
+  },
+  {
+    "id": 6,
+    "pais": "Argentina",
+    "fecha_de_relevamiento": "21/10/2025",
+    "question_code": 7.1,
+    "titulo": "Disposición ANMAT 705/2005",
+    "proposito_descripcion": "Establece los requisitos específicos para la inscripción y registro de vacunas, detallando la documentación técnica y clínica necesaria para su autorización.",
+    "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/100000-104999/103738/texact.htm",
+    "peso": 2
+  },
+  {
+    "id": 7,
+    "pais": "Argentina",
+    "fecha_de_relevamiento": "21/10/2025",
+    "question_code": 7.1,
+    "titulo": "Resolución 2940/2020 del Ministerio de Salud",
+    "proposito_descripcion": "Aprueba la \"Guía para Biobancos de Muestras Biológicas de Origen Humano con Fines de Investigación\", estableciendo las pautas éticas y técnicas para la recolección, almacenamiento y uso de muestras biológicas.",
+    "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/345000-349999/345977/norma.htm",
+    "peso": 2
+  },
+  {
+    "id": 8,
+    "pais": "Argentina",
+    "fecha_de_relevamiento": "21/10/2025",
+    "question_code": 7.1,
+    "titulo": "Resolución 908/2020 del Ministerio de Salud",
+    "proposito_descripcion": "Establece las \"Pautas Éticas y Operativas para la Evaluación Ética Acelerada\" de investigaciones con seres humanos en contextos de emergencia sanitaria, como la pandemia de COVID-19.",
+    "enlace": "https://servicios.infoleg.gob.ar/infolegInternet/anexos/335000-339999/337359/norma.htm",
     "peso": 2
   },
   {

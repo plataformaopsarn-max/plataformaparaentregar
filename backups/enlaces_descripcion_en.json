@@ -1,31 +1,11 @@
 [
   {
-    "id": 2,
-    "proposito_descripcion_en": "Approves the \"Guide for Research in Human Health\" (Guía para Investigaciones en Salud Humana), establishing the general ethical and operational framework for all health research in the country. Created the National Registry of Health Research (Registro Nacional de Investigaciones en Salud, RENIS)."
-  },
-  {
     "id": 3,
     "proposito_descripcion_en": "Article 58 sets out the fundamental legal requirements for medical research involving human subjects, including the need for informed consent and prior approval by an accredited research ethics committee."
   },
   {
     "id": 4,
     "proposito_descripcion_en": "Regulates the comprehensive protection of personal data, including \"sensitive data\" such as health information. Establishes the rights of data subjects and the obligations of data controllers, and applies directly to the management of clinical trial participants' information."
-  },
-  {
-    "id": 5,
-    "proposito_descripcion_en": "Approves the specific regime applicable to clinical studies conducted with Medical Technology (medical devices), complementing drug regulation."
-  },
-  {
-    "id": 6,
-    "proposito_descripcion_en": "Sets out the specific requirements for the listing and registration of vaccines, detailing the technical and clinical documentation required for their authorization."
-  },
-  {
-    "id": 7,
-    "proposito_descripcion_en": "Approves the \"Guide for Biobanks of Human Biological Samples for Research Purposes\" (Guía para Biobancos de Muestras Biológicas de Origen Humano con Fines de Investigación), setting out the ethical and technical guidelines for the collection, storage, and use of biological samples."
-  },
-  {
-    "id": 8,
-    "proposito_descripcion_en": "Establishes the \"Ethical and Operational Guidelines for Expedited Ethical Review\" (Pautas Éticas y Operativas para la Evaluación Ética Acelerada) of research involving human subjects in public health emergency contexts, such as the COVID-19 pandemic."
   },
   {
     "id": 9,
@@ -156,8 +136,24 @@
     "proposito_descripcion_en": "Sets out complementary, specific Good Manufacturing Practice (GMP) requirements for Investigational Medicinal Products."
   },
   {
-    "id": 1,
-    "proposito_descripcion_en": "Establishes the comprehensive regulatory framework for Good Clinical Practice (GCP) and the evaluation and oversight of clinical pharmacology studies conducted for marketing-authorization purposes. Adopts the ICH E6(R3) Guideline and repeals the previous regulation (Disp. 6677/10), consolidating all requirements into a single regulatory instrument."
+    "id": 2,
+    "proposito_descripcion_en": "Approves the \"Guide for Research in Human Health\" (Guía para Investigaciones en Salud Humana), establishing the general ethical and operational framework for all health research in the country. Created the National Registry of Health Research (Registro Nacional de Investigaciones en Salud, RENIS)."
+  },
+  {
+    "id": 5,
+    "proposito_descripcion_en": "Approves the specific regime applicable to clinical studies conducted with Medical Technology (medical devices), complementing drug regulation."
+  },
+  {
+    "id": 6,
+    "proposito_descripcion_en": "Sets out the specific requirements for the listing and registration of vaccines, detailing the technical and clinical documentation required for their authorization."
+  },
+  {
+    "id": 7,
+    "proposito_descripcion_en": "Approves the \"Guide for Biobanks of Human Biological Samples for Research Purposes\" (Guía para Biobancos de Muestras Biológicas de Origen Humano con Fines de Investigación), setting out the ethical and technical guidelines for the collection, storage, and use of biological samples."
+  },
+  {
+    "id": 8,
+    "proposito_descripcion_en": "Establishes the \"Ethical and Operational Guidelines for Expedited Ethical Review\" (Pautas Éticas y Operativas para la Evaluación Ética Acelerada) of research involving human subjects in public health emergency contexts, such as the COVID-19 pandemic."
   },
   {
     "id": 77,
@@ -2074,5 +2070,9 @@
   {
     "id": 540,
     "proposito_descripcion_en": "Describes the FDA's mutual recognition agreements, which are limited to manufacturing inspections and do not cover the authorization of clinical trials."
+  },
+  {
+    "id": 1,
+    "proposito_descripcion_en": "Establishes the comprehensive regulatory framework for Good Clinical Practice (GCP) and the evaluation and oversight of clinical pharmacology studies conducted for marketing-authorization purposes. Adopts the ICH E6(R3) Guideline and repeals the previous regulation (Disp. 6677/10), consolidating all requirements into a single regulatory instrument."
   }
 ]
